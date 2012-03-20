@@ -1,1 +1,6 @@
 system utilities is a bunch of utilities for multi-thread back-end high-load applications
+
+Based on boost library. So do not forget to compile and link your project with boost library.
+
+ * time_tracker module, idea by Sergey Silaev
+Description: time_tracker module is a class for calculating time periods that were wasted on different operations.

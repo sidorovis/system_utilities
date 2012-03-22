@@ -4,3 +4,11 @@ Based on boost library. So do not forget to compile and link your project with b
 
  * time_tracker module, idea by Sergey Silaev
 Description: time_tracker module is a class for calculating time periods that were wasted on different operations.
+
+ * ts_queue module, created by Ivan Sidarau
+Description: multi-thread thread-safe queue, that you can use for task-based engines.
+
+ * property_reader module, created by Ivan Sidarau, updated by Sergey Silaev requests.
+Description: property reader module created to parse configuration files. 
+Symbols '#', ';' mean comment.
+Each settings should have '=' symbol to insert parameter at parameters map.

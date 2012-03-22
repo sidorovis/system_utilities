@@ -136,10 +136,7 @@ endif()
 # --------------------------------------------------------------------------
 # use_folders, saving configuration to the build
 # --------------------------------------------------------------------------
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-set(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE} CACHE STRING "Configurations" FORCE)
 
-project( ${SOLUTION_NAME} )
 if ( ${VERBOSE} )
 	message(STATUS "Solution name: ${SOLUTION_NAME}")
 endif( ${VERBOSE} )

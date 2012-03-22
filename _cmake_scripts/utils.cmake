@@ -55,6 +55,9 @@ macro( compile_modules )
 endmacro( compile_modules )
 
 macro( compile_tests )
+	if (${RUN_PERFORMANCE_TESTS})
+		add_definitions( -DRUN_PERFORMANCE_TESTS )
+	endif(${RUN_PERFORMANCE_TESTS})
 	foreach (module ${${SOLUTION_NAME}_modules} )
 		if ( ${VERBOSE} )
 			message(STATUS "Compiling tests for ${module} module.")
@@ -71,6 +74,7 @@ macro( compile_project project_name source_pattern header_pattern build_type sol
 		message(STATUS "* Creating project: ${project_name}(${build_type}) with '${solution_folder}' (${PROJECT_SOURCE_DIR}) from: ${source_pattern}, ${header_pattern}.")
 	endif(${VERBOSE})
 
+	add_definitions( -D_SCL_SECURE_NO_WARNINGS )
 	add_definitions( -DSOURCE_DIR="${CMAKE_SOURCE_DIR}" )
 
 	file(GLOB ${project_name}_SOURCES ${source_pattern})

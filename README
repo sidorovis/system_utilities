@@ -12,3 +12,4 @@ Description: multi-thread thread-safe queue, that you can use for task-based eng
 Description: property reader module created to parse configuration files. 
 Symbols '#', ';' mean comment.
 Each settings should have '=' symbol to insert parameter at parameters map.
+'include' command - add another property file to read to (like #include macros into c++).

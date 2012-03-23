@@ -2,6 +2,9 @@
 
 #include <property_reader.h>
 
+#include <boost/filesystem.hpp>
+#include <boost/regex.hpp>
+
 using namespace system_utilities::common;
 
 namespace system_utilities
@@ -121,13 +124,50 @@ namespace system_utilities
 				}
 			};
 			///
+			namespace details
+			{
+				bool check_and_test_good_file( const std::string& file_path )
+				{
+					static const boost::regex good_regex( "\\.\\/good_.+\\.ini" );
+					boost::smatch result;
+					if ( boost::regex_match( file_path, result, good_regex ) )
+					{
+						BOOST_CHECK_NO_THROW( property_reader pr( file_path ) );
+						return true;
+					}
+					return false;
+				}
+				bool check_and_test_bad_file( const std::string& file_path )
+				{
+					static const boost::regex bad_regex( "\\.\\/bad_.+\\.ini" );
+					boost::smatch result;
+					if ( boost::regex_match( file_path, result, bad_regex ) )
+					{
+						BOOST_CHECK_THROW( property_reader pr( file_path ), std::exception );
+						return true;
+					}
+					return false;
+				}
+			}
+			///
 			void property_reader_constructor_tests()
 			{
+				using namespace boost::filesystem;
 				BOOST_CHECK_NO_THROW( property_reader pr );
 				std::stringstream str;
 				BOOST_CHECK_NO_THROW( property_reader( str ) );
-				BOOST_CHECK_NO_THROW( property_reader( SOURCE_DIR "/tests/data/property_reader/good_001.ini" ) );
-				BOOST_CHECK_THROW( property_reader( SOURCE_DIR "/tests/data/property_reader/bad_001.ini" ), std::logic_error );
+				static const std::string tests_directory = SOURCE_DIR "/tests/data/property_reader/";
+				current_path( tests_directory );
+				path p( "./" );
+				for ( directory_iterator i(p) ; i != directory_iterator() ; ++i )
+					if ( is_regular_file( *i ) )
+					{
+						if ( details::check_and_test_good_file( i->string() ) )
+							continue;
+						if ( details::check_and_test_bad_file( i->string() ) )
+							continue;
+						BOOST_ERROR( "unknown test format, please check tests directory: " + tests_directory );
+					}			
 			}
 			void property_reader_parse_istream_tests()
 			{
@@ -282,6 +322,11 @@ namespace system_utilities
 				BOOST_CHECK_THROW( property_reader reader( throwsed_str ), std::exception );
 			}
 
+
+			void property_reader_size_tests()
+			{
+
+			}
 		}
 	}
 }

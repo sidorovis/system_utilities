@@ -21,6 +21,7 @@ namespace system_utilities
 			void property_reader_split_tests();
 			void property_reader_comment_tests();
 			void property_reader_small_amount_of_parameters_tests();
+			void property_reader_size_tests();
 		}
 	}
 }

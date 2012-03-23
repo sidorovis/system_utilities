@@ -53,13 +53,19 @@ namespace system_utilities
 			const bool check_value( const std::string& parameter_name ) const;
 
 			template< class result_type, typename result_type value >
-			const result_type get_value( const std::string& parameter_name, const result_type& default_param_value = value) const
+			const result_type get_value( const std::string& parameter_name, const result_type& default_param_value = value ) const
 			{
 				result_type result = value;
 				properties::const_iterator i = properties_.find( parameter_name );
 				if ( i != properties_.end() )
 					return boost::lexical_cast< result_type >( i->second );
 				return value;
+			}
+			template< class value_type >
+			const bool set_value( const std::string& parameter_name, const value_type& value )
+			{
+				properties_[ parameter_name ] = boost::lexical_cast< std::string >( value );
+				return true;
 			}
         };
     };

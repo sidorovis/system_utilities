@@ -174,19 +174,6 @@ const size_t property_reader::size() const
 {
 	return properties_.size();
 }
-bool property_reader::set_value( const std::string& parameter_name, const std::string& value )
-{
-	properties_[ parameter_name ] = value;
-	return true;
-}
-const std::string property_reader::get_value( const std::string& parameter_name, const std::string& default_param_value ) const
-{
-	properties::const_iterator i = properties_.find( parameter_name );
-	if ( i != properties_.end() )
-		return i->second;
-	return default_param_value;
-}
-
 const bool property_reader::check_value( const std::string& parameter_name ) const
 {
 	properties::const_iterator i = properties_.find( parameter_name );

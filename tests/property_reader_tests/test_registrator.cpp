@@ -27,7 +27,10 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	ts1->add( BOOST_TEST_CASE( &property_reader_split_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_comment_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_small_amount_of_parameters_tests ) );
+	///
 	ts1->add( BOOST_TEST_CASE( &property_reader_size_tests ) );
+	ts1->add( BOOST_TEST_CASE( &property_reader_get_set_value_tests ) );
+	ts1->add( BOOST_TEST_CASE( &property_reader_check_value_tests ) );
 
 	return ts1;
 }

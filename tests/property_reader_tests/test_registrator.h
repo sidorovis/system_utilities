@@ -22,6 +22,8 @@ namespace system_utilities
 			void property_reader_comment_tests();
 			void property_reader_small_amount_of_parameters_tests();
 			void property_reader_size_tests();
+			void property_reader_get_set_value_tests();
+			void property_reader_check_value_tests();
 		}
 	}
 }

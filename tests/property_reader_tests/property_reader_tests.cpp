@@ -321,11 +321,50 @@ namespace system_utilities
 				throwsed_str << " comunisti!!! ubivat' moy server!!! ";
 				BOOST_CHECK_THROW( property_reader reader( throwsed_str ), std::exception );
 			}
-
-
 			void property_reader_size_tests()
 			{
-
+				property_reader pr;
+				BOOST_CHECK_EQUAL( pr.size(), 0 );
+				pr.set_value( "hello", "world" );
+				BOOST_CHECK_EQUAL( pr.size(), 1 );
+				pr.set_value( "hello", "world2" );
+				BOOST_CHECK_EQUAL( pr.size(), 1 );
+				pr.set_value( "hello", 45 );
+				BOOST_CHECK_EQUAL( pr.size(), 1 );
+				pr.set_value( "hello3", 23 );
+				BOOST_CHECK_EQUAL( pr.size(), 2 );
+			}
+			void property_reader_get_set_value_tests()
+			{
+				property_reader pr;
+				pr.set_value( "hello", "world" );
+				BOOST_CHECK_THROW( pr.get_value< int >( "hello", 0 ), std::exception );
+				BOOST_CHECK_EQUAL( pr.get_value( "hello" ), "world" );
+				pr.set_value( "hello", "45.0" );
+				BOOST_CHECK_NO_THROW( pr.get_value< double >( "hello", 0 ) );
+				BOOST_CHECK_EQUAL( pr.get_value< double >( "hello", 0 ), 45.0 );
+				pr.set_value( "hello", "23" );
+				BOOST_CHECK_NO_THROW( pr.get_value< int >( "hello", 0 ) );
+				BOOST_CHECK_EQUAL( pr.get_value< int >( "hello", 0 ), 23 );
+				BOOST_CHECK_EQUAL( pr.get_values( "hello" ).size(), 1 );
+				BOOST_CHECK_EQUAL( pr.get_value( "hello", false ), false );
+				BOOST_CHECK_EQUAL( pr.get_value( "hello", true ), false );
+				BOOST_CHECK_NO_THROW( pr.set_value( "hello", true ) );
+				BOOST_CHECK_EQUAL( pr.get_value( "hello", false ), true );
+				BOOST_CHECK_NO_THROW( pr.set_value( "hello", 123 ) );
+				BOOST_CHECK_EQUAL( pr.get_value< double >( "hello", 0.0 ), 123.0 );
+				BOOST_CHECK_NO_THROW( pr.set_value( "hello", "alloha, polka, mishka" ) );
+				BOOST_CHECK_EQUAL( pr.get_values( "hello" ).size(), 3 );
+				BOOST_CHECK_EQUAL( pr.get_values( "hello" )[0], "alloha" );
+				BOOST_CHECK_EQUAL( pr.get_values( "hello" )[1], "polka" );
+				BOOST_CHECK_EQUAL( pr.get_values( "hello" )[2], "mishka" );
+			}
+			void property_reader_check_value_tests()
+			{
+				property_reader pr;
+				BOOST_CHECK_EQUAL( pr.check_value( "asd" ), false );
+				pr.set_value( "asd", false );
+				BOOST_CHECK_EQUAL( pr.check_value( "asd" ), true );
 			}
 		}
 	}

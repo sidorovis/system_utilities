@@ -10,7 +10,10 @@ namespace system_utilities
 {
     namespace common
     {
-		template< class T, template< typename, typename > class container = std::list >
+		template< 
+			class T, 
+			template< typename, typename > class container = std::list, 
+			template< typename > class allocator_type = std::allocator >
 		class ts_queue
 		{
 			class iterator;
@@ -18,11 +21,12 @@ namespace system_utilities
 
 			typedef typename T* element_ptr;
 
-			typedef container< element_ptr, std::allocator< element_ptr > > queue;
+			typedef container< element_ptr, allocator_type< element_ptr > > queue;
 
 			explicit ts_queue(const ts_queue& );
 			ts_queue& operator=(const ts_queue&);
 		public:
+			typedef typename queue::allocator_type allocator_type;
 			typedef typename queue::value_type value_type;
 			typedef typename queue::size_type size_type;
 			typedef typename queue::reference reference;

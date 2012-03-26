@@ -13,3 +13,6 @@ Description: property reader module created to parse configuration files.
 Symbols '#', ';' mean comment.
 Each settings should have '=' symbol to insert parameter at parameters map.
 'include' command - add another property file to read to (like #include macros into c++), module does not correct self, or cycling include.
+
+ * task_processor module, created by Ivan Sidarau.
+Description: task_processor module is a module to process different abstract tasks by several thread calculators.

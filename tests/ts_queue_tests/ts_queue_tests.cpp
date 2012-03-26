@@ -77,8 +77,8 @@ namespace system_utilities
 						: push_iterations_( 0 )
 						, pop_iterations_( 0 )
 					{
-						const size_t push_threads = 15;
-						const size_t pop_threads = 13;
+						const size_t push_threads = 12;
+						const size_t pop_threads = 4;
 						BOOST_CHECK_EQUAL( mq_.size(), (size_t)0 );
 						BOOST_CHECK_EQUAL( mq_.empty(), true );
 						boost::thread_group tg_push, tg_pop;
@@ -96,6 +96,7 @@ namespace system_utilities
 						mq_.stop_processing();
 						tg_pop.join_all();
 						tg_push.join_all();
+						BOOST_CHECK_EQUAL( push_iterations_, pop_iterations_ );
 					}
 					void pusher()
 					{

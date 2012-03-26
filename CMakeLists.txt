@@ -4,4 +4,4 @@ set( CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE} CACHE STRING "Configurations"
 project( ${SOLUTION_NAME} )
 include( environment.cmake required )
 
-modules( time_tracker ts_queue property_reader )
+modules( time_tracker ts_queue property_reader task_processor logger )

@@ -22,12 +22,14 @@ namespace system_utilities
 					BOOST_CHECK_EQUAL( tt.milliseconds(), static_cast< size_t >( 0 ) );
 				}
 				{
+					static const size_t milliseconds = 1;
 					time_tracker tt;
+					size_t old_time = tt.milliseconds();
 					for ( size_t i = 0 ; i < 5 ; ++i )
 					{
-						boost::this_thread::sleep( boost::posix_time::milliseconds( 5 ) );
-						BOOST_CHECK_EQUAL( tt.milliseconds() >= (i + 1) * 5, true );
-						BOOST_CHECK_EQUAL( tt.milliseconds() < (i + 1) * 5 + 2, true );
+						boost::this_thread::sleep( boost::posix_time::milliseconds( milliseconds ) );
+						BOOST_CHECK_EQUAL( tt.milliseconds() > old_time, true );
+						old_time = tt.milliseconds();
 					}
 				}
 			}

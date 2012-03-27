@@ -16,3 +16,9 @@ Each settings should have '=' symbol to insert parameter at parameters map.
 
  * task_processor module, created by Ivan Sidarau.
 Description: task_processor module is a module to process different abstract tasks by several thread calculators.
+
+ * logger module, created by Ivan Sidarau
+Description: logger module create for creating logs to different streams (std::ostream, ofstream...)
+
+ * queue_logger module, created by Ivan Sidarau
+Description: queue_logger module combine task_processor and logger modules add possibility to use logger into thread safe environment.

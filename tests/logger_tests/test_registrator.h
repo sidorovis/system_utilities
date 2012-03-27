@@ -14,6 +14,8 @@ namespace system_utilities
 			void logger_error_tests();
 			void logger_debug_tests();
 			void logger_fatal_tests();
+			//
+			void logger_write_performance_tests();
 		}
 	}
 }

@@ -7,5 +7,5 @@ find_package( Boost 1.41 ${SEARCH_PARAMETERS} COMPONENTS
 	system
 	unit_test_framework
 )
-compile_project( ${tests_name} "*.cpp" "*.h" BINARY tests ${module_name} Boost )
-register_test( ${tests_name} 1.0 1.1 )
+compile_project( ${tests_name} "*.cpp" "*.h" BINARY tests ${module_name} time_tracker Boost )
+register_test( ${tests_name} 0.5 8.1 )

@@ -43,7 +43,7 @@ namespace system_utilities
 					time_tracker tt;
 					for ( size_t i = 0 ; i < 3 ; ++i )
 					{
-						boost::this_thread::sleep( boost::posix_time::seconds( 1 ) );
+						boost::this_thread::sleep( boost::posix_time::milliseconds( 1001 ) );
 						BOOST_CHECK_EQUAL( tt.seconds() >= (i + 1), true );
 						BOOST_CHECK_EQUAL( tt.seconds() < (i + 1) + 2, true );
 					}

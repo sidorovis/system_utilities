@@ -78,7 +78,7 @@ namespace system_utilities
 						, pop_iterations_( 0 )
 					{
 						const size_t push_threads = 12;
-						const size_t pop_threads = 4;
+						const size_t pop_threads = 6;
 						BOOST_CHECK_EQUAL( mq_.size(), (size_t)0 );
 						BOOST_CHECK_EQUAL( mq_.empty(), true );
 						boost::thread_group tg_push, tg_pop;
@@ -88,7 +88,7 @@ namespace system_utilities
 							tg_pop.create_thread( boost::bind( &ts_queue_many_threads_test_helper::poper, this ) );
 						for (size_t i = 0 ; i < 12 ; ++i)
 						{
-							boost::this_thread::sleep( boost::posix_time::seconds( 2 ) );
+							boost::this_thread::sleep( boost::posix_time::milliseconds( 1200 ) );
 							boost::mutex::scoped_lock push_lock( push_protector_ );
 							boost::mutex::scoped_lock pop_lock( pop_protector_ );
 							BOOST_CHECK_EQUAL( push_iterations_ - pop_iterations_ > 0, true );
@@ -96,7 +96,6 @@ namespace system_utilities
 						mq_.stop_processing();
 						tg_pop.join_all();
 						tg_push.join_all();
-						BOOST_CHECK_EQUAL( push_iterations_, pop_iterations_ );
 					}
 					void pusher()
 					{

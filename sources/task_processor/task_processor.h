@@ -46,6 +46,10 @@ namespace system_utilities
 			{
 				return task_queue_.size();
 			}
+			void wait()
+			{
+				task_queue_.wait();
+			}
 			void stop()
 			{
 				if ( process_on_stop_ )

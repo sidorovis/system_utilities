@@ -19,18 +19,10 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	ts1->add( BOOST_TEST_CASE( &logger_error_tests ) );
 	ts1->add( BOOST_TEST_CASE( &logger_debug_tests ) );
 	ts1->add( BOOST_TEST_CASE( &logger_fatal_tests ) );
-	//ts1->add( BOOST_TEST_CASE( &property_reader_parse_line_tests ) );
-	/////
-	//ts1->add( BOOST_TEST_CASE( &property_reader_comment_tests ) );
-	//ts1->add( BOOST_TEST_CASE( &property_reader_trim_tests ) );
-	//ts1->add( BOOST_TEST_CASE( &property_reader_const_trim_tests ) );
-	//ts1->add( BOOST_TEST_CASE( &property_reader_split_tests ) );
-	//ts1->add( BOOST_TEST_CASE( &property_reader_comment_tests ) );
-	//ts1->add( BOOST_TEST_CASE( &property_reader_small_amount_of_parameters_tests ) );
-	/////
-	//ts1->add( BOOST_TEST_CASE( &property_reader_size_tests ) );
-	//ts1->add( BOOST_TEST_CASE( &property_reader_get_set_value_tests ) );
-	//ts1->add( BOOST_TEST_CASE( &property_reader_check_value_tests ) );
+	//
+#ifdef RUN_PERFORMANCE_TESTS
+	ts1->add( BOOST_TEST_CASE( &logger_write_performance_tests ) );
+#endif
 
 	return ts1;
 }

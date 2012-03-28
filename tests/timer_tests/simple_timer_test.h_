@@ -1,0 +1,49 @@
+#ifndef _RE_UTILS_TIMERS_SIMPLE_TIMER_TEST_H_
+#define _RE_UTILS_TIMERS_SIMPLE_TIMER_TEST_H_
+
+#include <boost/test/unit_test.hpp>
+
+#include <simple_timer.h>
+
+using re_utils::timers::simple_timer;
+
+class simple_timer_test : public simple_timer
+{
+    boost::mutex run_protector_;
+    boost::condition run_waiter_;
+    size_t run_started_counter_;
+public:
+    explicit simple_timer_test( const size_t micro_seconds );
+    ~simple_timer_test();
+    virtual void run();
+    void wait_run();
+    void test_full_timer_circle();
+};
+//
+class end_in_run_test : public simple_timer
+{
+    boost::mutex run_protector_;
+    boost::condition run_waiter_;
+    size_t run_started_counter_;
+public:
+    explicit end_in_run_test( );
+    ~end_in_run_test();
+    virtual void run();
+    void wait_run();
+    void test_end_in_run();
+};
+//
+using boost::unit_test_framework::test_suite;
+
+class simple_timer_test_suite : public test_suite
+{
+public:
+    simple_timer_test_suite();
+    virtual ~simple_timer_test_suite()
+    {
+    }
+};
+
+
+#endif // _RE_UTILS_TIMERS_SIMPLE_TIMER_TEST_H_
+

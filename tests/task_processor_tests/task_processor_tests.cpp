@@ -144,6 +144,16 @@ namespace system_utilities
 				BOOST_CHECK_EQUAL( count_summ, tasks_size );
 				BOOST_CHECK_EQUAL( tt.milliseconds() < 2200, true );
 			}
+			void task_processor_wait_tests()
+			{
+				details::counter c;
+				task_processor< details::task > tp( 1 );
+				tp.add_task( new details::task( c ) );
+				BOOST_CHECK_EQUAL( tp.size() > 0, true );
+				tp.add_task( new details::task( c ) );
+				BOOST_CHECK_NO_THROW( tp.wait() );
+				BOOST_CHECK_EQUAL( tp.size(), 0 );
+			}
 			void task_processor_own_allocator_performance_tests()
 			{
 				time_tracker tt;

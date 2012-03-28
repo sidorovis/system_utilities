@@ -93,7 +93,7 @@ namespace system_utilities
 					return split( i->second, delimeters, true );
 				return strings();
 			}
-			///
+			//
 			template< class value_type >
 			const bool set_value( const std::string& parameter_name, const value_type& value )
 			{
@@ -106,7 +106,7 @@ namespace system_utilities
 				properties_[ parameter_name ] = value;
 				return true;
 			}
-			///
+			//
 			const bool check_value( const std::string& parameter_name ) const;
         };
     };

@@ -22,3 +22,6 @@ Description: logger module create for creating logs to different streams (std::o
 
  * queue_logger module, created by Ivan Sidarau
 Description: queue_logger module combine task_processor and logger modules add possibility to use logger into thread safe environment.
+
+ * file_logger module, created by Ivan Sidarau
+Description: file_logger module create template class that can log information using simple logger, and queue_logger.

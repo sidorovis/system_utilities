@@ -13,21 +13,21 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	ts1->add( BOOST_TEST_CASE( &property_reader_constructor_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_parse_istream_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_delete_comment_tests ) );
-	///
+	//
 	ts1->add( BOOST_TEST_CASE( &property_reader_test_on_include_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_include_line_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_string_with_setting_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_additional_string_with_setting_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_read_sub_property_file_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_parse_line_tests ) );
-	///
+	//
 	ts1->add( BOOST_TEST_CASE( &property_reader_comment_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_trim_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_const_trim_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_split_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_comment_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_small_amount_of_parameters_tests ) );
-	///
+	//
 	ts1->add( BOOST_TEST_CASE( &property_reader_size_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_get_set_value_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_check_value_tests ) );

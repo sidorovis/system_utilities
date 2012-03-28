@@ -123,7 +123,7 @@ namespace system_utilities
 					BOOST_CHECK_THROW( read_sub_property_file("filename"), std::invalid_argument );
 				}
 			};
-			///
+			//
 			namespace details
 			{
 				bool check_and_test_good_file( const std::string& file_path )
@@ -149,7 +149,7 @@ namespace system_utilities
 					return false;
 				}
 			}
-			///
+			//
 			void property_reader_constructor_tests()
 			{
 				using namespace boost::filesystem;

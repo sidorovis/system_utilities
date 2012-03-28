@@ -41,6 +41,8 @@ namespace system_utilities
 					, destroy_( true )
 				{
 				}
+
+			public:
 				logger_streamer( const logger_streamer& ls  )
 					: stream_( ls.stream_ )
 					, level_message_( ls.level_message_ )
@@ -50,7 +52,6 @@ namespace system_utilities
 					destroy_ = true;
 				}
 
-			public:
 				template< class element >
 				std::ostream& operator<<( const element& el )
 				{
@@ -66,8 +67,13 @@ namespace system_utilities
 			};
 		}
 		template< bool turn_on, bool flush_stream, bool print_prefix >
-		class logger : virtual protected boost::noncopyable
+		class logger
 		{
+		public:
+			static const bool turn_on_value = turn_on;
+			static const bool flush_stream_value = flush_stream;
+			static const bool print_prefix_value = print_prefix;
+		protected:
 			typedef details::logger_streamer< turn_on, flush_stream, print_prefix > streamer;
 			friend class streamer;
 
@@ -78,8 +84,17 @@ namespace system_utilities
 			static const std::string fatal_message_level;
 
 			friend void tests_::common::logger_write_tests();
-		protected:
+
+			explicit logger();
+			void operator=( const logger< turn_on, flush_stream, print_prefix >& logger_copy );
+
 			std::ostream& stream_;
+
+		private:
+			explicit logger( const logger< turn_on, flush_stream, print_prefix >& logger_copy )
+				: stream_( logger_copy.stream_ )
+			{
+			}
 
 		public:
 			explicit logger( std::ostream& stream )
@@ -99,8 +114,7 @@ namespace system_utilities
 			}
 			inline streamer note()
 			{
-				streamer result( *this, note_message_level );
-				return result;
+				return streamer( *this, note_message_level );
 			}
             inline void warn( const std::string& message )
 			{
@@ -108,8 +122,7 @@ namespace system_utilities
 			}
 			inline streamer warn()
 			{
-				streamer result( *this, warn_message_level );
-				return result;
+				return streamer( *this, warn_message_level );
 			}
             inline void error( const std::string& message )
 			{
@@ -117,8 +130,7 @@ namespace system_utilities
 			}
 			inline streamer error()
 			{
-				streamer result( *this, error_message_level );
-				return result;
+				return streamer( *this, error_message_level );
 			}
 			inline void debug( const std::string& message )
 			{
@@ -126,8 +138,7 @@ namespace system_utilities
 			}
 			inline streamer debug()
 			{
-				streamer result( *this, debug_message_level );
-				return result;
+				return streamer( *this, debug_message_level );
 			}
             inline void fatal( const std::string& message )
 			{
@@ -135,8 +146,7 @@ namespace system_utilities
 			}
 			inline streamer fatal()
 			{
-				streamer result( *this, fatal_message_level );
-				return result;
+				return streamer( *this, fatal_message_level );
 			}
 		protected:
 			virtual void write( const std::string& message_level, const std::string& message )

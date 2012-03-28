@@ -19,6 +19,10 @@ namespace system_utilities
 			bool stopping_;
 			bool process_on_stop_;
 
+			boost::condition wait_condition_;
+			mutable boost::mutex wait_;
+			volatile size_t working_threads_;
+
 			explicit task_processor();
 			explicit task_processor( const task_processor& );
 			task_processor& operator=( const task_processor& );
@@ -27,6 +31,7 @@ namespace system_utilities
 				: stopping_( false )
 				, process_on_stop_( process_on_stop )
 				, allocator_( allocator_object )
+				, working_threads_( 0 )
 			{
 				for( size_t i = 0 ; i < thread_amount ; ++i )
 					threads_.create_thread( boost::bind( &task_processor::processing, this ) );
@@ -49,6 +54,9 @@ namespace system_utilities
 			void wait()
 			{
 				task_queue_.wait();
+				boost::mutex::scoped_lock lock( wait_ );
+				while ( working_threads_ != 0 )
+					wait_condition_.wait( lock );
 			}
 			void stop()
 			{
@@ -67,9 +75,19 @@ namespace system_utilities
 					task* const t = task_queue_.wait_pop();
 					if ( !t )
 						return;
+					{
+						boost::mutex::scoped_lock lock( wait_ );
+						++working_threads_;
+					}
 					(*t)();
 					allocator_.destroy( t );
 					allocator_.deallocate( t, 1 );
+					{
+						boost::mutex::scoped_lock lock( wait_ );
+						--working_threads_;
+						if ( working_threads_ == 0 )
+							wait_condition_.notify_all();
+					}
 				}
 			}
 		};

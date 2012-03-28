@@ -54,6 +54,12 @@ namespace system_utilities
 		private:
 			mutable boost::mutex protect_write_;
 			tasker& task_processor_;
+		protected:
+			explicit queue_logger( const queue_logger& copy_from )
+				: protect_write_()
+				, task_processor_( copy_from.task_processor_ )
+			{
+			}
 		public:
 			explicit queue_logger( std::ostream& out, tasker& tp )
 				: logger< turn_on, flush_stream, print_prefix >( out )

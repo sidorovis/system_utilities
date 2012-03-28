@@ -102,7 +102,10 @@ namespace system_utilities
 				value_type result = queue_.front();
 				queue_.pop_front();
                 if (queue_.empty())
+				{
+					boost::mutex::scoped_lock lock( queue_protector_ );
                     wait_.notify_all();
+				}
 				return result;
 			}
 			value_type pop()

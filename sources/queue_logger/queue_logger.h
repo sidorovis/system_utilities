@@ -50,7 +50,7 @@ namespace system_utilities
 			typedef details::queue_logger_task< turn_on, flush_stream, print_prefix > logger_task;
 			friend class logger_task;
 		public:
-			typedef typename task_processor<logger_task> tasker;
+			typedef typename task_processor< logger_task > tasker;
 		private:
 			mutable boost::mutex protect_write_;
 			tasker& task_processor_;

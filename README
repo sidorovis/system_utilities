@@ -25,3 +25,6 @@ Description: queue_logger module combine task_processor and logger modules add p
 
  * file_logger module, created by Ivan Sidarau
 Description: file_logger module create template class that can log information using simple logger, and queue_logger.
+
+ * system_processor module, created by Ivan Sidarau
+Description: system_processor module is a singleton based class that gave simple possibility to create special waiter.

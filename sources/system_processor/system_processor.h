@@ -2,7 +2,6 @@
 #define _SYSTEM_UTILITIES_COMMON_SYSTEM_PROCESSOR_H_
 
 #include <property_reader.h>
-#include <queue_logger.h>
 #include <file_logger.h>
 
 #include <boost/noncopyable.hpp>
@@ -39,8 +38,11 @@ namespace system_utilities
 			void wait_for_stop();
 			void reset();
 			//
+			const std::string binary_path();
 			const std::string logs_path();
 			//
+			const std::string config( const std::string& name, const std::string& default_value = "" );
+
 			template< class result_type >
 			result_type config( const std::string& name, const result_type& default_value = result_type() );
 			//
@@ -71,14 +73,16 @@ namespace system_utilities
 					friend void system_processor::reset();
 					friend void details::exit_handler(int);
 					//
+					friend const std::string system_processor::binary_path();
 					friend const std::string system_processor::logs_path();
 
 					//
 					static boost::mutex instance_protector_;
 					static sp_impl* instance_;
+				public:
 					boost::shared_ptr< property_reader > properties_;
 					boost::shared_ptr< file_logger<> > engine_logger_;
-
+				private:
 					mutable boost::mutex stop_protector_;
 					mutable boost::condition stop_waiter_;
 					bool stopping_;
@@ -126,13 +130,19 @@ namespace system_utilities
 				result_type config_impl( const std::string& name, const result_type& default_value )
 				{
 					boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
-					if (!details::sp_impl::instance_.get())
+					if (!details::sp_impl::instance_)
 						throw std::logic_error( "system processor should exist (init method)." );
 					if (!details::sp_impl::instance_->properties_.get())
 						throw std::logic_error( "config file should be added by parameters." );
 					return details::sp_impl::instance_->properties_->get_value( name, default_value );
 				}
 
+			}
+
+			template< class result_type >
+			result_type config( const std::string& name, const result_type& default_value )
+			{
+				return details::config_impl< result_type >( name, default_value );
 			}
 
 		};

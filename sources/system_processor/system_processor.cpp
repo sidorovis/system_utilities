@@ -217,6 +217,14 @@ namespace system_utilities
 					throw std::logic_error( "system processor was not create, call init first" );
 			}
 			//
+			const std::string binary_path()
+			{
+				boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
+				if ( details::sp_impl::instance_ )
+					return details::sp_impl::instance_->binary_path_;
+				else
+					throw std::logic_error( "system processor was not create, call init first" );
+			}
 			const std::string logs_path()
 			{
 				boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
@@ -226,12 +234,11 @@ namespace system_utilities
 					throw std::logic_error( "system processor was not create, call init first" );
 			}
 
-			template< class result_type >
-			result_type config( const std::string& name, const result_type& default_value )
+			//
+			const std::string config( const std::string& name, const std::string& default_value )
 			{
-				return details::config_impl< result_type( name, default_value );
+				return details::config_impl< std::string >( name, default_value );
 			}
-
 		}
 	}
 }

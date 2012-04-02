@@ -108,6 +108,23 @@ namespace system_utilities
 				}
 				remove_all( "logs_006" );
 			}
+			void system_processor_binary_path_tests()
+			{
+				using namespace boost::filesystem;
+				static const std::string tests_directory = SOURCE_DIR "/tests/data/system_processor/";
+				current_path( tests_directory );
+
+				int argc = 1;
+				char* const argv[] = { SOURCE_DIR "/tests/data/system_processor/test.exe" };
+
+				BOOST_CHECK_THROW( system_processor::binary_path(), std::exception );
+				{
+					system_processor::sp sp = system_processor::init( argc, argv, "config_example_007.ini" );
+					BOOST_CHECK_NO_THROW( system_processor::binary_path() );
+					BOOST_CHECK_EQUAL( system_processor::binary_path(), SOURCE_DIR "/tests/data/system_processor/" );
+				}
+				remove_all( "logs_007" );
+			}
 			void system_processor_logs_path_tests()
 			{
 				using namespace boost::filesystem;
@@ -128,6 +145,28 @@ namespace system_utilities
 					BOOST_CHECK_EQUAL( boost::regex_match( logs_path, log_path_regexp ), true );
 				}
 				remove_all( "logs_007" );
+			}
+			void system_processor_config_tests()
+			{
+				using namespace boost::filesystem;
+				static const std::string tests_directory = SOURCE_DIR "/tests/data/system_processor/";
+				current_path( tests_directory );
+
+				int argc = 1;
+				char* const argv[] = { SOURCE_DIR "/tests/data/system_processor/test.exe" };
+
+				BOOST_CHECK_THROW( system_processor::logs_path(), std::exception );
+				{
+					system_processor::sp sp = system_processor::init( argc, argv, "config_example_008.ini" );
+					
+					BOOST_CHECK_EQUAL( system_processor::config( "Parameter.config" ), "hello world" );
+					BOOST_CHECK_EQUAL( system_processor::config<bool>( "System.stop_by_ctrl_c" ), true );
+					BOOST_CHECK_EQUAL( system_processor::config<double>( "Parameter.double" ), 45.6 );
+
+					BOOST_CHECK_NO_THROW( sp->properties_->check_value( "System.log.path" ) );
+
+				}
+				remove_all( "logs_008" );
 			}
 		}
 	}

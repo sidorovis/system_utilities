@@ -143,6 +143,11 @@ namespace system_utilities
 				return get()->fatal();
 			}
 
+			inline void flush()
+			{
+			    get()->flush();
+			}
+
 		};
 
 	};

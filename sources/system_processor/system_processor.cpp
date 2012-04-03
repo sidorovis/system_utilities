@@ -60,7 +60,7 @@ namespace system_utilities
 							throw std::logic_error( "config file cannot be found: " + config_path );
 					}
 
-					properties_.reset( new property_reader( config_path ) );
+					properties_.reset( new property_reader( config_full_path ) );
 					create_logs_directory();
 					create_system_logger();
 					load_predefined_logs_settings();

@@ -26,9 +26,10 @@ namespace system_utilities
 				friend class logger;
 
 				logger& logger_;
-				const std::string message_level_;
+
+				const message_level::value message_level_;
 				const std::string message_;
-				explicit queue_logger_task( logger& l, const std::string& message_level, const std::string& message )
+				explicit queue_logger_task( logger& l, const message_level::value message_level, const std::string& message )
 					: logger_( l )
 					, message_level_( message_level )
 					, message_( message )
@@ -70,15 +71,15 @@ namespace system_utilities
 			{
 			}
 		private:
-			void write( const std::string& message_level, const std::string& message )
+			void write( const details::message_level::value value, const std::string& message )
 			{
-				logger_task* task = new logger_task( *this, message_level, message );
+				logger_task* task = new logger_task( *this, value, message );
 				task_processor_.add_task( task );
 			}
-			void real_write( const std::string& message_level, const std::string& message )
+			void real_write( const details::message_level::value value, const std::string& message )
 			{
 				boost::mutex::scoped_lock lock( protect_write_ );
-				logger< turn_on, flush_stream, print_prefix >::write( message_level, message );
+				logger< turn_on, flush_stream, print_prefix >::write( value, message );
 			}
 		};
 

@@ -55,14 +55,14 @@ namespace system_utilities
 				{
 					std::stringstream stream;
 					logger< false > no_logger( stream );
-					no_logger.write( "LEVEL", "message" );
+					no_logger.write( system_utilities::common::details::message_level::note, "message" );
 					const std::string stream_content = stream.str();
 					BOOST_CHECK_EQUAL( "", stream_content );
 				}
 				{
 					std::stringstream stream;
 					logger<> log( stream );
-					log.write( ":LEVEL  ]: ", "message" );
+					log.write( system_utilities::common::details::message_level::warn, "message" );
 					const std::string stream_content = stream.str();
 					boost::regex message_regex( "\\[\\d{4}\\-\\w{3}\\-\\d{2} \\d{2}\\:\\d{2}\\:\\d{2}\\.\\d{6}\\:[A-Z ]{7}\\]\\: message\n" );
 					BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );
@@ -70,7 +70,7 @@ namespace system_utilities
 				{
 					std::stringstream stream;
 					logger< true, false > log( stream );
-					log.write( ":LEVEL  ]: ", "message" );
+					log.write( system_utilities::common::details::message_level::note, "message" );
 					const std::string stream_content = stream.str();
 					boost::regex message_regex( "\\[\\d{4}\\-\\w{3}\\-\\d{2} \\d{2}\\:\\d{2}\\:\\d{2}\\.\\d{6}\\:[A-Z ]{7}\\]\\: message\n" );
 					BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );
@@ -78,7 +78,7 @@ namespace system_utilities
 				{
 					std::stringstream stream;
 					logger< true, false, false > log( stream );
-					log.write( ":LEVEL  ]: ", "message" );
+					log.write( system_utilities::common::details::message_level::note, "message" );
 					const std::string stream_content = stream.str();
 					boost::regex message_regex( "message\n" );
 					BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );

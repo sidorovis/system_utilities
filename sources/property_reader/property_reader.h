@@ -25,13 +25,14 @@ namespace system_utilities
 		public:
 			typedef std::map< std::string, std::string > properties;
 		private:
+			std::string default_binary_path_;
 			properties properties_;
             property_reader( const property_reader& );
 			property_reader& operator=( const property_reader& );
 		public:
 			explicit property_reader();
-			explicit property_reader( const std::string& file_name );
-			explicit property_reader( std::istream& stream );
+			explicit property_reader( const std::string& file_name, const std::string& default_binary_path = "" );
+			explicit property_reader( std::istream& stream, const std::string& default_binary_path = "" );
 			~property_reader(){}
 		public:
 			void parse_istream( std::istream& stream );

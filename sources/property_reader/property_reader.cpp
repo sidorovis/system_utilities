@@ -15,11 +15,13 @@ property_reader::property_reader()
 {
 }
 
-property_reader::property_reader( const std::string& file_name )
+property_reader::property_reader( const std::string& file_name, const std::string& default_binary_path )
+: default_binary_path_( default_binary_path )
 {
 	read_sub_property_file( file_name );
 }
-property_reader::property_reader( std::istream& stream )
+property_reader::property_reader( std::istream& stream, const std::string& default_binary_path )
+: default_binary_path_( default_binary_path )
 {
 	parse_istream( stream );
 }
@@ -81,9 +83,14 @@ bool property_reader::test_on_include( const std::string& str, std::string& file
 
 bool property_reader::read_sub_property_file( const std::string& file_name )
 {
-	if ( !boost::filesystem::exists( file_name ) )
-		throw std::invalid_argument( "file: " + file_name + " not found" );
-	std::ifstream input( file_name.c_str(), std::ios::in );
+	std::string file_path = file_name;
+	if ( !boost::filesystem::exists( file_path ) )
+	{
+		file_path = default_binary_path_ + file_name;
+		if ( !boost::filesystem::exists( file_path ) )
+			throw std::invalid_argument( "file: " + file_name + " not found" );
+	}
+	std::ifstream input( file_path.c_str(), std::ios::in );
 	if (!input.is_open())
 		throw std::invalid_argument( "file: " + file_name + " could not be opened" );
 	parse_istream( input );

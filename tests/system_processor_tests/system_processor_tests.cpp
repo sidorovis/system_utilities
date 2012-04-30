@@ -168,6 +168,52 @@ namespace system_utilities
 				}
 				remove_all( "logs_008" );
 			}
+			void system_processor_config_values_tests()
+			{
+				using namespace boost::filesystem;
+				static const std::string tests_directory = SOURCE_DIR "/tests/data/system_processor/";
+				current_path( tests_directory );
+
+				int argc = 1;
+				char* const argv[] = { SOURCE_DIR "/tests/data/system_processor/test.exe" };
+
+				BOOST_CHECK_THROW( system_processor::logs_path(), std::exception );
+				{
+					system_processor::sp sp = system_processor::init( argc, argv, "config_example_009.ini" );
+					
+					BOOST_CHECK_EQUAL( system_processor::config( "Parameter.config" ), "hello world" );
+					BOOST_CHECK_EQUAL( system_processor::config_values( "Parameter.values" ).size(), 4 );
+					BOOST_CHECK_EQUAL( system_processor::config_values( "Parameter.values" )[0], "hello" );
+					BOOST_CHECK_EQUAL( system_processor::config_values( "Parameter.values" )[1], "world" );
+					BOOST_CHECK_EQUAL( system_processor::config_values( "Parameter.values" )[2], "some" );
+					BOOST_CHECK_EQUAL( system_processor::config_values( "Parameter.values" )[3], "parameters" );
+
+					BOOST_CHECK_NO_THROW( sp->properties_->check_value( "System.log.path" ) );
+
+				}
+				remove_all( "logs_009" );
+			}
+			//
+			void system_processor_create_log_tests()
+			{
+				using namespace boost::filesystem;
+				static const std::string tests_directory = SOURCE_DIR "/tests/data/system_processor/";
+				current_path( tests_directory );
+
+				int argc = 1;
+				char* const argv[] = { SOURCE_DIR "/tests/data/system_processor/test.exe" };
+
+				BOOST_CHECK_THROW( system_processor::logs_path(), std::exception );
+				{
+					system_processor::sp sp = system_processor::init( argc, argv, "config_example_010.ini" );
+					
+					boost::shared_ptr< file_logger<> > log = system_processor::create_log< logger<> >( "example" );
+					log->note("YeyeYe");
+					
+					BOOST_CHECK_EQUAL( exists( system_processor::logs_path() + "example" ), true );
+				}
+				remove_all( "logs_010" );
+			}
 		}
 	}
 }

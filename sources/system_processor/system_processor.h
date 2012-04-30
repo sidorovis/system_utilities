@@ -56,6 +56,8 @@ namespace system_utilities
 				template< class result_type >
 				result_type config_impl( const std::string& name, const result_type& default_value = result_type() );
 
+				property_reader::strings config_values_impl( const std::string& name, const std::string& delimeters = "," );
+
 				class sp_impl : protected virtual boost::noncopyable
 				{
 					friend void tests_::common::system_processor_constructor_tests();
@@ -67,6 +69,8 @@ namespace system_utilities
 
 					template< typename result_type >
 					friend result_type config_impl( const std::string& name, const result_type& default_value );
+
+					friend property_reader::strings config_values_impl( const std::string& name, const std::string& delimeters );
 
 					friend void system_processor::stop( const std::string& );
 					friend void system_processor::wait_for_stop();
@@ -136,13 +140,37 @@ namespace system_utilities
 						throw std::logic_error( "config file should be added by parameters." );
 					return details::sp_impl::instance_->properties_->get_value( name, default_value );
 				}
-
+				property_reader::strings config_values_impl( const std::string& name, const std::string& delimeters );
 			}
-
+			//
 			template< class result_type >
 			result_type config( const std::string& name, const result_type& default_value )
 			{
 				return details::config_impl< result_type >( name, default_value );
+			}
+			property_reader::strings config_values( const std::string& name, const std::string& delimeters = "," );
+
+			//
+			template< class T >
+			boost::shared_ptr< file_logger< T > > create_log( const std::string& file_name )
+			{
+				typedef boost::shared_ptr< file_logger< T > > result_type;
+				result_type result( new file_logger< T >( logs_path() + file_name ) );
+				return result;
+			}
+			template< class T, class P1 >
+			boost::shared_ptr< file_logger< T > > create_log( const std::string& file_name, const P1& p1 )
+			{
+				typedef boost::shared_ptr< file_logger< T > > result_type;
+				result_type result( new file_logger< T >( logs_path() + file_name, p1 ) );
+				return result;
+			}
+			template< class T, class P1, class P2 >
+			boost::shared_ptr< file_logger< T > > create_log( const std::string& file_name, const P2& p2 )
+			{
+				typedef boost::shared_ptr< file_logger< T > > result_type;
+				result_type result( new file_logger< T >( logs_path() + file_name, p1, p2 ) );
+				return result;
 			}
 
 		};

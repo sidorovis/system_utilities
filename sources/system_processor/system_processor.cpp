@@ -4,10 +4,6 @@
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include <csignal>
 
-namespace
-{
-}
-
 namespace system_utilities
 {
     namespace common
@@ -171,9 +167,18 @@ namespace system_utilities
 
 					return config_file;
 				}
-
+				//
+				property_reader::strings config_values_impl( const std::string& name, const std::string& delimeters )
+				{
+					boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
+					if (!details::sp_impl::instance_)
+						throw std::logic_error( "system processor should exist (init method)." );
+					if (!details::sp_impl::instance_->properties_.get())
+						throw std::logic_error( "config file should be added by parameters." );
+					return details::sp_impl::instance_->properties_->get_values( name, delimeters );
+				}
 			}
-
+			//
 			sp init( const int argc, char * const argv[], const std::string& default_config_file )
 			{
 				using details::sp_impl;
@@ -239,6 +244,12 @@ namespace system_utilities
 			{
 				return details::config_impl< std::string >( name, default_value );
 			}
+			//
+			property_reader::strings config_values( const std::string& name, const std::string& delimeters )
+			{
+				return details::config_values_impl( name, delimeters );
+			}
+
 		}
 	}
 }

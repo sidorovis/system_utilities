@@ -16,6 +16,8 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	ts1->add( BOOST_TEST_CASE( &system_processor_exit_handler_tests ) );
 	ts1->add( BOOST_TEST_CASE( &system_processor_logs_path_tests ) );
 	ts1->add( BOOST_TEST_CASE( &system_processor_config_tests ) );
+	ts1->add( BOOST_TEST_CASE( &system_processor_config_values_tests ) );
+	ts1->add( BOOST_TEST_CASE( &system_processor_create_log_tests ) );
 	//
 #ifdef RUN_PERFORMANCE_TESTS
 	// ts1->add( BOOST_TEST_CASE( &queue_logger_performance_write_tests ) );

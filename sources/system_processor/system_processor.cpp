@@ -42,6 +42,8 @@ namespace system_utilities
 					: stopping_( false )
 				{
 					check_binary_path( binary_path );
+					logs_path_ = logs_path_ = binary_path_ + "logs/";
+					create_logs_directory();
 				}
 				sp_impl::sp_impl( const std::string& binary_path, const std::string& config_path )
 					: stopping_( false )
@@ -57,6 +59,7 @@ namespace system_utilities
 					}
 
 					properties_.reset( new property_reader( config_full_path, binary_path ) );
+					read_logs_path();
 					create_logs_directory();
 					create_system_logger();
 					load_predefined_logs_settings();
@@ -64,7 +67,6 @@ namespace system_utilities
 				void sp_impl::create_logs_directory()
 				{
 					using namespace boost::filesystem;
-					read_logs_path();
 					if ( !exists( logs_path_ ) )
 						create_directory( logs_path_ );
 					if ( !is_directory( logs_path_ ) )

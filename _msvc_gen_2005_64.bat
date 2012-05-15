@@ -13,7 +13,7 @@ if not exist %BUILD_FOLDER% (
 )
 
 cd %BUILD_FOLDER%
-cmake -DVERBOSE=OFF -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DSOLUTION_NAME=system_utilities -DVERBOSE=ON -G "Visual Studio 8 2005 Win64" ../ 
+cmake -DVERBOSE=OFF -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DSOLUTION_NAME=system_utilities -G "Visual Studio 8 2005 Win64" ../ 
 cd ../
 
 echo "%BUILD_FOLDER%/system_utilities.sln" > _start_msvc.bat

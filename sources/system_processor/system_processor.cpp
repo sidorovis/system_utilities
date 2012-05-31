@@ -179,6 +179,50 @@ namespace system_utilities
 						throw std::logic_error( "config file should be added by parameters." );
 					return details::sp_impl::instance_->properties_->get_values( name, delimeters );
 				}
+
+				void config_reset_value( const std::string& name, const std::string& delimeters )
+				{
+					boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
+					if (!details::sp_impl::instance_)
+						throw std::logic_error( "system processor should exist (init method)." );
+					if (!details::sp_impl::instance_->properties_.get())
+						throw std::logic_error( "config file should be added by parameters." );
+
+					details::sp_impl::instance_->properties_->get_values( name, delimeters );
+				}
+
+				void config_delete_value( const std::string& name )
+				{
+					boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
+					if (!details::sp_impl::instance_)
+						throw std::logic_error( "system processor should exist (init method)." );
+					if (!details::sp_impl::instance_->properties_.get())
+						throw std::logic_error( "config file should be added by parameters." );
+					
+					details::sp_impl::instance_->properties_->delete_value( name );
+				}
+
+				const bool config_rename_parameter( const std::string& old_name, const std::string& new_name )
+				{
+					boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
+					if (!details::sp_impl::instance_)
+						throw std::logic_error( "system processor should exist (init method)." );
+					if (!details::sp_impl::instance_->properties_.get())
+						throw std::logic_error( "config file should be added by parameters." );
+
+					return details::sp_impl::instance_->properties_->rename_parameter( old_name, new_name );
+				}
+
+				const bool config_check_value( const std::string& name )
+				{
+					boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
+					if (!details::sp_impl::instance_)
+						throw std::logic_error( "system processor should exist (init method)." );
+					if (!details::sp_impl::instance_->properties_.get())
+						throw std::logic_error( "config file should be added by parameters." );
+
+					return details::sp_impl::instance_->properties_->check_value( name );
+				}
 			}
 			//
 			sp init( const int argc, char * const argv[], const std::string& default_config_file )
@@ -250,6 +294,29 @@ namespace system_utilities
 			property_reader::strings config_values( const std::string& name, const std::string& delimeters )
 			{
 				return details::config_values_impl( name, delimeters );
+			}
+
+
+			//
+			void config_reset_value( const std::string& name, const std::string& default_value )
+			{
+				details::config_reset_value< std::string >( name, default_value );
+			}
+
+			//
+			void config_delete_value( const std::string& name )
+			{
+				details::config_delete_value( name );
+			}
+
+			const bool config_rename_parameter( const std::string& old_name, const std::string& new_name )
+			{
+				return details::config_rename_parameter( old_name, new_name );
+			}
+
+			const bool config_check_value( const std::string& name )
+			{
+				return details::config_check_value( name );
 			}
 
 		}

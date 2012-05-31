@@ -359,6 +359,71 @@ namespace system_utilities
 				BOOST_CHECK_EQUAL( pr.get_values( "hello" )[1], "polka" );
 				BOOST_CHECK_EQUAL( pr.get_values( "hello" )[2], "mishka" );
 			}
+
+			void property_reader_reset_value_tests()
+			{
+				property_reader pr;
+				pr.set_value( "name_01", "value_01" );
+				pr.set_value( "name_02", "value_02" );
+				BOOST_CHECK_EQUAL( pr.get_value( "name_01" ), "value_01" );
+				BOOST_CHECK_EQUAL( pr.get_value( "name_02" ), "value_02" );
+
+				BOOST_CHECK_NO_THROW( pr.reset_value( "name_01", "value_01_new" ) );
+				BOOST_CHECK_NO_THROW( pr.reset_value( "name_02", 22.33 ) );
+				BOOST_CHECK_NO_THROW( pr.reset_value( "name_03", 1235 ) );
+
+				BOOST_CHECK_EQUAL( pr.get_value( "name_01" ), "value_01_new" );
+				BOOST_CHECK_EQUAL( pr.get_value< double >( "name_02", 0.0 ), 22.33 );
+				BOOST_CHECK_EQUAL( pr.get_value< size_t >( "name_03", 0 ), 1235 );
+			}
+			void property_reader_delete_value_tests()
+			{
+				property_reader pr;
+				pr.set_value( "name_01", "value_01" );
+				pr.set_value( "name_02", "value_02" );
+
+				BOOST_CHECK_EQUAL( pr.check_value( "name_01" ), true );
+				BOOST_CHECK_EQUAL( pr.check_value( "name_02" ), true );
+				BOOST_CHECK_EQUAL( pr.check_value( "some_name" ), false );
+
+				BOOST_CHECK_NO_THROW( pr.delete_value( "some_name" ) );
+				BOOST_CHECK_NO_THROW( pr.delete_value( "name_01" ) );
+
+				BOOST_CHECK_EQUAL( pr.check_value( "name_01" ), false );
+				BOOST_CHECK_EQUAL( pr.check_value( "name_02" ), true );
+				BOOST_CHECK_EQUAL( pr.check_value( "some_name" ), false );
+			}
+
+			void property_reader_rename_parameter_tests()
+			{
+				{
+					property_reader pr;
+					pr.set_value( "user_nice_name", 4 );
+					BOOST_CHECK_EQUAL( pr.rename_parameter( "user_nice_name", "global.calculating.thread_count" ), true );
+					BOOST_CHECK_EQUAL( pr.check_value( "user_nice_name" ), false );
+					BOOST_CHECK_EQUAL( pr.check_value( "global.calculating.thread_count" ), true );
+					BOOST_CHECK_EQUAL( pr.get_value< size_t >( "global.calculating.thread_count", 0 ), 4 );
+				}
+				{
+					property_reader pr;
+					BOOST_CHECK_EQUAL( pr.check_value( "name_old" ), false );
+					BOOST_CHECK_EQUAL( pr.check_value( "name_new" ), false );
+					BOOST_CHECK_EQUAL( pr.rename_parameter( "name_old", "name_new" ), false );
+					BOOST_CHECK_EQUAL( pr.check_value( "name_old" ), false );
+					BOOST_CHECK_EQUAL( pr.check_value( "name_new" ), false );
+				}
+				{
+					property_reader pr;
+					pr.set_value( "name_new", "xxx" );
+					BOOST_CHECK_EQUAL( pr.check_value( "name_old" ), false );
+					BOOST_CHECK_EQUAL( pr.check_value( "name_new" ), true );
+					BOOST_CHECK_EQUAL( pr.rename_parameter( "name_old", "name_new" ), false );
+					BOOST_CHECK_EQUAL( pr.check_value( "name_old" ), false );
+					BOOST_CHECK_EQUAL( pr.check_value( "name_new" ), true );
+					BOOST_CHECK_EQUAL( pr.get_value( "name_new" ), "xxx" );
+				}
+			}
+
 			void property_reader_check_value_tests()
 			{
 				property_reader pr;

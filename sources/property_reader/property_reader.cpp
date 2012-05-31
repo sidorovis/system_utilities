@@ -181,9 +181,27 @@ const size_t property_reader::size() const
 {
 	return properties_.size();
 }
+
+const bool property_reader::delete_value( const std::string& parameter_name )
+{
+	properties_.erase( parameter_name );
+	return true;
+}
+
+const bool property_reader::rename_parameter( const std::string& old_parameter_name, const std::string& new_parameter_name )
+{
+	properties::iterator i = properties_.find( old_parameter_name );
+	if ( i != properties_.end() )
+	{	
+		reset_value( new_parameter_name, i->second );
+		properties_.erase( i );
+		return true;
+	}
+	return false;
+}
+
 const bool property_reader::check_value( const std::string& parameter_name ) const
 {
 	properties::const_iterator i = properties_.find( parameter_name );
 	return (i != properties_.end());
 }
-

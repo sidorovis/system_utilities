@@ -46,6 +46,17 @@ namespace system_utilities
 			template< class result_type >
 			result_type config( const std::string& name, const result_type& default_value = result_type() );
 			//
+			void config_reset_value( const std::string& name, const std::string& default_value = "" );
+
+			template< class value_type >
+			void config_reset_value( const std::string& name, const value_type& default_value = value_type() );
+			//
+			void config_delete_value( const std::string& name );
+
+			const bool config_rename_parameter( const std::string& old_name, const std::string& new_name );
+			//
+			const bool config_check_value( const std::string& name );
+
 			namespace details
 			{
 				void exit_handler(int);
@@ -71,6 +82,15 @@ namespace system_utilities
 					friend result_type config_impl( const std::string& name, const result_type& default_value );
 
 					friend property_reader::strings config_values_impl( const std::string& name, const std::string& delimeters );
+
+					template< class value_type >
+					friend void config_reset_value( const std::string& name, const value_type& default_value );
+					
+					friend void config_reset_value( const std::string& name, const std::string& delimeters );
+					friend void config_delete_value( const std::string& name );
+					friend const bool config_rename_parameter( const std::string& old_name, const std::string& new_name );
+					friend const bool config_check_value( const std::string& name );
+
 
 					friend void system_processor::stop( const std::string& );
 					friend void system_processor::wait_for_stop();
@@ -140,6 +160,19 @@ namespace system_utilities
 						throw std::logic_error( "config file should be added by parameters." );
 					return details::sp_impl::instance_->properties_->get_value( name, default_value );
 				}
+
+				template< class value_type >
+				void config_reset_value( const std::string& name, const value_type& default_value )
+				{
+					boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
+					if (!details::sp_impl::instance_)
+						throw std::logic_error( "system processor should exist (init method)." );
+					if (!details::sp_impl::instance_->properties_.get())
+						throw std::logic_error( "config file should be added by parameters." );
+					
+					details::sp_impl::instance_->properties_->reset_value( name, default_value );
+				}
+				
 				property_reader::strings config_values_impl( const std::string& name, const std::string& delimeters );
 			}
 			//
@@ -149,7 +182,14 @@ namespace system_utilities
 				return details::config_impl< result_type >( name, default_value );
 			}
 			property_reader::strings config_values( const std::string& name, const std::string& delimeters = "," );
+			//
 
+			template< class value_type >
+			void config_reset_value( const std::string& name, const value_type& default_value )
+			{
+				details::config_reset_value< value_type >( name, default_value );
+			}
+			
 			//
 			template< class T >
 			boost::shared_ptr< file_logger< T > > create_log( const std::string& file_name )

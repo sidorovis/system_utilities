@@ -108,6 +108,23 @@ namespace system_utilities
 				return true;
 			}
 			//
+			template< class value_type >
+			const bool reset_value( const std::string& parameter_name, const value_type& value )
+			{
+				properties_[ parameter_name ] = boost::lexical_cast< std::string >( value );
+				return true;
+			}
+			template<>
+			const bool reset_value< std::string >( const std::string& parameter_name, const std::string& value )
+			{
+				properties_[ parameter_name ] = value;
+				return true;
+			}
+			//
+			const bool delete_value( const std::string& parameter_name );
+
+			const bool rename_parameter( const std::string& old_parameter_name, const std::string& new_parameter_name );
+
 			const bool check_value( const std::string& parameter_name ) const;
         };
     };

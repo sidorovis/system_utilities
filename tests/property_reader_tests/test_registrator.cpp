@@ -30,6 +30,9 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	//
 	ts1->add( BOOST_TEST_CASE( &property_reader_size_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_get_set_value_tests ) );
+	ts1->add( BOOST_TEST_CASE( &property_reader_reset_value_tests ) );
+	ts1->add( BOOST_TEST_CASE( &property_reader_delete_value_tests ) );
+	ts1->add( BOOST_TEST_CASE( &property_reader_rename_parameter_tests ) );
 	ts1->add( BOOST_TEST_CASE( &property_reader_check_value_tests ) );
 
 	return ts1;

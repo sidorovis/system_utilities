@@ -14,8 +14,11 @@ namespace system_utilities
 			void system_processor_config_tests();
 			void system_processor_set_config_tests();
 			void system_processor_config_values_tests();
+			void system_processor_config_reset_value_tests();
+			void system_processor_config_delete_value_tests();
+			void system_processor_config_rename_parameter_tests();
+			void system_processor_config_check_value_tests();
 			void system_processor_create_log_tests();
-
 		}
 	}
 }

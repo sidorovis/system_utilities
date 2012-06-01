@@ -218,6 +218,152 @@ namespace system_utilities
 				}
 				remove_all( "logs_009" );
 			}
+
+			void system_processor_config_reset_value_tests()
+			{
+				using namespace boost::filesystem;
+				static const std::string tests_directory = SOURCE_DIR "/tests/data/system_processor/";
+				current_path( tests_directory );
+
+				int argc = 1;
+				char* const argv[] = { SOURCE_DIR "/tests/data/system_processor/test.exe" };
+
+				BOOST_CHECK_THROW( system_processor::logs_path(), std::exception );
+				{
+					system_processor::sp sp = system_processor::init( argc, argv, "config_example_011.ini" );
+
+					BOOST_CHECK_EQUAL( system_processor::config( "parameter_01" ), "value_01" );
+					BOOST_CHECK_EQUAL( system_processor::config( "parameter_02" ), "value_02" );
+					BOOST_CHECK_EQUAL( system_processor::config( "parameter_03", "" ), "" );
+
+					BOOST_CHECK_NO_THROW( system_processor::config_reset_value( "parameter_01", "value_01_new" ) );
+					BOOST_CHECK_NO_THROW( system_processor::config_reset_value( "parameter_02", 22.33 ) );
+					BOOST_CHECK_NO_THROW( system_processor::config_reset_value( "parameter_03", 1235 ) );
+
+					BOOST_CHECK_EQUAL( system_processor::config( "parameter_01" ), "value_01_new" );
+					BOOST_CHECK_EQUAL( system_processor::config< double >( "parameter_02", 0.0 ), 22.33 );
+					BOOST_CHECK_EQUAL( system_processor::config< size_t >( "parameter_03", 0 ), 1235 );
+				}
+				remove_all( "logs_011" );
+			}
+			void system_processor_config_delete_value_tests()
+			{
+				using namespace boost::filesystem;
+				static const std::string tests_directory = SOURCE_DIR "/tests/data/system_processor/";
+				current_path( tests_directory );
+
+				int argc = 1;
+				char* const argv[] = { SOURCE_DIR "/tests/data/system_processor/test.exe" };
+
+				BOOST_CHECK_THROW( system_processor::logs_path(), std::exception );
+				{
+					system_processor::sp sp = system_processor::init( argc, argv, "config_example_012.ini" );
+
+					BOOST_CHECK_EQUAL( system_processor::config( "parameter_01" ), "value_01" );
+					BOOST_CHECK_EQUAL( system_processor::config( "parameter_02" ), "value_02" );
+					BOOST_CHECK_EQUAL( system_processor::config( "parameter_03", "" ), "" );
+
+					BOOST_CHECK_NO_THROW( system_processor::config_delete_value( "parameter_01" ) );
+					BOOST_CHECK_NO_THROW( system_processor::config_delete_value( "parameter_03" ) );
+
+					BOOST_CHECK_EQUAL( system_processor::config( "parameter_01" ), "" );
+					BOOST_CHECK_EQUAL( system_processor::config( "parameter_02" ), "value_02" );
+					BOOST_CHECK_EQUAL( system_processor::config( "parameter_03" ), "" );
+				}
+				remove_all( "logs_012" );
+			}
+			void system_processor_config_rename_parameter_tests()
+			{
+				{
+					using namespace boost::filesystem;
+					static const std::string tests_directory = SOURCE_DIR "/tests/data/system_processor/";
+					current_path( tests_directory );
+
+					int argc = 1;
+					char* const argv[] = { SOURCE_DIR "/tests/data/system_processor/test.exe" };
+
+					BOOST_CHECK_THROW( system_processor::logs_path(), std::exception );
+					{
+						system_processor::sp sp = system_processor::init( argc, argv, "config_example_014.1.ini" );
+
+						BOOST_CHECK_EQUAL( system_processor::config_rename_parameter( "user_nice_name", "global.calculating.thread_count" ), true );
+						BOOST_CHECK_EQUAL( system_processor::config_check_value( "user_nice_name" ), false );
+						BOOST_CHECK_EQUAL( system_processor::config_check_value( "global.calculating.thread_count" ), true );
+						BOOST_CHECK_EQUAL( system_processor::config< size_t >( "global.calculating.thread_count", 0 ), 4 );
+					}
+					remove_all( "logs_014.1" );
+				}
+				{
+					using namespace boost::filesystem;
+					static const std::string tests_directory = SOURCE_DIR "/tests/data/system_processor/";
+					current_path( tests_directory );
+
+					int argc = 1;
+					char* const argv[] = { SOURCE_DIR "/tests/data/system_processor/test.exe" };
+
+					BOOST_CHECK_THROW( system_processor::logs_path(), std::exception );
+					{
+						system_processor::sp sp = system_processor::init( argc, argv, "config_example_014.2.ini" );
+
+						BOOST_CHECK_EQUAL( system_processor::config_check_value( "name_old" ), false );
+						BOOST_CHECK_EQUAL( system_processor::config_check_value( "name_new" ), false );
+						BOOST_CHECK_EQUAL( system_processor::config_rename_parameter( "name_old", "name_new" ), false );
+						BOOST_CHECK_EQUAL( system_processor::config_check_value( "name_old" ), false );
+						BOOST_CHECK_EQUAL( system_processor::config_check_value( "name_new" ), false );
+					}
+					remove_all( "logs_014.2" );
+				}
+				{
+					using namespace boost::filesystem;
+					static const std::string tests_directory = SOURCE_DIR "/tests/data/system_processor/";
+					current_path( tests_directory );
+
+					int argc = 1;
+					char* const argv[] = { SOURCE_DIR "/tests/data/system_processor/test.exe" };
+
+					BOOST_CHECK_THROW( system_processor::logs_path(), std::exception );
+					{
+						system_processor::sp sp = system_processor::init( argc, argv, "config_example_014.3.ini" );
+
+						BOOST_CHECK_EQUAL( system_processor::config_check_value( "name_old" ), false );
+						BOOST_CHECK_EQUAL( system_processor::config_check_value( "name_new" ), true );
+						BOOST_CHECK_EQUAL( system_processor::config_rename_parameter( "name_old", "name_new" ), false );
+						BOOST_CHECK_EQUAL( system_processor::config_check_value( "name_old" ), false );
+						BOOST_CHECK_EQUAL( system_processor::config_check_value( "name_new" ), true );
+						BOOST_CHECK_EQUAL( system_processor::config( "name_new" ), "xxx" );
+					}
+					remove_all( "logs_014.3" );
+				}
+			}
+			void system_processor_config_check_value_tests()
+			{
+				using namespace boost::filesystem;
+				static const std::string tests_directory = SOURCE_DIR "/tests/data/system_processor/";
+				current_path( tests_directory );
+
+				int argc = 1;
+				char* const argv[] = { SOURCE_DIR "/tests/data/system_processor/test.exe" };
+
+				BOOST_CHECK_THROW( system_processor::logs_path(), std::exception );
+				{
+					system_processor::sp sp = system_processor::init( argc, argv, "config_example_013.ini" );
+
+					BOOST_CHECK_NO_THROW( system_processor::config_check_value( "parameter_01" ) );
+					BOOST_CHECK_NO_THROW( system_processor::config_check_value( "no_exist_parameter" ) );
+
+					BOOST_CHECK_EQUAL( system_processor::config_check_value( "parameter_01" ), true );
+					BOOST_CHECK_EQUAL( system_processor::config_check_value( "parameter_02" ), true );
+					BOOST_CHECK_EQUAL( system_processor::config_check_value( "no_exist_parameter" ), false );
+
+					system_processor::config_reset_value( "no_exist_parameter", "data" );
+					system_processor::config_delete_value( "parameter_01" );
+
+					BOOST_CHECK_EQUAL( system_processor::config_check_value( "parameter_01" ), false );
+					BOOST_CHECK_EQUAL( system_processor::config_check_value( "parameter_02" ), true );
+					BOOST_CHECK_EQUAL( system_processor::config_check_value( "no_exist_parameter" ), true );
+				}
+				remove_all( "logs_013" );
+			}
 			//
 			void system_processor_create_log_tests()
 			{

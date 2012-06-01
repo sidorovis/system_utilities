@@ -28,6 +28,7 @@ Description: file_logger module create template class that can log information u
 
  * system_processor module, created by Ivan Sidarau
 Description: system_processor module is a singleton based class that gave simple possibility to create special waiter.
+if default config file have System.stop_by_ctrl_c = true parameter, than stop method will be called 
 
  * ts_logger module,  created by Ivan Sidarau.
 Description: logger<> like module with mutex synchonization on write method, could be used in several threads (if performance is a must, consider using queue_logger).

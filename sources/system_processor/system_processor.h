@@ -45,6 +45,9 @@ namespace system_utilities
 
 			template< class result_type >
 			result_type config( const std::string& name, const result_type& default_value = result_type() );
+
+			template< class value_type >
+			void set_config( const std::string& name, const value_type& value );
 			//
 			namespace details
 			{
@@ -55,6 +58,9 @@ namespace system_utilities
 
 				template< class result_type >
 				result_type config_impl( const std::string& name, const result_type& default_value = result_type() );
+
+				template< class value_type >
+				void set_config_impl( const std::string& name, const value_type& value );
 
 				property_reader::strings config_values_impl( const std::string& name, const std::string& delimeters = "," );
 
@@ -69,6 +75,9 @@ namespace system_utilities
 
 					template< typename result_type >
 					friend result_type config_impl( const std::string& name, const result_type& default_value );
+
+					template< class value_type >
+					friend void set_config_impl( const std::string& name, const value_type& value );
 
 					friend property_reader::strings config_values_impl( const std::string& name, const std::string& delimeters );
 
@@ -140,6 +149,17 @@ namespace system_utilities
 						throw std::logic_error( "config file should be added by parameters." );
 					return details::sp_impl::instance_->properties_->get_value( name, default_value );
 				}
+				template< class value_type >
+				void set_config_impl( const std::string& name, const value_type& value )
+				{
+					boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
+					if (!details::sp_impl::instance_)
+						throw std::logic_error( "system processor should exist (init method)." );
+					if (!details::sp_impl::instance_->properties_.get())
+						throw std::logic_error( "config file should be added by parameters." );
+					details::sp_impl::instance_->properties_->set_value( name, value );
+				}
+
 				property_reader::strings config_values_impl( const std::string& name, const std::string& delimeters );
 			}
 			//
@@ -147,6 +167,11 @@ namespace system_utilities
 			result_type config( const std::string& name, const result_type& default_value )
 			{
 				return details::config_impl< result_type >( name, default_value );
+			}
+			template< class value_type >
+			void set_config( const std::string& name, const value_type& value )
+			{
+				return details::set_config_impl( name, value );
 			}
 			property_reader::strings config_values( const std::string& name, const std::string& delimeters = "," );
 

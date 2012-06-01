@@ -12,6 +12,7 @@ namespace system_utilities
 			void system_processor_exit_handler_tests();
 			void system_processor_logs_path_tests();
 			void system_processor_config_tests();
+			void system_processor_set_config_tests();
 			void system_processor_config_values_tests();
 			void system_processor_create_log_tests();
 

@@ -39,7 +39,7 @@ if (system_utilities_DEBUG)
 	message(STATUS "Binary search folder: " ${binary_search_folder} )
 endif(system_utilities_DEBUG)
 
-set(components time_tracker ts_queue property_reader task_processor logger queue_logger file_logger system_processor)
+set(components timer time_tracker ts_queue property_reader task_processor logger ts_logger queue_logger file_logger system_processor)
 
 foreach(component ${components})
 

@@ -169,6 +169,7 @@ namespace system_utilities
 				tp.stop();
 
 				BOOST_CHECK_EQUAL( allocator.count(), tasks_size );
+				std::cout << tt.milliseconds() << std::endl;
 				BOOST_CHECK_EQUAL( tt.milliseconds() < 1450, true );
 			}
 		}

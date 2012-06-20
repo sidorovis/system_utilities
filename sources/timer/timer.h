@@ -5,6 +5,8 @@
 #include <boost/thread/condition.hpp>
 #include <boost/thread.hpp>
 
+#include <iostream>
+
 namespace system_utilities
 {
 	namespace common
@@ -18,7 +20,6 @@ namespace system_utilities
 		};
 		typedef boost::shared_ptr< abstract_timer > timer;
 
-		template< typename method >
 		class timer_prototype : protected virtual boost::noncopyable, public abstract_timer
 		{
             boost::thread thread_for_run_;
@@ -29,9 +30,10 @@ namespace system_utilities
             volatile bool started_;
             volatile bool should_stop_;
 
-			method& method_;
+			typedef void (*method)();
+			method method_;
 		public:
-			explicit timer_prototype( const size_t sleep_microseconds, method& m )
+			explicit timer_prototype( const size_t sleep_microseconds, method m )
 				: sleep_microseconds_( sleep_microseconds )
 				, started_ ( false )
 				, should_stop_ ( false )
@@ -86,9 +88,7 @@ namespace system_utilities
 						if (should_stop_)
 							break;
 						boost::recursive_mutex::scoped_lock run_func( should_stop_protector_ );
-						
-						method_();
-
+						(*method_)();
 						if (should_stop_)
 							break;
 						for_stop_.timed_wait( run_func, sleep_interval_() );
@@ -193,10 +193,9 @@ namespace system_utilities
 			}
 		}
 		
-		template< typename method >
-		timer create_timer( const size_t sleep_microseconds, method m )
+		timer create_timer( const size_t sleep_microseconds, void (*method)() )
 		{
-			return timer( new timer_prototype< method >( sleep_microseconds, m ) );
+			return timer( new timer_prototype( sleep_microseconds, method ) );
 		}
 		template< typename object >
 		timer create_timer( const size_t sleep_microseconds, object& obj, void (object::*object_method)() )

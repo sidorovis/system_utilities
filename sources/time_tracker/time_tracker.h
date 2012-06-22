@@ -3,26 +3,39 @@
 
 #include <boost/noncopyable.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/thread/mutex.hpp>
 
 namespace system_utilities
 {
 	namespace common
 	{
-		class time_tracker : protected virtual boost::noncopyable
+		class time_tracker
 		{
+			mutable boost::mutex protect_start_;
 			boost::posix_time::ptime start_;
 		public:
 			explicit time_tracker()
 				: start_( boost::posix_time::microsec_clock::universal_time() )
 			{
 			}
+			time_tracker(const time_tracker& other)
+				: start_( other.start_ )
+			{
+			}
+			void reset()
+			{
+				boost::mutex::scoped_lock lock( protect_start_ );
+				start_ = boost::posix_time::microsec_clock::universal_time();
+			}
 			const size_t milliseconds() const
 			{
+				boost::mutex::scoped_lock lock( protect_start_ );
 				const size_t result = (boost::posix_time::microsec_clock::universal_time() - start_).total_milliseconds();
 				return result;
 			}
 			const size_t seconds() const
 			{
+				boost::mutex::scoped_lock lock( protect_start_ );
 				return (boost::posix_time::microsec_clock::universal_time() - start_).total_seconds();
 			}
 			~time_tracker()

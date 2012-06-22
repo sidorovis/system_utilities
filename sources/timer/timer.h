@@ -33,73 +33,16 @@ namespace system_utilities
 			typedef void (*method)();
 			method method_;
 		public:
-			explicit timer_prototype( const size_t sleep_microseconds, method m )
-				: sleep_microseconds_( sleep_microseconds )
-				, started_ ( false )
-				, should_stop_ ( false )
-				, method_( m )
-			{
-			}
-			~timer_prototype()
-			{
-				end();
-				thread_for_run_.join();
-			}
+			explicit timer_prototype( const size_t sleep_microseconds, method m );
+			~timer_prototype();
 			//
-			void begin()
-			{
-				started_ = true;
-				should_stop_ = false;
-				thread_for_run_ = boost::thread( boost::bind( &timer_prototype::processing_, this ) );
-			}
-			void end()
-			{
-				if (!started_ || should_stop_)
-					return;
-				{
-					should_stop_ = true;
-					boost::recursive_mutex::scoped_lock stopper( should_stop_protector_ );
-					for_stop_.notify_one();
-				}
-				started_ = false;
-			}
-		private:
-			boost::xtime sleep_interval_()
-			{
-				boost::xtime time;
-				boost::xtime_get( &time, boost::TIME_UTC );
-				if (sleep_microseconds_ >= 1000)
-				{
-					size_t sec_inc = sleep_microseconds_ / 1000;
-					time.sec += sec_inc;
-					time.nsec += (boost::xtime::xtime_nsec_t)((sleep_microseconds_ - sec_inc * 1000) * 1000000);
-				}
-				else
-					time.nsec += (boost::xtime::xtime_nsec_t)((sleep_microseconds_ * 1000000));
-				return time;
-			}
+			void begin();
+			void end();
 
-			void processing_()
-			{
-				try
-				{
-					for(;;)
-					{
-						if (should_stop_)
-							break;
-						boost::recursive_mutex::scoped_lock run_func( should_stop_protector_ );
-						(*method_)();
-						if (should_stop_)
-							break;
-						for_stop_.timed_wait( run_func, sleep_interval_() );
-						if (should_stop_)
-							break;
-					}
-				}
-				catch (...)
-				{
-				}
-			}
+		private:
+			boost::xtime sleep_interval_();
+
+			void processing_();
 		};
 
 		
@@ -193,10 +136,8 @@ namespace system_utilities
 			}
 		}
 		
-		timer create_timer( const size_t sleep_microseconds, void (*method)() )
-		{
-			return timer( new timer_prototype( sleep_microseconds, method ) );
-		}
+		timer create_timer( const size_t sleep_microseconds, void (*method)() );
+		//
 		template< typename object >
 		timer create_timer( const size_t sleep_microseconds, object& obj, void (object::*object_method)() )
 		{

@@ -41,10 +41,11 @@ endif(system_utilities_DEBUG)
 
 set(components timer time_tracker ts_queue property_reader task_processor logger ts_logger queue_logger file_logger system_processor)
 
-foreach(component ${components})
+foreach(component ${system_utilities_FIND_COMPONENTS})
 
-list_contains(we_should_find_${component} ${component} ${system_utilities_FIND_COMPONENTS})
+list_contains(we_should_find_${component} ${component} ${components})
 if(we_should_find_${component})
+
 	if (system_utilities_DEBUG)
 		message(STATUS "Searching for ${component} library. ")
 	endif()
@@ -76,6 +77,8 @@ if(we_should_find_${component})
 		set(system_utilities_INCLUDE_DIRS ${system_utilities_INCLUDE_DIRS} ${system_utilities_${component}_INCLUDE_DIRS})
 		set(system_utilities_LIBRARIES ${system_utilities_LIBRARIES} ${system_utilities_${component}_LIBRARIES})
 	endif()
+else()
+	message(FATAL_ERROR "Unknown component: ${component}")
 endif(we_should_find_${component})
 
 endforeach( component )

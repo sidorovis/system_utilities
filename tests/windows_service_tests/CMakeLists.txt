@@ -1,4 +1,4 @@
-add_subdirectory( ../windows_service_tests_helper )
+add_subdirectory( windows_service_tests_helper )
 find_package( Boost 1.41 ${SEARCH_PARAMETERS} COMPONENTS
 	filesystem
 	thread
@@ -9,4 +9,4 @@ find_package( Boost 1.41 ${SEARCH_PARAMETERS} COMPONENTS
 
 compile_project( ${tests_name} "*.cpp" "*.h" BINARY tests ${module_name} Boost )
 add_dependencies( windows_service_tests windows_service_tests_helper )
-register_test( ${tests_name} 1.0 1.0 )
+register_test( ${tests_name} 2.0 2.0 )

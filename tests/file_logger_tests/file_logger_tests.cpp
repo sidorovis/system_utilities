@@ -107,6 +107,7 @@ namespace system_utilities
 				static const size_t tests_size = 20000;
 				using namespace boost::filesystem;
 
+				remove( "log_test_3.out" );
 				typedef queue_logger< true, false, true > queue_logger_type;
 				typedef file_logger< queue_logger_type > file_logger_type;
 				{

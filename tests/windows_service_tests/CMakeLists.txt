@@ -1,4 +1,4 @@
-
+add_subdirectory( ../windows_service_tests_helper )
 find_package( Boost 1.41 ${SEARCH_PARAMETERS} COMPONENTS
 	filesystem
 	thread

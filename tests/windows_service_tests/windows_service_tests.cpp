@@ -103,15 +103,15 @@ namespace system_utilities
 			}
 			void windows_service_ctor_tests()
 			{
-				int argc = 0;
+				const int argc = 0;
 				char* const argv[] = {"",""};
 				BOOST_CHECK_NO_THROW( details_::windows_service_impl( "TestCtor", argc, argv ) );
 			}
 			void windows_service_install_tests()
 			{
 				BOOST_CHECK_EQUAL( details_::check_install(), 0 );
-				std::string cmd = details_::get_test_helper_path() + " install";
-				int err = system( cmd.c_str() );
+				const std::string cmd = details_::get_test_helper_path() + " install";
+				const int err = system( cmd.c_str() );
 				BOOST_CHECK_EQUAL( err, 0 );
 				BOOST_CHECK_EQUAL( details_::check_install(), 1 );
 
@@ -119,8 +119,8 @@ namespace system_utilities
 			void windows_service_start_tests()
 			{
 				BOOST_CHECK_EQUAL( details_::check_run(), 0 );
-				std::string cmd = details_::get_test_helper_path() + " start";
-				int err = system( cmd.c_str() );
+				const std::string cmd = details_::get_test_helper_path() + " start";
+				const int err = system( cmd.c_str() );
 				BOOST_CHECK_EQUAL( err, 0 );
 				boost::this_thread::sleep(boost::posix_time::milliseconds(500));
 				BOOST_CHECK_EQUAL( boost::filesystem::exists(details_::get_test_helper_path() + ".txt"), true );
@@ -129,8 +129,8 @@ namespace system_utilities
 			void windows_service_stop_tests()
 			{
 				BOOST_CHECK_EQUAL( details_::check_run(), 1 );
-				std::string cmd = details_::get_test_helper_path() + " stop";
-				int err = system( cmd.c_str() );
+				const std::string cmd = details_::get_test_helper_path() + " stop";
+				const int err = system( cmd.c_str() );
 				BOOST_CHECK_EQUAL( err, 0 );
 				boost::filesystem::remove(details_::get_test_helper_path() + ".txt");
 				BOOST_CHECK_EQUAL( details_::check_run(), 0 );
@@ -138,8 +138,8 @@ namespace system_utilities
 			void windows_service_uninstall_tests()
 			{
 				BOOST_CHECK_EQUAL( details_::check_install(), 1 );
-				std::string cmd = details_::get_test_helper_path() + " uninstall";
-				int err = system( cmd.c_str() );
+				const std::string cmd = details_::get_test_helper_path() + " uninstall";
+				const int err = system( cmd.c_str() );
 				BOOST_CHECK_EQUAL( err, 0 );
 				BOOST_CHECK_EQUAL( details_::check_install(), 0 );
 			}

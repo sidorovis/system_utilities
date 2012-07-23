@@ -13,7 +13,6 @@ namespace system_utilities
 			class windows_service_helper : public windows_service
 			{
 				boost::thread thread_;
-				std::string pth, pth2;
 			public:
 				windows_service_helper(const std::string& sn, const int argc, char* const argv[])
 					: windows_service( sn, argc, argv )

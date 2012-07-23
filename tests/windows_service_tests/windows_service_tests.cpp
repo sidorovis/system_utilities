@@ -1,5 +1,7 @@
 #include "test_registrator.h"
 
+#include <iostream>
+
 #include <windows_service.h>
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>

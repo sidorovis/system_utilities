@@ -6,6 +6,7 @@ include( environment.cmake required )
 
 if(WIN32)
 	modules( time_tracker ts_queue property_reader task_processor logger ts_logger queue_logger file_logger timer system_processor windows_service )
+	add_subdirectory( tests/windows_service_tests_helper )
 elseif(UNIX)
 	modules( time_tracker ts_queue property_reader task_processor logger ts_logger queue_logger file_logger timer system_processor )
 endif(WIN32)

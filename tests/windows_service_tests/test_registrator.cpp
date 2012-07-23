@@ -12,6 +12,10 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	using namespace system_utilities::tests_::common;
 
 	ts1->add( BOOST_TEST_CASE( &windows_service_ctor_tests ) );
+	ts1->add( BOOST_TEST_CASE( &windows_service_install_tests ) );
+	ts1->add( BOOST_TEST_CASE( &windows_service_start_tests ) );
+	ts1->add( BOOST_TEST_CASE( &windows_service_stop_tests ) );
+	ts1->add( BOOST_TEST_CASE( &windows_service_uninstall_tests ) );
 
 	return ts1;
 }

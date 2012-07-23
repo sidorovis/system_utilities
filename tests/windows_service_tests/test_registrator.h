@@ -7,6 +7,10 @@ namespace system_utilities
 		namespace common
 		{
 			void windows_service_ctor_tests();
+			void windows_service_install_tests();
+			void windows_service_start_tests();
+			void windows_service_stop_tests();
+			void windows_service_uninstall_tests();
 		}
 	}
 }

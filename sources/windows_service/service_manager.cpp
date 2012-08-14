@@ -1,6 +1,10 @@
 #include "service_manager.h"
+
 #include <Windows.h>
+#include <strsafe.h>
+
 #include <boost/scoped_array.hpp>
+
 #include <cstdio>
 
 namespace system_utilities
@@ -50,7 +54,23 @@ namespace system_utilities
 				);
 			if (schService == NULL)
 			{
-				printf("CreateService failed w/err 0x%08lx\n", GetLastError());
+				const DWORD dw = GetLastError(); 
+
+				LPVOID lpMsgBuf;
+				LPVOID lpDisplayBuf;
+
+				FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+					NULL,
+					dw,
+					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+					(LPTSTR) &lpMsgBuf,	0, NULL );
+
+				lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + 40) * sizeof(TCHAR)); 
+
+				StringCchPrintf((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), TEXT("install failed with error %d: %s"), dw, lpMsgBuf); 
+
+				printf("CreateService failed w/err %s\n", lpDisplayBuf);
+
 				cleanup_(schSCManager, schService);
 				return;
 			}
@@ -78,11 +98,25 @@ namespace system_utilities
 			}
 
 			// Open the service with delete, stop, and query status permissions
-			schService = OpenService(schSCManager, service_name_ptr.get(), SERVICE_STOP | 
-				SERVICE_QUERY_STATUS | DELETE);
+			schService = OpenService(schSCManager, service_name_ptr.get(), SERVICE_STOP | SERVICE_QUERY_STATUS | DELETE);
 			if (schService == NULL)
 			{
-				printf("OpenService failed w/err 0x%08lx\n", GetLastError());
+				const DWORD dw = GetLastError(); 
+
+				LPVOID lpMsgBuf;
+				LPVOID lpDisplayBuf;
+
+				FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+					NULL,
+					dw,
+					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+					(LPTSTR) &lpMsgBuf,	0, NULL );
+
+				lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + 40) * sizeof(TCHAR)); 
+
+				StringCchPrintf((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), TEXT("uninstall failed with error %d: %s"), dw, lpMsgBuf); 
+
+				printf("OpenService failed w/err %s\n", lpDisplayBuf);
 				cleanup_(schSCManager, schService);
 				return;
 			}
@@ -116,7 +150,22 @@ namespace system_utilities
 			// Now remove the service by calling DeleteService.
 			if (!DeleteService(schService))
 			{
-				printf("DeleteService failed w/err 0x%08lx\n", GetLastError());
+				const DWORD dw = GetLastError(); 
+
+				LPVOID lpMsgBuf;
+				LPVOID lpDisplayBuf;
+
+				FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+					NULL,
+					dw,
+					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+					(LPTSTR) &lpMsgBuf,	0, NULL );
+
+				lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + 40) * sizeof(TCHAR)); 
+
+				StringCchPrintf((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), TEXT("uninstall failed with error %d: %s"), dw, lpMsgBuf); 
+
+				printf("DeleteService failed w/err %s\n", lpDisplayBuf);
 				cleanup_(schSCManager, schService);
 				return;
 			}
@@ -133,7 +182,24 @@ namespace system_utilities
 			SC_HANDLE hSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
 			SC_HANDLE hService = OpenService(hSCManager, service_name_ptr.get(), SERVICE_START);
 			if ( !StartService(hService, 0, NULL) )
-				printf("Error: Can't start service. %d\n", GetLastError());
+			{
+				const DWORD dw = GetLastError(); 
+
+				LPVOID lpMsgBuf;
+				LPVOID lpDisplayBuf;
+
+				FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+					NULL,
+					dw,
+					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+					(LPTSTR) &lpMsgBuf,	0, NULL );
+
+				lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + 40) * sizeof(TCHAR)); 
+
+				StringCchPrintf((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), TEXT("start failed with error %d: %s"), dw, lpMsgBuf); 
+
+				printf("StartService failed w/err %s\n", lpDisplayBuf);
+			}
 
 			cleanup_(hSCManager, hService);
 		}

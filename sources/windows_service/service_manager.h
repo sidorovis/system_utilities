@@ -12,12 +12,19 @@ namespace system_utilities
 		class service_manager : boost::noncopyable
 		{
 		public:
+			enum service_start_type
+			{
+				AUTO_START = SERVICE_AUTO_START,
+				DEMAND_START = SERVICE_DEMAND_START
+			};
 			static void install(const std::string& service_name);
+			static void install(const std::string& service_name, const std::string& display_name, const service_start_type sst);
 			static void uninstall(const std::string& service_name);
 			static void start(const std::string& service_name);
 			static void stop(const std::string& service_name);
 		private:
 			static void cleanup_(SC_HANDLE& schSCManager, SC_HANDLE& schService);
+			static void print_error_( LPTSTR function_name );
 		};
 	}
 }

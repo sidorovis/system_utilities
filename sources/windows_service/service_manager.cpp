@@ -13,15 +13,28 @@ namespace system_utilities
 	{
 		void service_manager::install(const std::string& service_name)
 		{
+			install(service_name, service_name, DEMAND_START);
+		}
+
+		void service_manager::install(const std::string& service_name, const std::string& display_name, const service_start_type sst)
+		{
 			boost::scoped_array< char > service_name_ptr(new char[service_name.length() + 1]);
 			strcpy_s(service_name_ptr.get(), service_name.length() + 1, service_name.c_str());
+			boost::scoped_array< char > display_name_ptr(new char[display_name.length() + 1]);
+			strcpy_s(display_name_ptr.get(), display_name.length() + 1, display_name.c_str());
 			char szPath[MAX_PATH];
 			SC_HANDLE schSCManager = NULL;
 			SC_HANDLE schService = NULL;
 
+			if (sst != AUTO_START && sst != DEMAND_START)
+			{
+				printf("Incorrect call of install function. Check the parameters.");
+				return;
+			}
+
 			if (GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath)) == 0)
 			{
-				printf("GetModuleFileName failed w/err 0x%08lx\n", GetLastError());
+				print_error_("GetModuleFileName");
 				cleanup_(schSCManager, schService);
 				return;
 			}
@@ -31,7 +44,7 @@ namespace system_utilities
 				SC_MANAGER_CREATE_SERVICE);
 			if (schSCManager == NULL)
 			{
-				printf("OpenSCManager failed w/err 0x%08lx\n", GetLastError());
+				print_error_("OpenSCManager");
 				cleanup_(schSCManager, schService);
 				return;
 			}
@@ -40,10 +53,10 @@ namespace system_utilities
 			schService = CreateService(
 				schSCManager,                   // SCManager database
 				service_name_ptr.get(),			// Name of service
-				service_name_ptr.get(),			// Name to display
+				display_name_ptr.get(),			// Name to display
 				SERVICE_ALL_ACCESS,				// Desired access
 				SERVICE_WIN32_OWN_PROCESS,		// Service type
-				SERVICE_DEMAND_START,			// Service start type
+				sst,							// Service start type
 				SERVICE_ERROR_NORMAL,           // Error control type
 				szPath,                         // Service's binary
 				NULL,                           // No load ordering group
@@ -54,23 +67,7 @@ namespace system_utilities
 				);
 			if (schService == NULL)
 			{
-				const DWORD dw = GetLastError(); 
-
-				LPVOID lpMsgBuf;
-				LPVOID lpDisplayBuf;
-
-				FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-					NULL,
-					dw,
-					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-					(LPTSTR) &lpMsgBuf,	0, NULL );
-
-				lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + 40) * sizeof(TCHAR)); 
-
-				StringCchPrintf((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), TEXT("install failed with error %d: %s"), dw, lpMsgBuf); 
-
-				printf("CreateService failed w/err %s\n", lpDisplayBuf);
-
+				print_error_("CreateService");
 				cleanup_(schSCManager, schService);
 				return;
 			}
@@ -92,7 +89,7 @@ namespace system_utilities
 			schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_CONNECT);
 			if (schSCManager == NULL)
 			{
-				printf("OpenSCManager failed w/err 0x%08lx\n", GetLastError());
+				print_error_("OpenSCManager");
 				cleanup_(schSCManager, schService);
 				return;
 			}
@@ -101,22 +98,7 @@ namespace system_utilities
 			schService = OpenService(schSCManager, service_name_ptr.get(), SERVICE_STOP | SERVICE_QUERY_STATUS | DELETE);
 			if (schService == NULL)
 			{
-				const DWORD dw = GetLastError(); 
-
-				LPVOID lpMsgBuf;
-				LPVOID lpDisplayBuf;
-
-				FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-					NULL,
-					dw,
-					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-					(LPTSTR) &lpMsgBuf,	0, NULL );
-
-				lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + 40) * sizeof(TCHAR)); 
-
-				StringCchPrintf((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), TEXT("uninstall failed with error %d: %s"), dw, lpMsgBuf); 
-
-				printf("OpenService failed w/err %s\n", lpDisplayBuf);
+				print_error_("OpenService");
 				cleanup_(schSCManager, schService);
 				return;
 			}
@@ -150,22 +132,7 @@ namespace system_utilities
 			// Now remove the service by calling DeleteService.
 			if (!DeleteService(schService))
 			{
-				const DWORD dw = GetLastError(); 
-
-				LPVOID lpMsgBuf;
-				LPVOID lpDisplayBuf;
-
-				FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-					NULL,
-					dw,
-					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-					(LPTSTR) &lpMsgBuf,	0, NULL );
-
-				lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + 40) * sizeof(TCHAR)); 
-
-				StringCchPrintf((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), TEXT("uninstall failed with error %d: %s"), dw, lpMsgBuf); 
-
-				printf("DeleteService failed w/err %s\n", lpDisplayBuf);
+				print_error_("DeleteService");
 				cleanup_(schSCManager, schService);
 				return;
 			}
@@ -183,22 +150,7 @@ namespace system_utilities
 			SC_HANDLE hService = OpenService(hSCManager, service_name_ptr.get(), SERVICE_START);
 			if ( !StartService(hService, 0, NULL) )
 			{
-				const DWORD dw = GetLastError(); 
-
-				LPVOID lpMsgBuf;
-				LPVOID lpDisplayBuf;
-
-				FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-					NULL,
-					dw,
-					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-					(LPTSTR) &lpMsgBuf,	0, NULL );
-
-				lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + 40) * sizeof(TCHAR)); 
-
-				StringCchPrintf((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), TEXT("start failed with error %d: %s"), dw, lpMsgBuf); 
-
-				printf("StartService failed w/err %s\n", lpDisplayBuf);
+				print_error_("StartService");
 			}
 
 			cleanup_(hSCManager, hService);
@@ -215,7 +167,7 @@ namespace system_utilities
 			schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_CONNECT);
 			if (schSCManager == NULL)
 			{
-				printf("OpenSCManager failed w/err 0x%08lx\n", GetLastError());
+				print_error_("OpenSCManager");
 				cleanup_(schSCManager, schService);
 				return;
 			}
@@ -225,7 +177,7 @@ namespace system_utilities
 				SERVICE_QUERY_STATUS );
 			if (schService == NULL)
 			{
-				printf("OpenService failed w/err 0x%08lx\n", GetLastError());
+				print_error_("OpenService");
 				cleanup_(schSCManager, schService);
 				return;
 			}
@@ -271,6 +223,23 @@ namespace system_utilities
 				CloseServiceHandle(schSCManager);
 				schSCManager = NULL;
 			}
+		}
+
+		void service_manager::print_error_( LPTSTR lpszFuncName )
+		{
+			LPVOID lpMsgBuf;
+			const DWORD dw = GetLastError();
+
+			FormatMessage(
+				FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+				NULL,
+				dw,
+				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+				(LPTSTR) &lpMsgBuf,	0, NULL );
+
+			printf("%s failed with error %d: %s\n", lpszFuncName, dw, lpMsgBuf);
+
+			LocalFree(lpMsgBuf);
 		}
 	}
 }

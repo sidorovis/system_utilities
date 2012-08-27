@@ -14,6 +14,7 @@ namespace system_utilities
 			enum 
 			{
 				INSTALL,
+				INSTALL_EX,
 				UNINSTALL,
 				RUN,
 				STOP,
@@ -21,15 +22,19 @@ namespace system_utilities
 				INCORRECT_USING
 			} type_;
 			const std::string service_name_;
+			const std::string dispay_name_;
+			const bool auto_start_;
 			static windows_service* instance_;
 			SERVICE_STATUS_HANDLE status_handle_;
 			SERVICE_STATUS status_;
 
 		public:
 			windows_service( const std::string& service_name, const int argc, char* const argv[] );
+			windows_service( const std::string& service_name, const std::string& display_name, const bool auto_start, const int argc, char* const argv[] );
 			void process();
 
 		private:
+			void init_( const int argc, char* const argv[], const bool install_ex );
 			void start_();
 			void stop_();
 			void run_service_();

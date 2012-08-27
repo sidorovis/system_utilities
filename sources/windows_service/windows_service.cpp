@@ -11,7 +11,47 @@ namespace system_utilities
 		windows_service* windows_service::instance_ = NULL;
 
 		windows_service::windows_service( const std::string& service_name, const int argc, char* const argv[] )
-			: service_name_( service_name )
+			: service_name_( service_name ), auto_start_ ( false )
+		{
+			init_(argc, argv, false);
+		}
+		windows_service::windows_service( const std::string& service_name, const std::string& display_name, const bool auto_start, const int argc, char* const argv[] )
+			: service_name_( service_name ), dispay_name_( display_name ), auto_start_( auto_start )
+		{
+			init_(argc, argv, true);
+		}
+
+		void windows_service::process()
+		{
+			switch (type_)
+			{
+			case INCORRECT_USING:
+				printf("Using <program name> install | uninstall | start | stop");
+				return;
+			case INSTALL:
+				service_manager::install( service_name_ );
+				break;
+			case INSTALL_EX:
+				if (auto_start_)
+					service_manager::install(service_name_, dispay_name_, service_manager::AUTO_START);
+				else
+					service_manager::install(service_name_, dispay_name_, service_manager::DEMAND_START);
+				break;
+			case UNINSTALL:
+				service_manager::uninstall( service_name_ );
+				break;
+			case RUN:
+				service_manager::start( service_name_ );
+				break;
+			case STOP:
+				service_manager::stop( service_name_ );
+			case NO_PARAMETERS:
+				run_service_();
+				break;
+			}
+		}
+
+		void windows_service::init_( const int argc, char* const argv[], const bool install_ex )
 		{
 			status_handle_ = NULL;
 			status_.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
@@ -34,7 +74,7 @@ namespace system_utilities
 			}
 			const std::string parameter(argv[1]);
 			if (parameter == "install")
-				type_ = INSTALL;
+				type_ = install_ex ? INSTALL_EX : INSTALL;
 			else if (parameter == "uninstall")
 				type_ = UNINSTALL;
 			else if (parameter == "run" || parameter == "start")
@@ -44,31 +84,6 @@ namespace system_utilities
 			else
 				type_ = INCORRECT_USING;
 		}
-
-		void windows_service::process()
-		{
-			switch (type_)
-			{
-			case INCORRECT_USING:
-				printf("Using <program name> install | uninstall | start | stop");
-				return;
-			case INSTALL:
-				service_manager::install( service_name_ );
-				break;
-			case UNINSTALL:
-				service_manager::uninstall( service_name_ );
-				break;
-			case RUN:
-				service_manager::start( service_name_ );
-				break;
-			case STOP:
-				service_manager::stop( service_name_ );
-			case NO_PARAMETERS:
-				run_service_();
-				break;
-			}
-		}
-
 		void windows_service::start_()
 		{
 			set_service_status(SERVICE_START_PENDING);

@@ -42,6 +42,8 @@ namespace system_utilities
 
 			virtual void start_thread() = 0;
 			virtual void stop_thread() = 0;
+
+			const std::string& service_name() const;
 		};
 	}
 }

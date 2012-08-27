@@ -125,6 +125,11 @@ namespace system_utilities
 			status_.dwCurrentState = dwCurrentState;
 			SetServiceStatus(status_handle_, &status_);
 		}
+
+		const std::string& windows_service::service_name() const
+		{
+			return service_name_;
+		}
 	}
 }
 

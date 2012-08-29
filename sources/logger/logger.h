@@ -39,8 +39,9 @@ namespace system_utilities
 			template< bool turn_on = true, bool flush_stream = true, bool print_prefix = true >
 			class logger_streamer
 			{
-				typedef logger< turn_on, flush_stream, print_prefix > defined_logger;
-				friend class defined_logger;
+				typedef system_utilities::common::logger< turn_on, flush_stream, print_prefix > defined_logger;
+				friend class system_utilities::common::logger< turn_on, flush_stream, print_prefix >;
+                
 				boost::shared_ptr< std::stringstream > stream_;
 				const message_level::value message_level_ ;
 				defined_logger& defined_logger_;
@@ -88,7 +89,7 @@ namespace system_utilities
 			static const bool print_prefix_value = print_prefix;
 		protected:
 			typedef details::logger_streamer< turn_on, flush_stream, print_prefix > streamer;
-			friend class streamer;
+			friend class details::logger_streamer< turn_on, flush_stream, print_prefix >;
 
 			static std::string message_levels[ 5 ];
 			static void init_message_levels()
@@ -176,7 +177,7 @@ namespace system_utilities
 				using namespace boost::posix_time;
 				const std::string current_time = to_simple_string( microsec_clock::universal_time() );
 				static const char open_quote = '[';
-				stream_ << open_quote << current_time << message_level << message << "\n";
+				stream_ << open_quote << current_time << message_levels[ value ] << message << "\n";
 				flush();
 			}
 		};

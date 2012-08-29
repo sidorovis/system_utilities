@@ -307,7 +307,7 @@ namespace system_utilities
 				str << " hello = world3" << std::endl;
 				str << "pirac=fint" << std::endl;
 				property_reader reader( str );
-				BOOST_CHECK_EQUAL( reader.size(), (size_t)4 );
+				BOOST_CHECK_EQUAL( reader.size(), 4U );
 				BOOST_CHECK_EQUAL( reader.get_value("hello"), "world3" );
 				BOOST_CHECK_EQUAL( reader.check_value("hello"), true );
 				BOOST_CHECK_EQUAL( reader.get_value("hello3"), "" );
@@ -324,15 +324,15 @@ namespace system_utilities
 			void property_reader_size_tests()
 			{
 				property_reader pr;
-				BOOST_CHECK_EQUAL( pr.size(), 0 );
+				BOOST_CHECK_EQUAL( pr.size(), 0U );
 				pr.set_value( "hello", "world" );
-				BOOST_CHECK_EQUAL( pr.size(), 1 );
+				BOOST_CHECK_EQUAL( pr.size(), 1U );
 				pr.set_value( "hello", "world2" );
-				BOOST_CHECK_EQUAL( pr.size(), 1 );
+				BOOST_CHECK_EQUAL( pr.size(), 1U );
 				pr.set_value( "hello", 45 );
-				BOOST_CHECK_EQUAL( pr.size(), 1 );
+				BOOST_CHECK_EQUAL( pr.size(), 1U );
 				pr.set_value( "hello3", 23 );
-				BOOST_CHECK_EQUAL( pr.size(), 2 );
+				BOOST_CHECK_EQUAL( pr.size(), 2U );
 			}
 			void property_reader_get_set_value_tests()
 			{
@@ -346,7 +346,7 @@ namespace system_utilities
 				pr.set_value( "hello", "23" );
 				BOOST_CHECK_NO_THROW( pr.get_value< int >( "hello", 0 ) );
 				BOOST_CHECK_EQUAL( pr.get_value< int >( "hello", 0 ), 23 );
-				BOOST_CHECK_EQUAL( pr.get_values( "hello" ).size(), 1 );
+				BOOST_CHECK_EQUAL( pr.get_values( "hello" ).size(), 1U );
 				BOOST_CHECK_EQUAL( pr.get_value( "hello", false ), false );
 				BOOST_CHECK_EQUAL( pr.get_value( "hello", true ), false );
 				BOOST_CHECK_NO_THROW( pr.set_value( "hello", true ) );
@@ -354,7 +354,7 @@ namespace system_utilities
 				BOOST_CHECK_NO_THROW( pr.set_value( "hello", 123 ) );
 				BOOST_CHECK_EQUAL( pr.get_value< double >( "hello", 0.0 ), 123.0 );
 				BOOST_CHECK_NO_THROW( pr.set_value( "hello", "alloha, polka, mishka" ) );
-				BOOST_CHECK_EQUAL( pr.get_values( "hello" ).size(), 3 );
+				BOOST_CHECK_EQUAL( pr.get_values( "hello" ).size(), 3U );
 				BOOST_CHECK_EQUAL( pr.get_values( "hello" )[0], "alloha" );
 				BOOST_CHECK_EQUAL( pr.get_values( "hello" )[1], "polka" );
 				BOOST_CHECK_EQUAL( pr.get_values( "hello" )[2], "mishka" );
@@ -374,7 +374,7 @@ namespace system_utilities
 
 				BOOST_CHECK_EQUAL( pr.get_value( "name_01" ), "value_01_new" );
 				BOOST_CHECK_EQUAL( pr.get_value< double >( "name_02", 0.0 ), 22.33 );
-				BOOST_CHECK_EQUAL( pr.get_value< size_t >( "name_03", 0 ), 1235 );
+				BOOST_CHECK_EQUAL( pr.get_value< size_t >( "name_03", 0 ), 1235U );
 			}
 			void property_reader_delete_value_tests()
 			{
@@ -402,7 +402,7 @@ namespace system_utilities
 					BOOST_CHECK_EQUAL( pr.rename_parameter( "user_nice_name", "global.calculating.thread_count" ), true );
 					BOOST_CHECK_EQUAL( pr.check_value( "user_nice_name" ), false );
 					BOOST_CHECK_EQUAL( pr.check_value( "global.calculating.thread_count" ), true );
-					BOOST_CHECK_EQUAL( pr.get_value< size_t >( "global.calculating.thread_count", 0 ), 4 );
+					BOOST_CHECK_EQUAL( pr.get_value< size_t >( "global.calculating.thread_count", 0 ), 4U );
 				}
 				{
 					property_reader pr;

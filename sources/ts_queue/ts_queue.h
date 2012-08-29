@@ -13,15 +13,15 @@ namespace system_utilities
 		template< 
 			class T, 
 			template< typename, typename > class container = std::list, 
-			template< typename > class allocator_type = std::allocator >
+			template< typename > class real_allocator_type = std::allocator >
 		class ts_queue
 		{
 			class iterator;
 			friend class iterator;
 
-			typedef typename T* element_ptr;
+			typedef T* element_ptr;
 
-			typedef container< element_ptr, allocator_type< element_ptr > > queue;
+			typedef container< element_ptr, real_allocator_type< element_ptr > > queue;
 
 			explicit ts_queue(const ts_queue& );
 			ts_queue& operator=(const ts_queue&);

@@ -23,7 +23,7 @@ namespace system_utilities
 			class queue_logger_task
 			{
 				typedef queue_logger< turn_on, flush_stream, print_prefix > logger;
-				friend class logger;
+				friend class queue_logger< turn_on, flush_stream, print_prefix >;
 
 				logger& logger_;
 
@@ -49,9 +49,9 @@ namespace system_utilities
 		class queue_logger : public logger< turn_on, flush_stream, print_prefix >
 		{
 			typedef details::queue_logger_task< turn_on, flush_stream, print_prefix > logger_task;
-			friend class logger_task;
+			friend class details::queue_logger_task< turn_on, flush_stream, print_prefix >;
 		public:
-			typedef typename task_processor< logger_task > tasker;
+			typedef task_processor< logger_task > tasker;
 		private:
 			mutable boost::mutex protect_write_;
 			tasker& task_processor_;

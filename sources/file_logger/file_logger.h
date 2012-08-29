@@ -96,56 +96,50 @@ namespace system_utilities
 				this->reset();
 			}
 			//
-			details::file_logger_pimpl< inside_logger >& operator->()
-			{
-				return *this;
-			}
-
 
             inline void note( const std::string& message )
 			{
-			    get()->note( message );
+                this->get()->note( message );
 			}
 			inline typename pimpl::streamer note()
 			{
-				return get()->note();
+				return this->get()->note();
 			}
             inline void warn( const std::string& message )
 			{
-				get()->warn( message );
+				this->get()->warn( message );
 			}
 			inline typename pimpl::streamer warn()
 			{
-				return get()->warn();
+				return this->get()->warn();
 			}
             inline void error( const std::string& message )
 			{
-			    get()->error( message );
+			    this->get()->error( message );
 			}
 			inline typename pimpl::streamer error()
 			{
-				return get()->error();
+				return this->get()->error();
 			}
 			inline void debug( const std::string& message )
 			{
-			    get()->debug( message );
+			    this->get()->debug( message );
 			}
 			inline typename pimpl::streamer debug()
 			{
-				return get()->debug();
+				return this->get()->debug();
 			}
             inline void fatal( const std::string& message )
 			{
-			    get()->fatal( message );
+			    this->get()->fatal( message );
 			}
 			inline typename pimpl::streamer fatal()
 			{
-				return get()->fatal();
+				return this->get()->fatal();
 			}
-
 			inline void flush()
 			{
-			    get()->flush();
+			    this->get()->flush();
 			}
 
 		};

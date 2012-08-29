@@ -13,7 +13,7 @@ namespace system_utilities
 			class allocator = std::allocator< task > >
 		class task_processor : protected virtual boost::noncopyable
 		{
-			allocator& allocator_;
+			allocator allocator_;
 			boost::thread_group threads_;
 			task_queue task_queue_;
 			bool stopping_;
@@ -27,10 +27,10 @@ namespace system_utilities
 			explicit task_processor( const task_processor& );
 			task_processor& operator=( const task_processor& );
 		public:
-			explicit task_processor( const size_t thread_amount, bool process_on_stop = false, allocator& allocator_object = allocator() )
-				: stopping_( false )
+			explicit task_processor( const size_t thread_amount, bool process_on_stop = false, allocator allocator_object = allocator() )
+				: allocator_( allocator_object )
+                , stopping_( false )
 				, process_on_stop_( process_on_stop )
-				, allocator_( allocator_object )
 				, working_threads_( 0 )
 			{
 				for( size_t i = 0 ; i < thread_amount ; ++i )

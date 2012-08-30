@@ -29,8 +29,8 @@ namespace system_utilities
 			SERVICE_STATUS status_;
 
 		public:
-			windows_service( const std::string& service_name, const int argc, char* const argv[] );
-			windows_service( const std::string& service_name, const std::string& display_name, const bool auto_start, const int argc, char* const argv[] );
+			explicit windows_service( const std::string& service_name, const int argc, char* const argv[] );
+			explicit windows_service( const std::string& service_name, const std::string& display_name, const bool auto_start, const int argc, char* const argv[] );
 			void process();
 
 		private:

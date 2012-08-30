@@ -228,7 +228,7 @@ namespace system_utilities
 				return result;
 			}
 			template< class T, class P1, class P2 >
-			boost::shared_ptr< file_logger< T > > create_log( const std::string& file_name, const P2& p2 )
+			boost::shared_ptr< file_logger< T > > create_log( const std::string& file_name, const P1& p1, const P2& p2 )
 			{
 				typedef boost::shared_ptr< file_logger< T > > result_type;
 				result_type result( new file_logger< T >( logs_path() + file_name, p1, p2 ) );

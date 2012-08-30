@@ -11,4 +11,5 @@ include( environment.cmake required )
 #	modules( file_logger system_processor )
 #endif(WIN32)
 
-modules( time_tracker timer logger ts_logger ts_queue property_reader task_processor queue_logger file_logger )
+modules( time_tracker timer logger ts_logger ts_queue property_reader task_processor queue_logger file_logger system_processor )
+

@@ -55,8 +55,11 @@ namespace system_utilities
 					{
 						config_full_path = binary_path + config_path;
 						if (!boost::filesystem::exists( config_full_path ) )
-							throw std::logic_error( "config file cannot be found: " + config_path );
+							throw std::logic_error( "config file cannot be found: " + config_full_path );
 					}
+                    
+                    if (boost::filesystem::is_directory( config_full_path ))
+                        throw std::logic_error( "config file cannot be found: " + config_full_path );
 
 					properties_.reset( new property_reader( config_full_path, binary_path ) );
 					read_logs_path();
@@ -110,7 +113,7 @@ namespace system_utilities
 				{
 					if ( !properties_ || !engine_logger_ )
 						return;
-					if ( properties_->get_value< bool >( "System.stop_by_ctrl_c", false ) )
+					if ( properties_->get_value( "System.stop_by_ctrl_c", false ) )
 					{
 						engine_logger_->note( "System.stop_by_ctrl_c is set to yes" );
 						add_exit_handlers();

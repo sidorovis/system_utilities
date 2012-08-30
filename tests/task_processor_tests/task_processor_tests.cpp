@@ -73,7 +73,7 @@ namespace system_utilities
 				explicit my_allocator( size_t counter_size )
 					: index_( 0 )
 				{
-					for( int i = 0 ; i < counter_size ; ++i )
+					for( size_t i = 0 ; i < counter_size ; ++i )
 					{
 						counters_.push_back( new counter() );
 						tasks_.push_back( new task( *(counters_[ i ]) ) );
@@ -118,10 +118,10 @@ namespace system_utilities
 			{
 				task_processor< details::task > ts( 4 );
 				details::counter c;
-				BOOST_CHECK_EQUAL( c.count(), 0 );
+				BOOST_CHECK_EQUAL( c.count(), 0U );
 				ts.add_task( new details::task( c ) );
 				boost::this_thread::sleep( boost::posix_time::milliseconds( 1 ) );
-				BOOST_CHECK_EQUAL( c.count(), 1 );
+				BOOST_CHECK_EQUAL( c.count(), 1U );
 			}
 			void task_processor_add_task_performace_tests()
 			{
@@ -131,13 +131,13 @@ namespace system_utilities
 				static const size_t tasks_size = 2000000;
 				task_processor< details::task > ts( thread_size, true );
 				details::counter counters[ counter_size ];
-				for( int i = 0 ; i < counter_size ; ++i )
-					BOOST_CHECK_EQUAL( counters[ i ].count(), 0 );
-				for( int i = 0 ; i < tasks_size ; ++i )
+				for( size_t i = 0 ; i < counter_size ; ++i )
+					BOOST_CHECK_EQUAL( counters[ i ].count(), 0U );
+				for( size_t i = 0 ; i < tasks_size ; ++i )
 					ts.add_task( new details::task( counters[ rand() % counter_size ] ) );
 				ts.stop();
 				size_t count_summ = 0;
-				for( int i = 0 ; i < counter_size ; ++i )
+				for( size_t i = 0 ; i < counter_size ; ++i )
 				{
 					count_summ += counters[ i ].count();
 				}
@@ -152,7 +152,7 @@ namespace system_utilities
 				BOOST_CHECK_EQUAL( tp.size() > 0, true );
 				tp.add_task( new details::task( c ) );
 				BOOST_CHECK_NO_THROW( tp.wait() );
-				BOOST_CHECK_EQUAL( tp.size(), 0 );
+				BOOST_CHECK_EQUAL( tp.size(), 0U );
 			}
 			void task_processor_own_allocator_performance_tests()
 			{

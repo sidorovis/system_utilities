@@ -49,7 +49,7 @@ namespace system_utilities
 							boost::mutex::scoped_lock lock( m_ );
 							c_.wait( lock );
 						}
-						BOOST_CHECK_EQUAL( call_count_, 1 );
+						BOOST_CHECK_EQUAL( call_count_, 1.0 );
 					}
 					void method()
 					{

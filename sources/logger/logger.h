@@ -39,8 +39,9 @@ namespace system_utilities
 			template< bool turn_on = true, bool flush_stream = true, bool print_prefix = true >
 			class logger_streamer
 			{
-				typedef logger< turn_on, flush_stream, print_prefix > defined_logger;
-				friend class defined_logger;
+				typedef system_utilities::common::logger< turn_on, flush_stream, print_prefix > defined_logger;
+				friend class system_utilities::common::logger< turn_on, flush_stream, print_prefix >;
+                
 				boost::shared_ptr< std::stringstream > stream_;
 				const message_level::value message_level_ ;
 				defined_logger& defined_logger_;
@@ -88,7 +89,7 @@ namespace system_utilities
 			static const bool print_prefix_value = print_prefix;
 		protected:
 			typedef details::logger_streamer< turn_on, flush_stream, print_prefix > streamer;
-			friend class streamer;
+			friend class details::logger_streamer< turn_on, flush_stream, print_prefix >;
 
 			static std::string message_levels[ 5 ];
 			static void init_message_levels()
@@ -171,67 +172,12 @@ namespace system_utilities
 				return streamer( *this, details::message_level::fatal );
 			}
 		protected:
-			virtual void write( const details::message_level::value value , const std::string& message )
-			{
-				using namespace boost::posix_time;
-				const std::string current_time = to_simple_string( microsec_clock::universal_time() );
-				static const char open_quote = '[';
-				stream_ << open_quote << current_time << message_level << message << "\n";
-				flush();
-			}
+			virtual void write( const details::message_level::value value , const std::string& message );
 		};
 		//
-		template<>
-		void logger< false >::write( const details::message_level::value value , const std::string& message )
-		{
-		}
-		template<>
-		void logger< false, false >::write( const details::message_level::value value , const std::string& message )
-		{
-		}
-		template<>
-		void logger< false, true, false >::write( const details::message_level::value value, const std::string& message )
-		{
-		}
-		template<>
-		void logger< false, false, false >::write( const details::message_level::value value, const std::string& message )
-		{
-		}
+        template< bool turn_on, bool flush_stream, bool print_prefix >
+        std::string logger< turn_on, flush_stream, print_prefix >::message_levels[ 5 ];
 
-		template<>
-		void logger< true, false, false >::write( const details::message_level::value value, const std::string& message )
-		{
-			stream_ << message << "\n";
-		}
-
-		template<>
-		void logger< true, true, false >::write( const details::message_level::value value, const std::string& message )
-		{
-			stream_ << message << "\n";
-			flush();
-		}
-
-		template<>
-		void logger< true, false, true >::write( const details::message_level::value value, const std::string& message )
-		{
-			using namespace boost::posix_time;
-			const std::string current_time = to_simple_string( microsec_clock::universal_time() );
-			static const char open_quote = '[';
-			stream_ << open_quote << current_time << message_levels[ value ] << message << "\n";
-		}
-
-		template<>
-		void logger< true, true, true >::write( const details::message_level::value value, const std::string& message )
-		{
-			using namespace boost::posix_time;
-			const std::string current_time = to_simple_string( microsec_clock::universal_time() );
-			static const char open_quote = '[';
-			stream_ << open_quote << current_time << message_levels[ value ] << message << "\n";
-			flush();
-		}
-		//
-		template< bool turn_on, bool flush_stream, bool print_prefix >
-		std::string logger< turn_on, flush_stream, print_prefix >::message_levels[ 5 ];
 	};
 };
 

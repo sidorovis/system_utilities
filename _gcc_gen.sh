@@ -1,12 +1,5 @@
 
-export SOLUTION_NAME=pseaker
-
-#set BOOST_ROOT=d:\usr\boost_1_47_0
-#set RE_UTILS_ROOT=d:\usr\re-cpp-utils
-#set SYSTEM_UTILITIES_ROOT=d:\usr\system_utilities
-#set XERCESC_ROOT=d:\usr\xercesc\xerces-c_2_8_0-x86_64-windows-vc_8_0
-
-#set PATH=%PATH%;%QT_ROOT%\bin
+export SOLUTION_NAME=system_utilities
 
 export BUILD_TYPE=Debug
 if [ "$1" == 'Release' ];
@@ -14,7 +7,7 @@ then
 	export BUILD_TYPE=Release
 fi
 
-export BUILD_FOLDER=_build_$BUILD_TYPE
+export BUILD_FOLDER=_build_"$BUILD_TYPE"_32
 
 if [ ! -d $BUILD_FOLDER ];
 then

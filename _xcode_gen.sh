@@ -1,5 +1,5 @@
 
-export SOLUTION_NAME=pseaker
+export SOLUTION_NAME=system_utilities
 
 #set BOOST_ROOT=d:\usr\boost_1_47_0
 #set RE_UTILS_ROOT=d:\usr\re-cpp-utils

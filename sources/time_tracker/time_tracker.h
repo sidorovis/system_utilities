@@ -9,6 +9,10 @@ namespace system_utilities
 {
 	namespace common
 	{
+		// time_tracker class count time until it was created or reseted.
+		// could be used for performance tests, for processing time calculating
+		// not a virtual destructor class
+
 		class time_tracker
 		{
 			mutable boost::mutex protect_start_;

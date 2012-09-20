@@ -12,6 +12,12 @@ namespace system_utilities
 	namespace common
 	{
 
+		// timer is a class that call user-selected method many times with user-selected pause between calls
+		// timer does not process exceptions, but catch them into process method
+		// if user-selected method will throw exception, timer will never call this method again
+		// you can find examples of this method use into timer.cpp
+		// timer classes does not have virtual destructor, please be carefull when inherit from it
+
 		class abstract_timer
 		{
 		public:

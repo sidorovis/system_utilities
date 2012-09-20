@@ -9,7 +9,40 @@ namespace system_utilities
 {
 	namespace common
 	{
-		class windows_service : boost::noncopyable
+
+		// windows service class created to gave possibility easy work with windows services
+		// it compiles only under windows 
+		// you should inherit from this class and create start_thread() and stop_thread() methods
+
+		// usage example:
+		// class service: public system_utilities::common::windows_service
+		// {
+		//		boost::thread thread_;
+		//		system_processor::sp sp_;
+		//	public:
+		//		explicit service( const std::string& service_name, const int argc, char* const argv[], system_processor::sp sp_ptr )
+		//		 : windows_service(service_name, service_name, true, argc, argv)
+		//		 , sp_ ( sp_ptr )
+		//		{
+		//		}
+		//	private:
+		//		virtual void start_thread() 
+		//		{
+		//			thread_ = boost::thread( &calc_service::thread_func, this );
+		//		}
+		//		virtual void stop_thread() 
+		//		{
+		//			sp_->stop("Stop application");
+		//		}
+		//		void thread_func()
+		//		{
+		//			sp_->wait_for_stop();
+		//			system_utilities::common::service_manager::stop( service_name() );
+		//		}
+		// };
+		//
+
+		class windows_service : virtual public boost::noncopyable
 		{
 			enum 
 			{
@@ -32,6 +65,7 @@ namespace system_utilities
 			explicit windows_service( const std::string& service_name, const int argc, char* const argv[] );
 			explicit windows_service( const std::string& service_name, const std::string& display_name, const bool auto_start, const int argc, char* const argv[] );
 			void process();
+			virtual ~windows_service();
 
 		private:
 			void init_( const int argc, char* const argv[], const bool install_ex );

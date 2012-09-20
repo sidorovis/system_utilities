@@ -9,6 +9,9 @@ namespace system_utilities
 {
 	namespace common
 	{
+		// service manager class created to gave possibility easy work with windows services
+		// it compiles only under windows 
+
 		class service_manager : boost::noncopyable
 		{
 		public:

@@ -20,6 +20,9 @@ namespace system_utilities
 		{
 			init_(argc, argv, true);
 		}
+		windows_service::~windows_service()
+		{
+		}
 
 		void windows_service::process()
 		{

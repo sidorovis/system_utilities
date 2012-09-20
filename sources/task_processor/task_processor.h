@@ -7,6 +7,21 @@ namespace system_utilities
 {
 	namespace common
 	{
+
+		// task processor class was created in "fast-to-release" implementation.
+		// please be carefull with next: task_processor does not have virtual destructor - please be sure that you don't delete child of task_processor class by pointer.
+		// please create you task with next assumption: operator() of task class should not produce any exception. Exception that going out of task will terminate the application.
+
+		// task class example: 
+		// class task_example
+		// {
+		//		public:
+		//		void operator()()
+		//		{
+		//			// task actions;
+		//		}
+		// };
+
 		template< 
 			class task, 
 			class task_queue = ts_queue< task >, 
@@ -27,6 +42,9 @@ namespace system_utilities
 			explicit task_processor( const task_processor& );
 			task_processor& operator=( const task_processor& );
 		public:
+			// constructor
+			// process_on_stop bool parameter: wait until all tasks will be processed by processing threads
+
 			explicit task_processor( const size_t thread_amount, bool process_on_stop = false, allocator allocator_object = allocator() )
 				: allocator_( allocator_object )
                 , stopping_( false )
@@ -36,6 +54,7 @@ namespace system_utilities
 				for( size_t i = 0 ; i < thread_amount ; ++i )
 					threads_.create_thread( boost::bind( &task_processor::processing, this ) );
 			}
+			// !not a virtual destructor
 			~task_processor()
 			{
 				stop();

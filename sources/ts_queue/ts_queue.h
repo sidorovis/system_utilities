@@ -8,6 +8,12 @@
 
 namespace system_utilities
 {
+	// ts_queue: thread safe queue
+	// this queue emulate default queue with thread safe protection
+	// could be used into nultithread application
+	// on 4 PC System demonstrate 2*10^6 push-pop iterations by 10-20 threads per second
+	// non virtual destructor, please inherit only if you know what are you doing
+
     namespace common
     {
 		template< 
@@ -46,11 +52,14 @@ namespace system_utilities
 				, stopping_( false )
 			{
 			}
+			// restart method: stop queue from processing, clead queue (with deleting not processed elements by delete)
             void restart()
             {
                 stop_processing();
                 stopping_ = false;
             }
+			// stop method: stop queue, notify wait() and ts_pop() methods that wait for messages or result of processing
+			// this method is thread safe
 			void stop()
 			{
 				stopping_ = true;
@@ -58,6 +67,8 @@ namespace system_utilities
 				push_.notify_all();
                 wait_.notify_all();
 			}
+			// stop_processing method: stop processing method stop queue, notify wait() and ts_pop() methods and flush not poped messages with delete.
+			// this method is thread safe
 			void stop_processing()
 			{
 				stopping_ = true;
@@ -70,10 +81,15 @@ namespace system_utilities
 				push_.notify_all();
                 wait_.notify_all();
 			}
+			// non virtual destructor
+			// this method is thread safe
 			~ts_queue()
 			{
 				stop_processing();
 			}
+			// wait method: wait while user call stop(), stop_processing(), ~destructor() methods OR all messages will be poped out queue 
+			// if stop(), stop_processing() method was called before - returns immediatly
+			// this method is thread safe
             void wait()
             {
 				if (stopping_)
@@ -84,6 +100,11 @@ namespace system_utilities
                 while (!queue_.empty() && !stopping_)
                     wait_.wait( lock );
             }
+			// push() method: push message into queue
+			// if stop(), stop_processing() method was called before - returns immediatly
+			// returns true - if message was added to queue
+			// returns false - if message was not added to queue, check this parameter it could be reason of memory leak
+			// this method is thread safe
 			bool push(value_type val)
 			{
 				if (stopping_)
@@ -95,7 +116,12 @@ namespace system_utilities
 				push_.notify_one();
 				return true;
 			}
-			value_type ts_pop()
+			// pop() message returns pointer to message that was in queue
+			// returns pointer to message or NULL
+			// if queue is empty - returns NULL
+			// it does not wait for push - just return NULL if there is no messages into queue
+			// this method is thread safe
+			value_type pop()
 			{
 				if (queue_.empty())
 					return NULL;
@@ -108,7 +134,12 @@ namespace system_utilities
 				}
 				return result;
 			}
-			value_type pop()
+			// ts_pop() message returns pointer to message that was in queue
+			// returns pointer to message or NULL
+			// if queue is empty - returns NULL
+			// it does not wait for push - just return NULL if there is no messages into queue
+			// this method is not thread safe!
+			value_type ts_pop()
 			{
 				if (stopping_)
 					return NULL;
@@ -123,6 +154,12 @@ namespace system_utilities
                     wait_.notify_all();
 				return result;
 			}
+			// wait_pop() message returns pointer to message that was in queue
+			// returns pointer to message or NULL
+			// if queue is empty, wait until stop(), stop_processing(), push() will be called.
+			// if queue is stopping - return NULL
+			// this method wait for push
+			// this method is not thread safe!
 			value_type wait_pop()
 			{
 				if (stopping_)
@@ -142,6 +179,7 @@ namespace system_utilities
                     wait_.notify_all();
 				return result;
 			}
+			// size() method: returns 0 if queue is going to stop
 			const size_t size() const 
 			{
 				if (stopping_)
@@ -149,11 +187,15 @@ namespace system_utilities
 				boost::mutex::scoped_lock lock( queue_protector_ );
 				return queue_.size();
 			}
+			// ts_size() method: returns queue size
+			// thread safe method
 			const size_t ts_size() const
 			{
 				boost::mutex::scoped_lock lock( queue_protector_ );
 				return queue_.size();
 			}
+			// empty() method: return true if queue is going to stop
+			// returns false is queue.size() > 0
 			const bool empty() const
 			{
 				if (stopping_)

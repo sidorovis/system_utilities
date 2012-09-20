@@ -17,6 +17,9 @@ namespace system_utilities
    namespace common
     {
 
+		// ts_logger: thread safe logger
+		// see logger class to template parameters reference
+
 		template< bool turn_on = true, bool flush_stream = true, bool print_prefix = true >
 		class ts_logger : public logger< turn_on, flush_stream, print_prefix >
 		{

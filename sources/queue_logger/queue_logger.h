@@ -14,6 +14,13 @@ namespace system_utilities
 	}
     namespace common
     {
+
+		// queue logger is a logger with queue. 
+		// use this class if you need as most performance write as only possible (to write a big ammount of messages)
+		// better to set print_prefix = false
+		// better to set flush_stream = false
+		// thread safe logger
+
 		template< bool turn_on = true, bool flush_stream = true, bool print_prefix = true >
 		class queue_logger;
 

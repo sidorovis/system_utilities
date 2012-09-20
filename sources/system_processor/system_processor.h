@@ -24,6 +24,20 @@ namespace system_utilities
     {
 		namespace system_processor
 		{
+
+			// system processor is a namespace with a bunch of methods that helps to create multi-thread back-end servers
+			// usage example:
+			// creating system_processor singleton
+			//	system_processor::sp sp = system_processor::init( argc, argv, "configuration.ini" );
+			//  run_calculating_threads_or_system();
+			//  wait until some thread will call stop() method
+			//	sp->wait_for_stop();
+			// You can use into your configuration file next strings:
+			// * System.log.path = logs (will save all logs to 'logs' folder )
+			// * System.log.name = engine.log - will create engine log file, with settings (system log file)
+			// * System.stop_by_ctrl_c = true - this settings says - that ctrl+c - should call stop() method and stop application
+			// * include new_file.ini - will include new_file.ini as a part of config
+		
 			namespace details
 			{
 				class sp_impl;

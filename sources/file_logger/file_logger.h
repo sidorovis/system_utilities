@@ -18,6 +18,8 @@ namespace system_utilities
 	}
     namespace common
 	{
+		// default file_logger template class - created to write log into files
+		// see logger module - to understand template parameters
 
 		template< class inside_logger = logger< true, true, true > >
 		class file_logger;

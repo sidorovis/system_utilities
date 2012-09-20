@@ -19,6 +19,15 @@ namespace system_utilities
     namespace common
     {
 
+		// template logger
+		// turn_on - turn logger on (simply to turn logger of on compilation phaze)
+		// flush_stream - if true will flush stream after each write. log became more safe, but performance killer
+		// print prefix - if true will print prefix strings (for logger it UTC-Time, message_type)
+		//
+		// you can use logger like: logger_.note() << "This is " << 1 << " example";
+		// please see queue_logger it could gave better performance on write method (if you writing thread is performance-dependent)
+		// not thread safe logger
+
 		template< bool turn_on = true, bool flush_stream = true, bool print_prefix = true >
 		class logger;
 

@@ -19,6 +19,10 @@ namespace system_utilities
 	}
     namespace common
     {
+
+		// property reader is a class that gaves you possibility to read simple configuration files
+		// tests for property reader to see usage examples
+
         class property_reader
         {
 			friend class system_utilities::tests_::common::property_reader_test_helper;

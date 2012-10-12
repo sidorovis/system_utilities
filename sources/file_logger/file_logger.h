@@ -59,38 +59,38 @@ namespace system_utilities
 			typedef details::file_logger_pimpl< inside_logger > pimpl;
 			std::ofstream file_stream_;
 
-			void open_stream( const std::string& file_path )
+			void open_stream( const std::string& file_path, std::ios::open_mode open_mode = std::ios::app  )
 			{
 				using namespace boost::filesystem;
 				path p( file_path );
 				if (exists( p ))
 					throw std::logic_error( "file: " + file_path + " exists, we can't use it for log file" );
-				file_stream_.open( file_path.c_str(), std::ios::out );
+				file_stream_.open( file_path.c_str(), open_mode );
 				if (!file_stream_.is_open())
 					throw std::logic_error( "file: " + file_path + " could not be opened." );
 			}
 		public:
-			explicit file_logger( const std::string& file_path )
+			explicit file_logger( const std::string& file_path, std::ios::open_mode open_mode = std::ios::app )
 			{
 				using namespace boost::filesystem;
 				path p( file_path );
 				/// TODO check on existance
-				file_stream_.open( file_path.c_str(), std::ios::out );
+				file_stream_.open( file_path.c_str(), open_mode );
 				this->reset( new pimpl( file_stream_ ) );
 			}
 			template< class P1 >
-			explicit file_logger( const std::string& file_path, P1& p1 )
+			explicit file_logger( const std::string& file_path, P1& p1, std::ios::open_mode open_mode = std::ios::app )
 			{
-				open_stream( file_path );
+				open_stream( file_path, open_mode );
 				this->reset( new pimpl( file_stream_, p1 ) );
 			}
 			template< class P1, class P2 >
-			explicit file_logger( const std::string& file_path, P1& p1, P2& p2 )
+			explicit file_logger( const std::string& file_path, P1& p1, P2& p2, std::ios::open_mode open_mode = std::ios::app )
 			{
 				using namespace boost::filesystem;
 				path p( file_path );
 				/// TODO check on existance
-				file_stream_.open( file_path.c_str(), std::ios::out );
+				file_stream_.open( file_path.c_str(), open_mode );
 				this->reset( new pimpl( file_stream_, p1, p2 ) );
 			}
 			~file_logger()

@@ -30,8 +30,6 @@ namespace system_utilities
 			{
 				using namespace boost::filesystem;
 				path p( file_path );
-				if (exists( p ))
-					throw std::logic_error( "file: " + file_path + " exists, we can't use it for log file" );
 				file_stream_.open( file_path.c_str(), open_mode );
 				if (!file_stream_.is_open())
 					throw std::logic_error( "file: " + file_path + " could not be opened." );

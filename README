@@ -23,6 +23,11 @@ Description: logger module create for creating logs to different streams (std::o
  * queue_logger module, created by Ivan Sidarau
 Description: queue_logger module combine task_processor and logger modules add possibility to use logger into thread safe environment.
 
+ * limited_file_logger module, created by Ivan Sidarau
+Descripption: limited_file_logger module limit file logger by size, so if you want to limit your logs - please use this logger.
+Example: you set limit to log file (in megabytes), when that limit will be reached - limit_file_logger will close filestream, rename file to <file_name>.old (delete such file if exists), open new file stream - and log all next actions.
+So maximum size of this log on your hdd will be <limit_size> * 2. Please be sure that you have enought free space on your storage.
+
  * file_logger module, created by Ivan Sidarau
 Description: file_logger module create template class that can log information using simple logger, and queue_logger.
 

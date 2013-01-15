@@ -99,8 +99,9 @@ namespace system_utilities
 		protected:
 			typedef details::logger_streamer< turn_on, flush_stream, print_prefix > streamer;
 			friend class details::logger_streamer< turn_on, flush_stream, print_prefix >;
-
+		public:
 			static std::string message_levels[ 5 ];
+		protected:
 			static void init_message_levels()
 			{
 				if ( message_levels[0] == "" )

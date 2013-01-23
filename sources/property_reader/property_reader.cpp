@@ -29,13 +29,11 @@ property_reader::property_reader( std::istream& stream, const std::string& defau
 void property_reader::parse_istream( std::istream& stream )
 {
 	size_t line_counter = 0;
-	static const size_t buffer_size = 2048;
-	char buffer[ buffer_size ];
 	while (!stream.eof())
 	{
 		line_counter ++;
-		stream.getline( buffer, buffer_size );
-		std::string line( buffer, std::min( buffer_size, strlen( buffer ) ) );
+		std::string line;
+		std::getline( stream, line );
 		delete_comment( line );
 		if (line.length() == 0 || line[0] == '\0')
 			continue;

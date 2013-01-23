@@ -126,14 +126,13 @@ namespace system_utilities
 				}
 				BOOST_CHECK_EQUAL( exists( "log_test_3.out" ), true );
 				{
-					char buffer[256];
 					std::ifstream str( "log_test_3.out", std::ios::in );
 					size_t line_count = 0;
 					boost::regex string_regexp( "\\[\\d{4}\\-\\w{3}\\-\\d{2} \\d{2}\\:\\d{2}\\:\\d{2}\\.\\d{6}\\:[A-Z ]{7}\\]\\: 1234567890123456789012345678901" );
 					while ( !str.eof() )
-					{
-						str.getline( buffer, 256 );
-						const std::string line( buffer );
+					{						
+						std::string line;
+						std::getline( str, line );
 						if ( line.empty() )
 							continue;
 						line_count++;

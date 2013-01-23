@@ -1,0 +1,1 @@
+bjam toolset=msvc address-model=32 link=static stage --with-filesystem --with-date_time --with-thread --with-test --with-regex --with-system  --with-program_options --stagedir=./stage_32

@@ -4,6 +4,7 @@ find_package( Boost 1.41 ${SEARCH_PARAMETERS} COMPONENTS
 	thread
 	date_time
 	system
+	chrono
 	unit_test_framework
 )
 

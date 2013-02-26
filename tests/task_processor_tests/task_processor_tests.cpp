@@ -142,7 +142,8 @@ namespace system_utilities
 					count_summ += counters[ i ].count();
 				}
 				BOOST_CHECK_EQUAL( count_summ, tasks_size );
-				BOOST_CHECK_EQUAL( tt.milliseconds() < 2200, true );
+				//std::cout << tt.milliseconds() << std::endl;
+				BOOST_CHECK_EQUAL( tt.milliseconds() < 5300, true );
 			}
 			void task_processor_wait_tests()
 			{
@@ -169,8 +170,8 @@ namespace system_utilities
 				tp.stop();
 
 				BOOST_CHECK_EQUAL( allocator.count(), tasks_size );
-				std::cout << tt.milliseconds() << std::endl;
-				BOOST_CHECK_EQUAL( tt.milliseconds() < 1450, true );
+				//std::cout << tt.milliseconds() << std::endl;
+				BOOST_CHECK_EQUAL( tt.milliseconds() < 3700, true );
 			}
 		}
 	}

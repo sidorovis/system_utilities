@@ -124,9 +124,9 @@ set( Boost_USE_STATIC_LIBS ON )
 set( Boost_USE_MULTITHREADED ON )
 set( BOOST_LIBRARYDIR "$ENV{BOOST_ROOT}/stage_${CMAKE_ADDRESS_MODEL}/lib" )
 
-add_definitions( -DBOOST_FILESYSTEM_VERSION=2 )
+add_definitions( -DBOOST_FILESYSTEM_VERSION=3 )
 if (${VERBOSE})
-	message( STATUS " -T: Using Boost filesystem version: 2" )
+	message( STATUS " -T: Using Boost filesystem version: 3" )
 endif(${VERBOSE})
 
 if (NOT ${VERBOSE})

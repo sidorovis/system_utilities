@@ -102,7 +102,7 @@ namespace system_utilities
 			boost::xtime sleep_interval_()
 			{
 				boost::xtime time;
-				boost::xtime_get( &time, boost::TIME_UTC );
+				boost::xtime_get( &time, boost::TIME_UTC_ );
 				if (sleep_microseconds_ >= 1000)
 				{
 					size_t sec_inc = sleep_microseconds_ / 1000;

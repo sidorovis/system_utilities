@@ -6,6 +6,7 @@ find_package( Boost 1.41 ${SEARCH_PARAMETERS} COMPONENTS
 	date_time
 	system
 	program_options
+	chrono
 	unit_test_framework
 )
 compile_project( ${tests_name} "*.cpp" "*.h" BINARY tests ${module_name} Boost task_processor file_logger logger queue_logger ts_queue property_reader time_tracker )

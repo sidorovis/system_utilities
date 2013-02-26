@@ -3,6 +3,7 @@ find_package( Boost 1.41 ${SEARCH_PARAMETERS} COMPONENTS
 	thread
 	date_time
 	system
+	chrono
 	unit_test_framework
 )
 compile_project( windows_service_tests_helper "*.cpp" "*.h" BINARY tests windows_service Boost )

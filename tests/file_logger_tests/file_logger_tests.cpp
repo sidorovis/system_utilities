@@ -18,6 +18,8 @@ namespace system_utilities
 			{
 				static const std::string tests_directory = SOURCE_DIR "/tests/data/file_logger/";
 				using namespace boost::filesystem;
+                if (!exists( tests_directory ) )
+                    create_directory( tests_directory );
 				current_path( tests_directory );
 				{
 					file_logger<> simple_logger( "log_test_1.out" );

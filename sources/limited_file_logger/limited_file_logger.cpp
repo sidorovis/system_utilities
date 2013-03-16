@@ -11,6 +11,7 @@ namespace system_utilities
 			{
 				return 0ul;
 			}
+            template<>
 			size_t message_size_counter< false, false >::message_size( const details::message_level::value value, const std::string& message )
 			{
 				return 0ul;

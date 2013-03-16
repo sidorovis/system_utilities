@@ -26,11 +26,9 @@ namespace system_utilities
 		{
 			std::ofstream file_stream_;
 		protected:
-			void open_stream( const std::string& file_path, std::ios::open_mode open_mode = std::ios::app  )
+			void open_stream( const std::string& file_path, std::ios_base::openmode mode = std::ios_base::app )
 			{
-				using namespace boost::filesystem;
-				path p( file_path );
-				file_stream_.open( file_path.c_str(), open_mode );
+				file_stream_.open( file_path.c_str(), mode );
 				if (!file_stream_.is_open())
 					throw std::logic_error( "file: " + file_path + " could not be opened." );
 			}
@@ -39,22 +37,22 @@ namespace system_utilities
 				file_stream_.close();
 			}
 		public:
-			explicit file_logger( const std::string& file_path, std::ios::open_mode open_mode = std::ios::app )
+			explicit file_logger( const std::string& file_path, std::ios_base::openmode mode = std::ios_base::app )
 				: inside_logger( file_stream_ )
 			{
-				open_stream( file_path, open_mode );
+				open_stream( file_path, mode );
 			}
 			template< class P1 >
-			explicit file_logger( const std::string& file_path, P1& p1, std::ios::open_mode open_mode = std::ios::app )
+			explicit file_logger( const std::string& file_path, P1& p1, std::ios_base::openmode mode = std::ios_base::app )
 				: inside_logger( file_stream_, p1 )
 			{
-				open_stream( file_path, open_mode );
+				open_stream( file_path, mode );
 			}
 			template< class P1, class P2 >
-			explicit file_logger( const std::string& file_path, P1& p1, P2& p2, std::ios::open_mode open_mode = std::ios::app )
+			explicit file_logger( const std::string& file_path, P1& p1, P2& p2, std::ios_base::openmode mode = std::ios_base::app )
 				: inside_logger( file_stream_, p1, p2 )
 			{
-				open_stream( file_path, open_mode );
+				open_stream( file_path, mode );
 			}
 			~file_logger()
 			{

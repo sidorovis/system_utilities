@@ -107,7 +107,7 @@ namespace system_utilities
 					std::string system_logger_name = "_engine.log";
 					if ( properties_.get() )
 						system_logger_name = properties_->get_value( "System.log.name", system_logger_name );
-					engine_logger_.reset( new file_logger<>( logs_path_ + system_logger_name ) );
+					engine_logger_.reset( new file_logger<>( logs_path_ + system_logger_name, std::ios_base::app ) );
 				}
 				void sp_impl::load_predefined_logs_settings()
 				{

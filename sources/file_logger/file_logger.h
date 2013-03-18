@@ -26,7 +26,7 @@ namespace system_utilities
 		{
 			std::ofstream file_stream_;
 		protected:
-			void open_stream( const std::string& file_path, std::ios_base::openmode mode = std::ios_base::app )
+			void open_stream( const std::string& file_path, std::ios_base::openmode mode )
 			{
 				file_stream_.open( file_path.c_str(), mode );
 				if (!file_stream_.is_open())
@@ -43,13 +43,13 @@ namespace system_utilities
 				open_stream( file_path, mode );
 			}
 			template< class P1 >
-			explicit file_logger( const std::string& file_path, P1& p1, std::ios_base::openmode mode = std::ios_base::app )
+			explicit file_logger( const std::string& file_path, P1& p1, std::ios_base::openmode mode )
 				: inside_logger( file_stream_, p1 )
 			{
 				open_stream( file_path, mode );
 			}
 			template< class P1, class P2 >
-			explicit file_logger( const std::string& file_path, P1& p1, P2& p2, std::ios_base::openmode mode = std::ios_base::app )
+			explicit file_logger( const std::string& file_path, P1& p1, P2& p2, std::ios_base::openmode )
 				: inside_logger( file_stream_, p1, p2 )
 			{
 				open_stream( file_path, mode );

@@ -28,7 +28,7 @@ namespace system_utilities
 				remove( "log_test_1.out" );
 				{
 					queue_logger<>::tasker tasker( 1 );
-					file_logger< queue_logger<> > simple_logger( "log_test_2.out", tasker );
+					file_logger< queue_logger<> > simple_logger( "log_test_2.out", tasker, std::ios_base::app );
 					BOOST_CHECK_EQUAL( exists( "log_test_2.out" ), true );
 				}
 				remove( "log_test_2.out" );
@@ -114,7 +114,7 @@ namespace system_utilities
 				typedef file_logger< queue_logger_type > file_logger_type;
 				{
 					queue_logger_type::tasker tasker( log_threads_size );
-					file_logger_type logger( "log_test_3.out", tasker );
+					file_logger_type logger( "log_test_3.out", tasker, std::ios_base::app );
 					boost::thread_group tg;
 					time_tracker tt;
 					for( size_t i = 0 ; i < writers ; ++i )

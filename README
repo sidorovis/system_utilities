@@ -38,3 +38,8 @@ if default config file have System.stop_by_ctrl_c = true parameter, than stop me
  * ts_logger module,  created by Ivan Sidarau.
 Description: logger<> like module with mutex synchonization on write method, could be used in several threads (if performance is a must, consider using queue_logger).
 
+ * multikey_tree module, created by Sergey Silaev, idea by Ivan Sidarau
+Description: fast thread safe map with std::string as key. created for small strings keys. works faster than std::map< std::string, VALUE > on big amount of insert/get
+
+
+

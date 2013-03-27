@@ -18,4 +18,3 @@ cd $BUILD_FOLDER
 cmake -DVERBOSE=ON -DSOLUTION_NAME=$SOLUTION_NAME -DCMAKE_BUILD_TYPE=$BUILD_TYPE -G "Unix Makefiles" ../ 
 cd ../
 
-#echo "%BUILD_FOLDER%/%SOLUTION_NAME%.sln" > _start_msvc.bat

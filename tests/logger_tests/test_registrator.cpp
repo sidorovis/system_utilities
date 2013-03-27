@@ -20,9 +20,8 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	ts1->add( BOOST_TEST_CASE( &logger_debug_tests ) );
 	ts1->add( BOOST_TEST_CASE( &logger_fatal_tests ) );
 	//
-#ifdef RUN_PERFORMANCE_TESTS
-	ts1->add( BOOST_TEST_CASE( &logger_write_performance_tests ) );
-#endif
+	if ( RUN_PERFORMANCE_TESTS )
+		ts1->add( BOOST_TEST_CASE( &logger_write_performance_tests ) );
 
 	return ts1;
 }

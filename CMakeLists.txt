@@ -10,4 +10,4 @@ elseif(UNIX)
 	modules( multikey_tree time_tracker timer logger ts_logger ts_queue property_reader task_processor queue_logger file_logger limited_file_logger system_processor )
 endif(WIN32)
 
-
+compile()

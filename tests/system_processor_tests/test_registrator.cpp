@@ -24,8 +24,9 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	ts1->add( BOOST_TEST_CASE( &system_processor_config_check_value_tests ) );
 	ts1->add( BOOST_TEST_CASE( &system_processor_create_log_tests ) );
 
-#ifdef RUN_PERFORMANCE_TESTS
-#endif
+	if ( RUN_PERFORMANCE_TESTS )
+	{
+	}
 
 	return ts1;
 }

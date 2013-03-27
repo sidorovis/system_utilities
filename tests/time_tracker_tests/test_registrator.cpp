@@ -13,9 +13,10 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	ts1->add( BOOST_TEST_CASE( &time_tracker_constructor_tests ) );
 	ts1->add( BOOST_TEST_CASE( &time_tracker_milliseconds_tests ) );
 	ts1->add( BOOST_TEST_CASE( &time_tracker_seconds_tests ) );
-#ifdef RUN_PERFORMANCE_TESTS
-//	ts1->add( BOOST_TEST_CASE( &thread_slice_controller_perfomance_tests ) );
-#endif
+
+	if ( RUN_PERFORMANCE_TESTS )
+	{
+	}
 
 	return ts1;
 }

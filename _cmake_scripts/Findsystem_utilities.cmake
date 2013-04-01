@@ -39,7 +39,7 @@ if (system_utilities_DEBUG)
 	message(STATUS "Binary search folder: " ${binary_search_folder} )
 endif(system_utilities_DEBUG)
 
-set(components multikey_tree timer time_tracker ts_queue property_reader task_processor logger ts_logger queue_logger file_logger limited_file_logger system_processor windows_service)
+set(components multikey_tree timer time_tracker ts_queue property_reader task_processor logger ts_logger queue_logger file_logger limited_file_logger system_processor windows_service shared_name_storage)
 
 foreach(component ${system_utilities_FIND_COMPONENTS})
 

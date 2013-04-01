@@ -4,10 +4,10 @@ set( CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE} CACHE STRING "Configurations"
 project( ${SOLUTION_NAME} )
 include( environment.cmake required )
 
+modules( multikey_tree time_tracker ts_queue property_reader task_processor logger ts_logger queue_logger file_logger limited_file_logger timer system_processor shared_name_storage )
+
 if(WIN32)
-	modules( multikey_tree time_tracker ts_queue property_reader task_processor logger ts_logger queue_logger file_logger limited_file_logger timer system_processor windows_service )
-elseif(UNIX)
-	modules( multikey_tree time_tracker timer logger ts_logger ts_queue property_reader task_processor queue_logger file_logger limited_file_logger system_processor )
+	modules( windows_service )
 endif(WIN32)
 
 compile()

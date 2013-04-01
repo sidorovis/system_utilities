@@ -79,6 +79,10 @@ namespace system_utilities
 			}
 
 
+			const value_type* get_for_read( const std::string& key ) const
+			{
+				return get_for_read( key.begin(), key.end() );
+			}
 			const value_type* get_for_read( key_const_iterator stock_name_hash_suffix_iterator_begin, key_const_iterator stock_name_hash_suffix_iterator_end ) const
 			{
 				if ( stock_name_hash_suffix_iterator_begin == stock_name_hash_suffix_iterator_end )

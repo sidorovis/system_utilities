@@ -41,5 +41,6 @@ Description: logger<> like module with mutex synchonization on write method, cou
  * multikey_tree module, created by Sergey Silaev, idea by Ivan Sidarau
 Description: fast thread safe map with std::string as key. created for small strings keys. works faster than std::map< std::string, VALUE > on big amount of insert/get
 
-
+ * shared_name_storage module, created by Ivan Sidarau
+Description: store map of shared_ptr's to gave possibility to user easy to work with array of strings by index (works like indexed database by id and by string [id, string])
 

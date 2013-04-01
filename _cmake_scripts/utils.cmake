@@ -44,7 +44,7 @@ macro( compile_binaries )
 endmacro( compile_binaries )
 
 macro( modules )
-	set( ${SOLUTION_NAME}_modules ${ARGN} )
+	set( ${SOLUTION_NAME}_modules ${${SOLUTION_NAME}_modules} ${ARGN} )
 	foreach (module ${${SOLUTION_NAME}_modules})
 		set( ${module}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/sources/${module} )
 		set( ${module}_LIBRARIES ${module} )

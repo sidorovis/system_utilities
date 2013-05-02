@@ -58,6 +58,18 @@ namespace system_utilities
 				BOOST_CHECK_EQUAL( sns.check_shared( shared_name_storage::shared_string( new std::string( "" ) ) ), false );
 				BOOST_CHECK_EQUAL( sns.check_shared( shared_name_storage::shared_string( new std::string( "hello" ) ) ), false );
 			}
+			void shared_name_storage_iterator_tests()
+			{
+				shared_name_storage sns;
+				sns << "hello" << "world" << "new" << "world";
+				std::string arr[] = { "new", "hello", "world" };
+				size_t ind = 0;
+				for( shared_name_storage::const_iterator i = sns.begin() ; i != sns.end() ; ++i )
+				{
+					BOOST_CHECK_EQUAL( *i, arr[ind] );
+					++ind;
+				}
+			}
 		}
 	}
 }

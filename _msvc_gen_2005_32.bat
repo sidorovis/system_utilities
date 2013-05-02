@@ -1,5 +1,7 @@
 @echo off
 
+set SOLUTION_NAME=system_utilities
+
 set BOOST_ROOT=d:\usr\boost_1_47_0
 
 set BUILD_TYPE=Debug

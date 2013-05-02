@@ -13,6 +13,23 @@ namespace system_utilities
 {
 	namespace common
 	{
+		namespace details
+		{
+			class shared_name_storage_const_iterator
+			{
+				typedef boost::shared_ptr< std::string > shared_string;
+				typedef std::set< shared_string > shared_set;
+				mutable shared_set::const_iterator i_;
+			public:
+				explicit shared_name_storage_const_iterator( shared_set::const_iterator i );
+				~shared_name_storage_const_iterator();
+				void operator++() const;
+				const std::string& operator*() const;
+				const std::string* operator->() const;
+				const bool operator==( const shared_name_storage_const_iterator& other ) const;
+				const bool operator!=( const shared_name_storage_const_iterator& other ) const;
+			};
+		}
 		class shared_name_storage : virtual protected boost::noncopyable
 		{
 		public:
@@ -24,12 +41,17 @@ namespace system_utilities
 			typedef std::set< shared_string > shared_set;
 			shared_set shared_set_;
 		public:
+			typedef details::shared_name_storage_const_iterator const_iterator;
+		public:
 			explicit shared_name_storage();
 			~shared_name_storage();
 			const bool add_name( const std::string& name );
 			shared_name_storage& operator<<( const std::string& string );
 			shared_string get_shared( const std::string& name ) const;
 			const bool check_shared( const shared_name_storage::shared_string& shared ) const;
+			//
+			const_iterator begin() const;
+			const_iterator end() const;
 		};
 	}
 }

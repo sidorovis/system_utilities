@@ -11,6 +11,7 @@ namespace system_utilities
 			void shared_name_storage_operator_in_tests();
 			void shared_name_storage_get_shared_tests();
 			void shared_name_storage_check_shared_tests();
+			void shared_name_storage_iterator_tests();
 		}
 	}
 }

@@ -5,6 +5,37 @@ namespace system_utilities
 {
 	namespace common
 	{
+		namespace details
+		{
+			shared_name_storage_const_iterator::shared_name_storage_const_iterator( shared_set::const_iterator i )
+				: i_( i )
+			{
+			}
+			shared_name_storage_const_iterator::~shared_name_storage_const_iterator()
+			{
+			}
+			void shared_name_storage_const_iterator::operator++(  ) const
+			{
+				++(i_);
+			}
+			const std::string& shared_name_storage_const_iterator::operator*() const 
+			{
+				return *(*i_);
+			}
+			const std::string* shared_name_storage_const_iterator::operator->() const
+			{
+				return i_->get();
+			}
+			const bool shared_name_storage_const_iterator::operator==( const shared_name_storage_const_iterator& other ) const
+			{
+				return i_ == other.i_;
+			}
+			const bool shared_name_storage_const_iterator::operator!=( const shared_name_storage_const_iterator& other ) const
+			{
+				return i_ != other.i_;
+			}
+		}
+		//
 		shared_name_storage::shared_name_storage()
 		{
 		}
@@ -39,6 +70,15 @@ namespace system_utilities
 		const bool shared_name_storage::check_shared( const shared_name_storage::shared_string& shared ) const
 		{
 			return shared_set_.find( shared ) != shared_set_.end();
+		}
+		//
+		shared_name_storage::const_iterator shared_name_storage::begin() const
+		{
+			return const_iterator( shared_set_.begin() );
+		}
+		shared_name_storage::const_iterator shared_name_storage::end() const
+		{
+			return const_iterator( shared_set_.end() );
 		}
 	}
 }

@@ -18,13 +18,13 @@ namespace system_utilities
 			{
 				++(i_);
 			}
+			const shared_name_storage_const_iterator::shared_string& shared_name_storage_const_iterator::shared() const
+			{
+				return *i_;
+			}
 			const std::string& shared_name_storage_const_iterator::operator*() const 
 			{
 				return *(*i_);
-			}
-			const std::string* shared_name_storage_const_iterator::operator->() const
-			{
-				return i_->get();
 			}
 			const bool shared_name_storage_const_iterator::operator==( const shared_name_storage_const_iterator& other ) const
 			{
@@ -70,6 +70,30 @@ namespace system_utilities
 		const bool shared_name_storage::check_shared( const shared_name_storage::shared_string& shared ) const
 		{
 			return shared_set_.find( shared ) != shared_set_.end();
+		}
+		//
+		void shared_name_storage::clear()
+		{
+			shared_set_.clear();
+			str2shared_.clear();
+		}
+		const bool shared_name_storage::del_name( const std::string& name )
+		{
+			strings_shared_map::iterator i = str2shared_.find( name );
+			if ( i == str2shared_.end() )
+				throw std::invalid_argument( "no " + name + " shared string" );
+			shared_set_.erase( i->second );
+			str2shared_.erase( i );
+			return true;
+		}
+		const bool shared_name_storage::del_name( const shared_string& name )
+		{
+			shared_set::iterator i = shared_set_.find( name );
+			if ( i == shared_set_.end() )
+				throw std::invalid_argument( "no " + *name + " shared string" );
+			str2shared_.erase( *name );
+			shared_set_.erase( i );
+			return true;
 		}
 		//
 		shared_name_storage::const_iterator shared_name_storage::begin() const

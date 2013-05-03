@@ -18,6 +18,8 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	ts1->add( BOOST_TEST_CASE( &shared_name_storage_get_shared_tests ) );
 	ts1->add( BOOST_TEST_CASE( &shared_name_storage_check_shared_tests ) );
 	ts1->add( BOOST_TEST_CASE( &shared_name_storage_iterator_tests ) );
+	ts1->add( BOOST_TEST_CASE( &shared_name_storage_clear_tests ) );
+	ts1->add( BOOST_TEST_CASE( &shared_name_storage_del_name_tests ) );
 
 	return ts1;
 }

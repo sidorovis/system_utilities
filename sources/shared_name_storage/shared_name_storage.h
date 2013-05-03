@@ -24,8 +24,8 @@ namespace system_utilities
 				explicit shared_name_storage_const_iterator( shared_set::const_iterator i );
 				~shared_name_storage_const_iterator();
 				void operator++() const;
+				const shared_string& shared() const;
 				const std::string& operator*() const;
-				const std::string* operator->() const;
 				const bool operator==( const shared_name_storage_const_iterator& other ) const;
 				const bool operator!=( const shared_name_storage_const_iterator& other ) const;
 			};
@@ -48,7 +48,11 @@ namespace system_utilities
 			const bool add_name( const std::string& name );
 			shared_name_storage& operator<<( const std::string& string );
 			shared_string get_shared( const std::string& name ) const;
-			const bool check_shared( const shared_name_storage::shared_string& shared ) const;
+			const bool check_shared( const shared_string& shared ) const;
+			//
+			void clear();
+			const bool del_name( const std::string& name );
+			const bool del_name( const shared_string& name );
 			//
 			const_iterator begin() const;
 			const_iterator end() const;

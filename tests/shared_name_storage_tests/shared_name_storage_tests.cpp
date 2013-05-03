@@ -66,9 +66,41 @@ namespace system_utilities
 				size_t ind = 0;
 				for( shared_name_storage::const_iterator i = sns.begin() ; i != sns.end() ; ++i )
 				{
+					BOOST_CHECK_EQUAL( *(i.shared()), arr[ind] );
 					BOOST_CHECK_EQUAL( *i, arr[ind] );
 					++ind;
 				}
+			}
+			//
+			void shared_name_storage_clear_tests()
+			{
+				typedef shared_name_storage::shared_string shared_string;
+				shared_name_storage sns;
+				sns.clear();
+				sns.add_name( "hello" );
+				shared_string hello = sns.get_shared( "hello" );
+
+				BOOST_CHECK_EQUAL( sns.check_shared( hello ), true );
+				sns.clear();
+				BOOST_CHECK_EQUAL( sns.check_shared( hello ), false );
+			}
+			void shared_name_storage_del_name_tests()
+			{
+				typedef shared_name_storage::shared_string shared_string;
+				shared_name_storage sns;
+				sns.clear();
+				sns.add_name( "hello" );
+				shared_string hello = sns.get_shared( "hello" );
+
+				BOOST_CHECK_EQUAL( sns.check_shared( hello ), true );
+				sns.del_name( "hello" );
+				BOOST_CHECK_EQUAL( sns.check_shared( hello ), false );
+
+				sns.add_name( "hello" );
+				hello = sns.get_shared( "hello" );
+				BOOST_CHECK_EQUAL( sns.check_shared( hello ), true );
+				sns.del_name( hello );
+				BOOST_CHECK_EQUAL( sns.check_shared( hello ), false );
 			}
 		}
 	}

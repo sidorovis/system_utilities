@@ -20,18 +20,23 @@ namespace system_utilities
 		// ts_logger: thread safe logger
 		// see logger class to template parameters reference
 
-		template< bool turn_on = true, bool flush_stream = true, bool print_prefix = true >
-		class ts_logger : public logger< turn_on, flush_stream, print_prefix >
+		template< typename logger_type = logger< true, true, true > >
+		class ts_logger : public logger_type
 		{
 			friend void tests_::common::ts_logger_write_tests();
-
 
 			mutable boost::mutex protect_write_;
 
 			explicit ts_logger( const ts_logger& copy_from );
 		public:
-			explicit ts_logger( std::ostream& out )
-				: logger< turn_on, flush_stream, print_prefix >( out )
+			template< typename P1 >
+			explicit ts_logger( P1& p1 )
+				: logger_type( p1 )
+			{
+			}
+			template< typename P1, typename P2 >
+			explicit ts_logger( P1& p1, P2& p2 )
+				: logger_type( p1, p2 )
 			{
 			}
 			virtual ~ts_logger()
@@ -41,7 +46,7 @@ namespace system_utilities
 			void write( const details::message_level::value value, const std::string& message )
 			{
 				boost::mutex::scoped_lock lock( protect_write_ );
-				logger< turn_on, flush_stream, print_prefix >::write( value, message );
+				logger_type::write( value, message );
 			}
 		};
 

@@ -1,6 +1,7 @@
 #include "test_registrator.h"
 
 #include <limited_file_logger.h>
+#include <ts_logger.h>
 #include <time_tracker.h>
 
 #include <boost/regex.hpp>
@@ -15,6 +16,12 @@ namespace system_utilities
 		{
 			void limited_file_logger_constructor_tests()
 			{
+				typedef ts_logger< limited_file_logger< true, true, true > > ts_limited_file_logger;
+				{
+					ts_limited_file_logger lfl( "file_name" );
+				}
+				BOOST_CHECK_EQUAL( boost::filesystem::exists( "file_name" ), true );
+				BOOST_CHECK_NO_THROW( boost::filesystem::remove( "file_name" ) );
 				{
 					limited_file_logger< true, true, true, 1ul > lfl( "file_name" );
 				}

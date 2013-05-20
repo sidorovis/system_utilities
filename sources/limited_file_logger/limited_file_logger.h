@@ -39,14 +39,10 @@ namespace system_utilities
 			typedef file_logger< logger_type > inside_logger;
 			std::string file_path_;
 			size_t current_file_size_;
-
-			boost::mutex protect_writing_thread_;
-			size_t writing_thread_;
 		public:
 			explicit limited_file_logger( const std::string& file_path, std::ios_base::openmode open_mode = std::ios_base::app )
 				: inside_logger( file_path, open_mode )
 				, file_path_( file_path )
-				, writing_thread_( 0 )
 			{
 				fill_file_size_on_open_( file_path );
 			}
@@ -54,7 +50,6 @@ namespace system_utilities
 			explicit limited_file_logger( const std::string& file_path, P1& p1, std::ios_base::openmode open_mode = std::ios_base::app )
 				: inside_logger( file_path, p1, open_mode )
 				, file_path_( file_path )
-				, writing_thread_( 0 )
 			{
 				fill_file_size_on_open_( file_path );
 			}
@@ -62,7 +57,6 @@ namespace system_utilities
 			explicit limited_file_logger( const std::string& file_path, P1& p1, P2& p2, std::ios_base::openmode open_mode = std::ios_base::app )
 				: inside_logger( file_path, p1, p2, open_mode )
 				, file_path_( file_path )
-				, writing_thread_( 0 )
 			{
 				fill_file_size_on_open_( file_path );
 			}

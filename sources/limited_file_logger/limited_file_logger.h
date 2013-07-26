@@ -78,7 +78,7 @@ namespace system_utilities
 		private:
 			void fill_file_size_on_open_( const std::string& file_path )
 			{
-				current_file_size_ = boost::filesystem::file_size( file_path );
+				current_file_size_ = static_cast< size_t >( boost::filesystem::file_size( file_path ) );
 				const size_t file_size_limit_in_bytes = file_size_limit * 1024 * 1024;
 				if ( current_file_size_ >= file_size_limit_in_bytes )
 					rename_( file_path );

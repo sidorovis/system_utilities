@@ -16,9 +16,5 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	ts1->add( BOOST_TEST_CASE( &timer_method_tests ) );
 	ts1->add( BOOST_TEST_CASE( &timer_object_method_tests ) );
 
-	if ( RUN_PERFORMANCE_TESTS )
-	{
-	}
-
 	return ts1;
 }

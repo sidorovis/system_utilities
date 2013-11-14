@@ -14,11 +14,10 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	ts1->add( BOOST_TEST_CASE( &task_processor_add_task_tests ) );
 	ts1->add( BOOST_TEST_CASE( &task_processor_wait_tests ) );
 
-	if ( RUN_PERFORMANCE_TESTS )
-	{
+#ifdef RUN_PERFORMANCE_TESTS
 		ts1->add( BOOST_TEST_CASE( &task_processor_add_task_performace_tests ) );
 		ts1->add( BOOST_TEST_CASE( &task_processor_own_allocator_performance_tests ) );
-	}
+#endif 
 
 	return ts1;
 }

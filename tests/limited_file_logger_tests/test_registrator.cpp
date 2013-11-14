@@ -12,10 +12,8 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	using namespace system_utilities::tests_::common;
 	ts1->add( BOOST_TEST_CASE( &limited_file_logger_constructor_tests ) );
 	
-
-	if ( RUN_PERFORMANCE_TESTS )
-	{
-	}
+#ifdef RUN_PERFORMANCE_TESTS
+#endif 
 
 	return ts1;
 }

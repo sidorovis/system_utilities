@@ -15,10 +15,9 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	ts1->add( BOOST_TEST_CASE( &ts_queue_wait_pop_tests ) );
 	ts1->add( BOOST_TEST_CASE( &ts_queue_another_container_tests ) );
 
-	if ( RUN_PERFORMANCE_TESTS )
-	{
+#ifdef RUN_PERFORMANCE_TESTS
 		ts1->add( BOOST_TEST_CASE( &ts_queue_many_threads_tests ) );
-	}
+#endif
 
 	return ts1;
 }

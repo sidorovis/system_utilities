@@ -128,7 +128,7 @@ namespace system_utilities
 			{
 				bool check_and_test_good_file( const std::string& file_path )
 				{
-					static const boost::regex good_regex( "\\.\\/good_.+\\.ini" );
+					static const boost::regex good_regex( "good_.+\\.ini" );
 					boost::smatch result;
 					if ( boost::regex_match( file_path, result, good_regex ) )
 					{
@@ -139,7 +139,7 @@ namespace system_utilities
 				}
 				bool check_and_test_bad_file( const std::string& file_path )
 				{
-					static const boost::regex bad_regex( "\\.\\/bad_.+\\.ini" );
+					static const boost::regex bad_regex( "bad_.+\\.ini" );
 					boost::smatch result;
 					if ( boost::regex_match( file_path, result, bad_regex ) )
 					{
@@ -162,9 +162,9 @@ namespace system_utilities
 				for ( directory_iterator i(p) ; i != directory_iterator() ; ++i )
 					if ( is_regular_file( *i ) )
 					{
-						if ( details::check_and_test_good_file( i->string() ) )
+						if ( details::check_and_test_good_file( i->path().filename().string() ) )
 							continue;
-						if ( details::check_and_test_bad_file( i->string() ) )
+						if ( details::check_and_test_bad_file( i->path().filename().string() ) )
 							continue;
 						BOOST_ERROR( "unknown test format, please check tests directory: " + tests_directory );
 					}			

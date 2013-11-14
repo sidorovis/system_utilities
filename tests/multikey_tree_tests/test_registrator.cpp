@@ -14,12 +14,11 @@ test_suite* init_unit_test_suite( int argc, char* argv[] )
 	ts1->add( BOOST_TEST_CASE( &multikey_tree_with_map_comparator_tests ) );
 
 	
-	if ( RUN_PERFORMANCE_TESTS )
-	{
-		ts1->add( BOOST_TEST_CASE( &multikey_tree_node_smoke_performance_big_name_test ) );
-		ts1->add( BOOST_TEST_CASE( &multikey_tree_node_smoke_performance_many_signals_test ) );
-		ts1->add( BOOST_TEST_CASE( &multikey_tree_node_smoke_performance_many_threads_test ) );
-	}
+#ifdef RUN_PERFORMANCE_TESTS
+	ts1->add( BOOST_TEST_CASE( &multikey_tree_node_smoke_performance_big_name_test ) );
+	ts1->add( BOOST_TEST_CASE( &multikey_tree_node_smoke_performance_many_signals_test ) );
+	ts1->add( BOOST_TEST_CASE( &multikey_tree_node_smoke_performance_many_threads_test ) );
+#endif 
 
 	return ts1;
 }

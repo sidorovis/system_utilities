@@ -1,4 +1,4 @@
-find_package( Boost 1.41 ${SEARCH_PARAMETERS} COMPONENTS
+find_package( Boost 1.54 ${SEARCH_PARAMETERS} COMPONENTS
 	filesystem
 	thread
 	regex

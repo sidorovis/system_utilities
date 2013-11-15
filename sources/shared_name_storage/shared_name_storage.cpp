@@ -3,8 +3,12 @@
 
 #include <stdexcept>
 
-system_utilities::common::details::shared_name_storage_const_iterator::shared_name_storage_const_iterator( strings_shared_map::const_iterator i )
+system_utilities::common::details::shared_name_storage_const_iterator::shared_name_storage_const_iterator( system_utilities::common::details::shared_name_storage_const_iterator::strings_shared_map::const_iterator i )
 	: i_( i )
+{
+}
+system_utilities::common::details::shared_name_storage_const_iterator::shared_name_storage_const_iterator( const system_utilities::common::details::shared_name_storage_const_iterator& other )
+	: i_( other.i_ )
 {
 }
 system_utilities::common::details::shared_name_storage_const_iterator::~shared_name_storage_const_iterator()

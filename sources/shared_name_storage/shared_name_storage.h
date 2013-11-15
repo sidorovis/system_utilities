@@ -24,9 +24,9 @@ namespace system_utilities
 				typedef boost::shared_ptr< std::string > shared_string;
 				typedef std::map< std::string, shared_string > strings_shared_map;
 				mutable strings_shared_map::const_iterator i_;
-
-				explicit shared_name_storage_const_iterator( strings_shared_map::const_iterator i );
 			public:
+				explicit shared_name_storage_const_iterator( strings_shared_map::const_iterator i );
+				shared_name_storage_const_iterator( const shared_name_storage_const_iterator& other );
 				~shared_name_storage_const_iterator();
 				void operator++() const;
 				const shared_string& shared() const;

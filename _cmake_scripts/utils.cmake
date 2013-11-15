@@ -95,14 +95,14 @@ endmacro( compile_dlls )
 
 
 macro( compile )
+	if ( NOT BOOST_STATIC )
+		add_definitions( -DBOOST_ALL_DYN_LINK -DBOOST_ALL_NO_LIB )
+	endif( NOT BOOST_STATIC )
 	add_subdirectory( sources )
 	add_subdirectory( tests )
 endmacro( compile )
 
 macro( compile_tests )
-	if ( NOT BOOST_STATIC )
-		add_definitions( -DBOOST_TEST_DYN_LINK -DBOOST_TEST_NO_LIB )
-	endif( NOT BOOST_STATIC )
 
 	if (${RUN_PERFORMANCE_TESTS})
 		add_definitions( -DRUN_PERFORMANCE_TESTS )

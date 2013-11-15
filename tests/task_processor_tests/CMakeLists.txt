@@ -8,5 +8,5 @@ find_package( Boost 1.54 ${SEARCH_PARAMETERS} COMPONENTS
 	unit_test_framework
 	chrono
 )
-compile_project( ${tests_name} "*.cpp" "*.h" BINARY tests ${module_name} ts_queue time_tracker Boost )
+compile_project( ${tests_name} "*.cpp" "*.h" BINARY tests ${module_name} boost_dynamic_test_helper ts_queue time_tracker Boost )
 register_test( ${tests_name} 1.0 4.0 )

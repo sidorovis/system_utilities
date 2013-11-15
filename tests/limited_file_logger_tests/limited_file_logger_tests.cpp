@@ -16,7 +16,7 @@ namespace system_utilities
 		{
 			void limited_file_logger_constructor_tests()
 			{
-#ifdef _LINUX
+#ifdef _LINUX // modification for \r symbol on windows system
 				const size_t appender = 0ul;
 #else
 				const size_t appender = 1ul;

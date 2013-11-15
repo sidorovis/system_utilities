@@ -23,8 +23,8 @@ namespace system_utilities
 			~time_tracker();
 			//
 			void reset();
-			const size_t milliseconds() const;
-			const size_t seconds() const;
+			size_t milliseconds() const;
+			size_t seconds() const;
 		};
 	}
 }

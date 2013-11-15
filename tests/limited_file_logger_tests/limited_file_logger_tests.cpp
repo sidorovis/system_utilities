@@ -16,6 +16,11 @@ namespace system_utilities
 		{
 			void limited_file_logger_constructor_tests()
 			{
+#ifdef _LINUX
+				const size_t appender = 0ul;
+#else
+				const size_t appender = 1ul;
+#endif
 				typedef ts_logger< limited_file_logger< true, true, true > > ts_limited_file_logger;
 				{
 					ts_limited_file_logger lfl( "file_name" );
@@ -32,14 +37,14 @@ namespace system_utilities
 					limited_file_logger< true, true, true, 1ul > lfl( "file_name" );
 					lfl.note() << "test example";
 				}
-				BOOST_CHECK_EQUAL( boost::filesystem::file_size( "file_name" ), 53ul );
+				BOOST_CHECK_EQUAL( boost::filesystem::file_size( "file_name" ), 52ul + appender );
 				BOOST_CHECK_EQUAL( boost::filesystem::exists( "file_name" ), true );
 				BOOST_CHECK_NO_THROW( boost::filesystem::remove( "file_name" ) );
 				{
 					limited_file_logger< true, true, false, 1ul > lfl( "file_name" );
 					lfl.note() << "test example";
 				}
-				BOOST_CHECK_EQUAL( boost::filesystem::file_size( "file_name" ), 14ul );
+				BOOST_CHECK_EQUAL( boost::filesystem::file_size( "file_name" ), 13ul + appender );
 				BOOST_CHECK_EQUAL( boost::filesystem::exists( "file_name" ), true );
 				BOOST_CHECK_NO_THROW( boost::filesystem::remove( "file_name" ) );
 				{

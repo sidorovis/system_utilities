@@ -21,6 +21,7 @@ namespace system_utilities
 		class abstract_timer
 		{
 		public:
+			virtual ~abstract_timer(){}
 			virtual void begin() = 0;
 			virtual void end() = 0;
 		};
@@ -28,19 +29,19 @@ namespace system_utilities
 
 		class timer_prototype : protected virtual boost::noncopyable, public abstract_timer
 		{
-            boost::thread thread_for_run_;
-            boost::recursive_mutex should_stop_protector_;
-            boost::condition for_stop_;
-
-            volatile const size_t sleep_microseconds_;
-            volatile bool started_;
-            volatile bool should_stop_;
+			boost::thread thread_for_run_;
+			boost::recursive_mutex should_stop_protector_;
+			boost::condition for_stop_;
+			
+			volatile const size_t sleep_microseconds_;
+			volatile bool started_;
+			volatile bool should_stop_;
 
 			typedef void (*method)();
 			method method_;
 		public:
 			explicit timer_prototype( const size_t sleep_microseconds, method m );
-			~timer_prototype();
+			virtual ~timer_prototype();
 			//
 			void begin();
 			void end();
@@ -55,13 +56,13 @@ namespace system_utilities
 		template< typename object >
 		class timer_prototype_with_object : protected virtual boost::noncopyable, public abstract_timer
 		{
-            boost::thread thread_for_run_;
-            boost::recursive_mutex should_stop_protector_;
-            boost::condition for_stop_;
+			boost::thread thread_for_run_;
+			boost::recursive_mutex should_stop_protector_;
+			boost::condition for_stop_;
 
-            volatile const size_t sleep_microseconds_;
-            volatile bool started_;
-            volatile bool should_stop_;
+			volatile const size_t sleep_microseconds_;
+			volatile bool started_;
+			volatile bool should_stop_;
 
 			object& object_;
 			typedef void (object::*object_method)();
@@ -151,8 +152,6 @@ namespace system_utilities
 		}
 	}
 }
-
-
 
 #endif // _SYSTEM_UTILITIES_COMMON_TIMER_H_
 

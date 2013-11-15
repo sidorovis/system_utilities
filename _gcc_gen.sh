@@ -1,5 +1,6 @@
 
 export SOLUTION_NAME=system_utilities
+#export BOOST_ROOT=~/boost_1_54_0
 
 export BUILD_TYPE=Debug
 if [ "$1" == 'Release' ];
@@ -15,6 +16,6 @@ then
 fi
 
 cd $BUILD_FOLDER
-cmake -DBOOST_STATIC=OFF -DVERBOSE=ON -DSOLUTION_NAME=$SOLUTION_NAME -DCMAKE_BUILD_TYPE=$BUILD_TYPE -G "Unix Makefiles" ../ 
+cmake -DBOOST_STATIC=OFF -DBOOST_STAGE_FOLDER_WITH_ADDRESS_MODEL=OFF -DVERBOSE=ON -DSOLUTION_NAME=$SOLUTION_NAME -DCMAKE_BUILD_TYPE=$BUILD_TYPE -G "Unix Makefiles" ../ 
 cd ../
 

@@ -10,7 +10,7 @@
 
 namespace system_utilities
 {
-    namespace common
+	namespace common
 	{
 
 		// default limited_file_logger template class - created to write log into files with auto limit
@@ -94,9 +94,8 @@ namespace system_utilities
 				current_file_size_ = 0;
 			}
 		};
-
-	};
-};
+	}
+}
 
 #endif // _SYSTEM_UTILITIES_COMMON_LIMITED_FILE_LOGGER_H_
 

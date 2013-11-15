@@ -1,6 +1,8 @@
 
 #include "shared_name_storage.h"
 
+#include <stdexcept>
+
 namespace system_utilities
 {
 	namespace common
@@ -26,11 +28,11 @@ namespace system_utilities
 			{
 				return *(*i_);
 			}
-			const bool shared_name_storage_const_iterator::operator==( const shared_name_storage_const_iterator& other ) const
+			bool shared_name_storage_const_iterator::operator==( const shared_name_storage_const_iterator& other ) const
 			{
 				return i_ == other.i_;
 			}
-			const bool shared_name_storage_const_iterator::operator!=( const shared_name_storage_const_iterator& other ) const
+			bool shared_name_storage_const_iterator::operator!=( const shared_name_storage_const_iterator& other ) const
 			{
 				return i_ != other.i_;
 			}
@@ -43,7 +45,7 @@ namespace system_utilities
 		{
 		}
 		//
-		const bool shared_name_storage::add_name( const std::string& name )
+		bool shared_name_storage::add_name( const std::string& name )
 		{
 			if ( name.empty() )
 				throw std::logic_error( "shared name storage can't store empty string" );
@@ -67,7 +69,7 @@ namespace system_utilities
 				return shared_string( new std::string( "" ) );
 			return i->second;
 		}
-		const bool shared_name_storage::check_shared( const shared_name_storage::shared_string& shared ) const
+		bool shared_name_storage::check_shared( const shared_name_storage::shared_string& shared ) const
 		{
 			return shared_set_.find( shared ) != shared_set_.end();
 		}
@@ -77,7 +79,7 @@ namespace system_utilities
 			shared_set_.clear();
 			str2shared_.clear();
 		}
-		const bool shared_name_storage::del_name( const std::string& name )
+		bool shared_name_storage::del_name( const std::string& name )
 		{
 			strings_shared_map::iterator i = str2shared_.find( name );
 			if ( i == str2shared_.end() )
@@ -86,7 +88,7 @@ namespace system_utilities
 			str2shared_.erase( i );
 			return true;
 		}
-		const bool shared_name_storage::del_name( const shared_string& name )
+		bool shared_name_storage::del_name( const shared_string& name )
 		{
 			shared_set::iterator i = shared_set_.find( name );
 			if ( i == shared_set_.end() )

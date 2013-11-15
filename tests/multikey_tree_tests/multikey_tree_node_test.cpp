@@ -131,7 +131,7 @@ namespace system_utilities
 						}
 					}
 				}
-			};
+			}
 
 
 			void multikey_tree_node_smoke_test()
@@ -171,7 +171,6 @@ namespace system_utilities
 			{
 				multikey_tree_node_smoke_test_helper( 50, 100000, 3 );
 			}
-
 		}
 	}
 }

@@ -50,17 +50,17 @@ namespace system_utilities
 			bool additional_string_with_setting( const std::string& str );
 		public:
 			static std::string& trim( std::string& str );
-			static const std::string trim(const std::string& str);
+			static std::string trim(const std::string& str);
 			typedef std::vector< std::string > strings;
-			static const strings split( const std::string& str, const std::string& delimeters = ",", const bool trim_each = true );
+			static strings split( const std::string& str, const std::string& delimeters = ",", const bool trim_each = true );
 		public:
-			const size_t size() const;
+			size_t size() const;
             
-			const bool get_value( const std::string& parameter_name, const bool& default_param_value ) const;
-			const std::string get_value( const std::string& parameter_name, const std::string& default_param_value ) const;
-			const std::string get_value( const std::string& parameter_name, const char* const default_param_value = "" ) const;
+			bool get_value( const std::string& parameter_name, const bool& default_param_value ) const;
+			std::string get_value( const std::string& parameter_name, const std::string& default_param_value ) const;
+			std::string get_value( const std::string& parameter_name, const char* const default_param_value = "" ) const;
 			template< class result_type >
-			const result_type get_value( const std::string& parameter_name, const result_type& default_param_value ) const
+			result_type get_value( const std::string& parameter_name, const result_type& default_param_value ) const
 			{
 				result_type result = default_param_value;
 				properties::const_iterator i = properties_.find( parameter_name );
@@ -69,30 +69,30 @@ namespace system_utilities
 				return result;
 			}
 
-			const strings get_values( const std::string& parameter_name, const std::string& delimeters = "," ) const;
+			strings get_values( const std::string& parameter_name, const std::string& delimeters = "," ) const;
 			//
-			const bool set_value( const std::string& parameter_name, const std::string& value );
+			bool set_value( const std::string& parameter_name, const std::string& value );
 			template< class value_type >
-			const bool set_value( const std::string& parameter_name, const value_type& value )
+			bool set_value( const std::string& parameter_name, const value_type& value )
 			{
 				properties_[ parameter_name ] = boost::lexical_cast< std::string >( value );
 				return true;
 			}
 			//
-			const bool reset_value( const std::string& parameter_name, const std::string& value );
+			bool reset_value( const std::string& parameter_name, const std::string& value );
 			template< class value_type >
-			const bool reset_value( const std::string& parameter_name, const value_type& value )
+			bool reset_value( const std::string& parameter_name, const value_type& value )
 			{
 				properties_[ parameter_name ] = boost::lexical_cast< std::string >( value );
 				return true;
 			}
 			//
-			const bool delete_value( const std::string& parameter_name );
-			const bool rename_parameter( const std::string& old_parameter_name, const std::string& new_parameter_name );
-			const bool check_value( const std::string& parameter_name ) const;
-        };
-    };
-};
+			bool delete_value( const std::string& parameter_name );
+			bool rename_parameter( const std::string& old_parameter_name, const std::string& new_parameter_name );
+			bool check_value( const std::string& parameter_name ) const;
+	};
+    }
+}
 
 #endif // _SYSTEM_UTILITIES_COMMON_PROPERTY_READER_H_
 

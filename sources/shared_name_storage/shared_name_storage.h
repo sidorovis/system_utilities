@@ -26,8 +26,8 @@ namespace system_utilities
 				void operator++() const;
 				const shared_string& shared() const;
 				const std::string& operator*() const;
-				const bool operator==( const shared_name_storage_const_iterator& other ) const;
-				const bool operator!=( const shared_name_storage_const_iterator& other ) const;
+				bool operator==( const shared_name_storage_const_iterator& other ) const;
+				bool operator!=( const shared_name_storage_const_iterator& other ) const;
 			};
 		}
 		class shared_name_storage : virtual protected boost::noncopyable
@@ -45,14 +45,14 @@ namespace system_utilities
 		public:
 			explicit shared_name_storage();
 			~shared_name_storage();
-			const bool add_name( const std::string& name );
+			bool add_name( const std::string& name );
 			shared_name_storage& operator<<( const std::string& string );
 			shared_string get_shared( const std::string& name ) const;
-			const bool check_shared( const shared_string& shared ) const;
+			bool check_shared( const shared_string& shared ) const;
 			//
 			void clear();
-			const bool del_name( const std::string& name );
-			const bool del_name( const shared_string& name );
+			bool del_name( const std::string& name );
+			bool del_name( const shared_string& name );
 			//
 			const_iterator begin() const;
 			const_iterator end() const;

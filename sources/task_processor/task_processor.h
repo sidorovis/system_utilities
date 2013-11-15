@@ -67,7 +67,7 @@ namespace system_utilities
 					return false;
 				return task_queue_.push( t );
 			}
-			const size_t size() const
+			size_t size() const
 			{
 				return task_queue_.size();
 			}

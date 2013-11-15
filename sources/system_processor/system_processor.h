@@ -18,10 +18,10 @@ namespace system_utilities
 		namespace common
 		{
 			void system_processor_constructor_tests();
-		};
+		}
 	}
-    namespace common
-    {
+	namespace common
+	{
 		namespace system_processor
 		{
 
@@ -52,10 +52,10 @@ namespace system_utilities
 			void wait_for_stop();
 			void reset();
 			//
-			const std::string binary_path();
-			const std::string logs_path();
+			std::string binary_path();
+			std::string logs_path();
 			//
-			const std::string config( const std::string& name, const std::string& default_value = "" );
+			std::string config( const std::string& name, const std::string& default_value = "" );
 
 			template< class result_type >
 			result_type config( const std::string& name, const result_type& default_value = result_type() );
@@ -70,9 +70,9 @@ namespace system_utilities
 			//
 			void config_delete_value( const std::string& name );
 
-			const bool config_rename_parameter( const std::string& old_name, const std::string& new_name );
+			bool config_rename_parameter( const std::string& old_name, const std::string& new_name );
 			//
-			const bool config_check_value( const std::string& name );
+			bool config_check_value( const std::string& name );
 
 			namespace details
 			{
@@ -111,8 +111,8 @@ namespace system_utilities
 					
 					friend void config_reset_value( const std::string& name, const std::string& delimeters );
 					friend void config_delete_value( const std::string& name );
-					friend const bool config_rename_parameter( const std::string& old_name, const std::string& new_name );
-					friend const bool config_check_value( const std::string& name );
+					friend bool config_rename_parameter( const std::string& old_name, const std::string& new_name );
+					friend bool config_check_value( const std::string& name );
 
 
 					friend void system_processor::stop( const std::string& );
@@ -120,8 +120,8 @@ namespace system_utilities
 					friend void system_processor::reset();
 					friend void details::exit_handler(int);
 					//
-					friend const std::string system_processor::binary_path();
-					friend const std::string system_processor::logs_path();
+					friend std::string system_processor::binary_path();
+					friend std::string system_processor::logs_path();
 
 					//
 					static boost::mutex instance_protector_;
@@ -248,10 +248,9 @@ namespace system_utilities
 				result_type result( new file_logger< T >( logs_path() + file_name, p1, p2 ) );
 				return result;
 			}
-
-		};
-	};
-};
+		}
+	}
+}
 
 #endif // _SYSTEM_UTILITIES_COMMON_SYSTEM_PROCESSOR_H_
 

@@ -10,10 +10,10 @@ namespace system_utilities
 	{
 		namespace common
 		{
-		};
+		}
 	}
-    namespace common
-    {
+	namespace common
+	{
 
 		// queue logger is a logger with queue. 
 		// use this class if you need as most performance write as only possible (to write a big ammount of messages)
@@ -51,7 +51,7 @@ namespace system_utilities
 				{
 				}
 			};
-		};
+		}
 		template< bool turn_on, bool flush_stream, bool print_prefix >
 		class queue_logger : public logger< turn_on, flush_stream, print_prefix >
 		{
@@ -89,9 +89,8 @@ namespace system_utilities
 				logger< turn_on, flush_stream, print_prefix >::write( value, message );
 			}
 		};
-
-	};
-};
+	}
+}
 
 #endif // _SYSTEM_UTILITIES_COMMON_QUEUE_LOGGER_H_
 

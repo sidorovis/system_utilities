@@ -52,8 +52,7 @@ namespace system_utilities
 					}
 					tg.join_all();
 					task_processor.wait();
-//					std::cout << tt.milliseconds() << std::endl;
-//					std::cout << time << std::endl;
+
 					BOOST_CHECK_EQUAL( tt.milliseconds() < time , true );
 					const std::string first_result = log_first.str();
 					const std::string second_result = log_second.str();
@@ -75,7 +74,7 @@ namespace system_utilities
 					}
 
 				}
-			};
+			}
 			void queue_logger_constructor_tests()
 			{
 				std::stringstream str;

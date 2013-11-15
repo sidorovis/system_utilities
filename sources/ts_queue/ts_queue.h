@@ -180,7 +180,7 @@ namespace system_utilities
 				return result;
 			}
 			// size() method: returns 0 if queue is going to stop
-			const size_t size() const 
+			size_t size() const 
 			{
 				if (stopping_)
 					return 0;
@@ -189,14 +189,14 @@ namespace system_utilities
 			}
 			// ts_size() method: returns queue size
 			// thread safe method
-			const size_t ts_size() const
+			size_t ts_size() const
 			{
 				boost::mutex::scoped_lock lock( queue_protector_ );
 				return queue_.size();
 			}
 			// empty() method: return true if queue is going to stop
 			// returns false is queue.size() > 0
-			const bool empty() const
+			bool empty() const
 			{
 				if (stopping_)
 					return true;

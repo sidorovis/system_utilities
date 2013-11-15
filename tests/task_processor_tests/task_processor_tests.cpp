@@ -95,7 +95,7 @@ namespace system_utilities
 				void destroy( task* )
 				{
 				}
-				void deallocate( task*, size_t count )
+				void deallocate( task*, size_t )
 				{
 				}
 				size_t count() const
@@ -149,7 +149,10 @@ namespace system_utilities
 				details::counter c;
 				task_processor< details::task > tp( 1 );
 				tp.add_task( new details::task( c ) );
-				BOOST_CHECK_EQUAL( tp.size() > 0, true );
+				tp.add_task( new details::task( c ) );
+				tp.add_task( new details::task( c ) );
+				tp.add_task( new details::task( c ) );
+				BOOST_CHECK_EQUAL( tp.size() > 0ul, true );
 				tp.add_task( new details::task( c ) );
 				BOOST_CHECK_NO_THROW( tp.wait() );
 				BOOST_CHECK_EQUAL( tp.size(), 0U );

@@ -14,9 +14,9 @@ namespace system_utilities
 		namespace common
 		{
 			void file_logger_constructor();
-		};
+		}
 	}
-    namespace common
+	namespace common
 	{
 		// default file_logger template class - created to write log into files
 		// see logger module - to understand template parameters
@@ -49,7 +49,7 @@ namespace system_utilities
 				open_stream( file_path, mode );
 			}
 			template< class P1, class P2 >
-			explicit file_logger( const std::string& file_path, P1& p1, P2& p2, std::ios_base::openmode )
+			explicit file_logger( const std::string& file_path, P1& p1, P2& p2, std::ios_base::openmode mode )
 				: inside_logger( file_stream_, p1, p2 )
 			{
 				open_stream( file_path, mode );
@@ -59,9 +59,8 @@ namespace system_utilities
 				file_stream_.close();
 			}
 		};
-
-	};
-};
+	}
+}
 
 #endif // _SYSTEM_UTILITIES_COMMON_FILE_LOGGER_H_
 

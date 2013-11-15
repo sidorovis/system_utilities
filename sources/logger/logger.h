@@ -14,11 +14,10 @@ namespace system_utilities
 		namespace common
 		{
 			void logger_write_tests();
-		};
+		}
 	}
-    namespace common
-    {
-
+	namespace common
+	{
 		// template logger
 		// turn_on - turn logger on (simply to turn logger of on compilation phaze)
 		// flush_stream - if true will flush stream after each write. log became more safe, but performance killer
@@ -185,11 +184,10 @@ namespace system_utilities
 			virtual void write( const details::message_level::value value , const std::string& message );
 		};
 		//
-        template< bool turn_on, bool flush_stream, bool print_prefix >
-        std::string logger< turn_on, flush_stream, print_prefix >::message_levels[ 5 ];
-
-	};
-};
+		template< bool turn_on, bool flush_stream, bool print_prefix >
+		std::string logger< turn_on, flush_stream, print_prefix >::message_levels[ 5 ];
+	}
+}
 
 #endif // _SYSTEM_UTILITIES_COMMON_LOGGER_H_
 

@@ -57,9 +57,8 @@ namespace system_utilities
 						if (!boost::filesystem::exists( config_full_path ) )
 							throw std::logic_error( "config file cannot be found: " + config_full_path );
 					}
-                    
-                    if (boost::filesystem::is_directory( config_full_path ))
-                        throw std::logic_error( "config file cannot be found: " + config_full_path );
+					if (boost::filesystem::is_directory( config_full_path ))
+						throw std::logic_error( "config file cannot be found: " + config_full_path );
 
 					properties_.reset( new property_reader( config_full_path, binary_path ) );
 					read_logs_path();
@@ -205,7 +204,7 @@ namespace system_utilities
 					details::sp_impl::instance_->properties_->delete_value( name );
 				}
 
-				const bool config_rename_parameter( const std::string& old_name, const std::string& new_name )
+				bool config_rename_parameter( const std::string& old_name, const std::string& new_name )
 				{
 					boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
 					if (!details::sp_impl::instance_)
@@ -216,7 +215,7 @@ namespace system_utilities
 					return details::sp_impl::instance_->properties_->rename_parameter( old_name, new_name );
 				}
 
-				const bool config_check_value( const std::string& name )
+				bool config_check_value( const std::string& name )
 				{
 					boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
 					if (!details::sp_impl::instance_)
@@ -271,7 +270,7 @@ namespace system_utilities
 					throw std::logic_error( "system processor was not create, call init first" );
 			}
 			//
-			const std::string binary_path()
+			std::string binary_path()
 			{
 				boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
 				if ( details::sp_impl::instance_ )
@@ -279,7 +278,7 @@ namespace system_utilities
 				else
 					throw std::logic_error( "system processor was not create, call init first" );
 			}
-			const std::string logs_path()
+			std::string logs_path()
 			{
 				boost::mutex::scoped_lock lock( details::sp_impl::instance_protector_ );
 				if ( details::sp_impl::instance_ )
@@ -289,7 +288,7 @@ namespace system_utilities
 			}
 
 			//
-			const std::string config( const std::string& name, const std::string& default_value )
+			std::string config( const std::string& name, const std::string& default_value )
 			{
 				return details::config_impl< std::string >( name, default_value );
 			}
@@ -312,12 +311,12 @@ namespace system_utilities
 				details::config_delete_value( name );
 			}
 
-			const bool config_rename_parameter( const std::string& old_name, const std::string& new_name )
+			bool config_rename_parameter( const std::string& old_name, const std::string& new_name )
 			{
 				return details::config_rename_parameter( old_name, new_name );
 			}
 
-			const bool config_check_value( const std::string& name )
+			bool config_check_value( const std::string& name )
 			{
 				return details::config_check_value( name );
 			}

@@ -12,7 +12,7 @@ namespace system_utilities
 	{
 		namespace details
 		{
-			class multikey_tree_hasher : public std::unary_function< const std::string::const_iterator& , const char >
+			class multikey_tree_hasher : public std::unary_function< const std::string::const_iterator& , char >
 			{
 			public:
 				result_type operator()( argument_type arg )
@@ -115,9 +115,8 @@ namespace system_utilities
 
 		template< class value_type, const size_t key_range_size >
 		details::multikey_tree_hasher multikey_tree< value_type, key_range_size >::hasher_;
-
-	};
-};
+	}
+}
 
 
 #endif // _SYSTEM_UTILITIES_COMMON_MULTIKEY_TREE_H_

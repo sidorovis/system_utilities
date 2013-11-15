@@ -135,7 +135,7 @@ bool property_reader::additional_string_with_setting( const std::string& str )
 	return false;
 }
 
-const std::string property_reader::trim( const std::string& str )
+std::string property_reader::trim( const std::string& str )
 {
 	std::string result;
 	size_t f_s_index = str.find_first_not_of("\t \0");
@@ -163,9 +163,9 @@ namespace
 	{
 		return str.empty();
 	}
-};
+}
 
-const property_reader::strings property_reader::split( const std::string& str, const std::string& delimeters, const bool trim_each )
+property_reader::strings property_reader::split( const std::string& str, const std::string& delimeters, const bool trim_each )
 {
 	strings result;
 	boost::algorithm::split( result, str, boost::algorithm::is_any_of( delimeters ));
@@ -176,12 +176,12 @@ const property_reader::strings property_reader::split( const std::string& str, c
 	return result;
 }
 
-const size_t property_reader::size() const
+size_t property_reader::size() const
 {
 	return properties_.size();
 }
 
-const bool property_reader::get_value( const std::string& parameter_name, const bool& default_param_value ) const
+bool property_reader::get_value( const std::string& parameter_name, const bool& default_param_value ) const
 {
     bool result = default_param_value;
     properties::const_iterator i = properties_.find( parameter_name );
@@ -194,18 +194,18 @@ const bool property_reader::get_value( const std::string& parameter_name, const 
     }
     return result;
 }
-const std::string property_reader::get_value( const std::string& parameter_name, const char* const default_param_value ) const
+std::string property_reader::get_value( const std::string& parameter_name, const char* const default_param_value ) const
 {
     return get_value( parameter_name, std::string( default_param_value ) );
 }
-const std::string property_reader::get_value( const std::string& parameter_name, const std::string& default_param_value ) const
+std::string property_reader::get_value( const std::string& parameter_name, const std::string& default_param_value ) const
 {
     properties::const_iterator i = properties_.find( parameter_name );
     if ( i != properties_.end() )
         return i->second;
     return default_param_value;
 }
-const property_reader::strings property_reader::get_values( const std::string& parameter_name, const std::string& delimeters ) const
+property_reader::strings property_reader::get_values( const std::string& parameter_name, const std::string& delimeters ) const
 {
     properties::const_iterator i = properties_.find( parameter_name );
     if ( i != properties_.end() )
@@ -213,26 +213,26 @@ const property_reader::strings property_reader::get_values( const std::string& p
     return strings();
 }
 
-const bool property_reader::set_value( const std::string& parameter_name, const std::string& value )
+bool property_reader::set_value( const std::string& parameter_name, const std::string& value )
 {
     properties_[ parameter_name ] = value;
     return true;
 }
 
-const bool property_reader::reset_value( const std::string& parameter_name, const std::string& value )
+bool property_reader::reset_value( const std::string& parameter_name, const std::string& value )
 {
     properties_[ parameter_name ] = value;
     return true;
 }
 
 
-const bool property_reader::delete_value( const std::string& parameter_name )
+bool property_reader::delete_value( const std::string& parameter_name )
 {
 	properties_.erase( parameter_name );
 	return true;
 }
 
-const bool property_reader::rename_parameter( const std::string& old_parameter_name, const std::string& new_parameter_name )
+bool property_reader::rename_parameter( const std::string& old_parameter_name, const std::string& new_parameter_name )
 {
 	properties::iterator i = properties_.find( old_parameter_name );
 	if ( i != properties_.end() )
@@ -244,7 +244,7 @@ const bool property_reader::rename_parameter( const std::string& old_parameter_n
 	return false;
 }
 
-const bool property_reader::check_value( const std::string& parameter_name ) const
+bool property_reader::check_value( const std::string& parameter_name ) const
 {
 	properties::const_iterator i = properties_.find( parameter_name );
 	return (i != properties_.end());

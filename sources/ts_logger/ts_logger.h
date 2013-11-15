@@ -12,10 +12,10 @@ namespace system_utilities
 		namespace common
 		{
 			void ts_logger_write_tests();
-		};
+		}
 	}
-   namespace common
-    {
+	namespace common
+	{
 
 		// ts_logger: thread safe logger
 		// see logger class to template parameters reference
@@ -49,9 +49,8 @@ namespace system_utilities
 				logger_type::write( value, message );
 			}
 		};
-
-	};
-};
+	}
+}
 
 #endif // _SYSTEM_UTILITIES_COMMON_TS_LOGGER_H_
 

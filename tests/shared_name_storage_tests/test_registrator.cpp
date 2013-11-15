@@ -6,7 +6,7 @@ TEST_INIT
 {
 	boost::unit_test_framework::test_suite& master_test_suite = boost::unit_test::framework::master_test_suite();
 
-	using namespace system_utilities::tests_::common;
+	using namespace system_utilities::common::tests_;
 
 	master_test_suite.add( BOOST_TEST_CASE( &shared_name_storage_constructor_tests ) );
 	master_test_suite.add( BOOST_TEST_CASE( &shared_name_storage_add_name_tests ) );

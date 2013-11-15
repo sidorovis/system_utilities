@@ -3,9 +3,9 @@
 
 namespace system_utilities
 {
-	namespace tests_
+	namespace common
 	{
-		namespace common
+		namespace tests_
 		{
 			void shared_name_storage_constructor_tests();
 			void shared_name_storage_add_name_tests();

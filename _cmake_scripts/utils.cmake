@@ -182,8 +182,9 @@ macro( compile_project project_name source_pattern header_pattern build_type sol
 	if ( NOT "${Boost_LIBRARIES}" STREQUAL "" )
 		list_regex_contains( boost_thread_in_dependencies "(.*)boost_thread(.*)" ${Boost_LIBRARIES} )
 		if ( boost_thread_in_dependencies AND UNIX )
-    	    target_link_libraries( ${project_name} pthread )
-	        target_link_libraries( ${project_name} rt )
+			find_package(Threads ${SEARCH_PARAMETERS})
+			target_link_libraries( ${project_name} ${CMAKE_THREAD_LIBS_INIT} )
+#			target_link_libraries( ${project_name} rt )
 		endif()
 	endif()
 

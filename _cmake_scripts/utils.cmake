@@ -184,7 +184,9 @@ macro( compile_project project_name source_pattern header_pattern build_type sol
 		if ( boost_thread_in_dependencies AND UNIX )
 			find_package(Threads ${SEARCH_PARAMETERS})
 			target_link_libraries( ${project_name} ${CMAKE_THREAD_LIBS_INIT} )
-#			target_link_libraries( ${project_name} rt )
+			if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE )
+				set(CMAKE_EXE_LINKER_FLAGS " -lrt ")
+			endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE )
 		endif()
 	endif()
 

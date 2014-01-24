@@ -119,7 +119,7 @@ namespace system_utilities
 				task_processor< details::task > ts( 4 );
 				details::counter c;
 				BOOST_CHECK_EQUAL( c.count(), 0U );
-				ts.add_task( new details::task( c ) );
+				ts.add_task( ts.create_task( c ) );
 				boost::this_thread::sleep( boost::posix_time::milliseconds( 1 ) );
 				BOOST_CHECK_EQUAL( c.count(), 1U );
 			}
@@ -134,7 +134,7 @@ namespace system_utilities
 				for( size_t i = 0 ; i < counter_size ; ++i )
 					BOOST_CHECK_EQUAL( counters[ i ].count(), 0U );
 				for( size_t i = 0 ; i < tasks_size ; ++i )
-					ts.add_task( new details::task( counters[ rand() % counter_size ] ) );
+					ts.add_task( ts.create_task( counters[ rand() % counter_size ] ) );
 				ts.stop();
 				size_t count_summ = 0;
 				for( size_t i = 0 ; i < counter_size ; ++i )
@@ -148,12 +148,12 @@ namespace system_utilities
 			{
 				details::counter c;
 				task_processor< details::task > tp( 1 );
-				tp.add_task( new details::task( c ) );
-				tp.add_task( new details::task( c ) );
-				tp.add_task( new details::task( c ) );
-				tp.add_task( new details::task( c ) );
+				tp.add_task( tp.create_task( c ) );
+				tp.add_task( tp.create_task( c ) );
+				tp.add_task( tp.create_task( c ) );
+				tp.add_task( tp.create_task( c ) );
 				BOOST_CHECK_EQUAL( tp.size() > 0ul, true );
-				tp.add_task( new details::task( c ) );
+				tp.add_task( tp.create_task( c ) );
 				BOOST_CHECK_NO_THROW( tp.wait() );
 				BOOST_CHECK_EQUAL( tp.size(), 0U );
 			}

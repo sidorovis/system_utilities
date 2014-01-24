@@ -14,9 +14,13 @@ TEST_INIT
 	master_test_suite.add( BOOST_TEST_CASE( &logger_flush_tests ) );
 
 	master_test_suite.add( BOOST_TEST_CASE( &logger_note_tests ) );
+	master_test_suite.add( BOOST_TEST_CASE( &logger_formatted_note_tests ) );
 	master_test_suite.add( BOOST_TEST_CASE( &logger_warn_tests ) );
+	master_test_suite.add( BOOST_TEST_CASE( &logger_formatted_warn_tests ) );
 	master_test_suite.add( BOOST_TEST_CASE( &logger_error_tests ) );
+	master_test_suite.add( BOOST_TEST_CASE( &logger_formatted_error_tests ) );
 	master_test_suite.add( BOOST_TEST_CASE( &logger_debug_tests ) );
+	master_test_suite.add( BOOST_TEST_CASE( &logger_formatted_debug_tests ) );
 	master_test_suite.add( BOOST_TEST_CASE( &logger_fatal_tests ) );
 
 #ifdef RUN_PERFORMANCE_TESTS

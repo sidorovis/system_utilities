@@ -31,6 +31,8 @@ namespace system_utilities
 			{
 				typedef queue_logger< turn_on, flush_stream, print_prefix > logger;
 				friend class queue_logger< turn_on, flush_stream, print_prefix >;
+				typedef queue_logger_task< turn_on, flush_stream, print_prefix > self_task;
+				friend class task_processor< self_task >;
 
 				logger& logger_;
 
@@ -80,8 +82,9 @@ namespace system_utilities
 		private:
 			void write( const details::message_level::value value, const std::string& message )
 			{
-				logger_task* task = new logger_task( *this, value, message );
-				task_processor_.add_task( task );
+				logger_task* task = task_processor_.create_task( *this, value, message );
+				if (!task_processor_.add_task( task ))
+					delete task;
 			}
 			void real_write( const details::message_level::value value, const std::string& message )
 			{

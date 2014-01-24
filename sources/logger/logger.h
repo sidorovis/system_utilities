@@ -1,6 +1,8 @@
 #ifndef _SYSTEM_UTILITIES_COMMON_LOGGER_H_
 #define _SYSTEM_UTILITIES_COMMON_LOGGER_H_
 
+#include <stdarg.h>
+
 #include <ostream>
 #include <string>
 
@@ -95,6 +97,7 @@ namespace system_utilities
 			static const bool turn_on_value = turn_on;
 			static const bool flush_stream_value = flush_stream;
 			static const bool print_prefix_value = print_prefix;
+			static const size_t format_buffer_size = 10240;
 		protected:
 			typedef details::logger_streamer< turn_on, flush_stream, print_prefix > streamer;
 			friend class details::logger_streamer< turn_on, flush_stream, print_prefix >;
@@ -140,6 +143,13 @@ namespace system_utilities
 			{
 				stream_.flush();
 			}
+			inline void formatted_note( const std::string& format, ... )
+			{
+				va_list arguments;
+				va_start( arguments, format );
+				formatted_write( details::message_level::note, format, arguments );
+				va_end( arguments );
+			}
             inline void note( const std::string& message )
 			{
 			    write( details::message_level::note, message );
@@ -147,6 +157,13 @@ namespace system_utilities
 			inline streamer note()
 			{
 				return streamer( *this, details::message_level::note );
+			}
+			inline void formatted_warn( const std::string& format, ... )
+			{
+				va_list arguments;
+				va_start( arguments, format );
+				formatted_write( details::message_level::warn, format, arguments );
+				va_end( arguments );
 			}
             inline void warn( const std::string& message )
 			{
@@ -156,6 +173,13 @@ namespace system_utilities
 			{
 				return streamer( *this, details::message_level::warn );
 			}
+			inline void formatted_error( const std::string& format, ... )
+			{
+				va_list arguments;
+				va_start( arguments, format );
+				formatted_write( details::message_level::error, format, arguments );
+				va_end( arguments );
+			}
             inline void error( const std::string& message )
 			{
 			    write( details::message_level::error, message );
@@ -164,6 +188,13 @@ namespace system_utilities
 			{
 				return streamer( *this, details::message_level::error );
 			}
+			inline void formatted_debug( const std::string& format, ... )
+			{
+				va_list arguments;
+				va_start( arguments, format );
+				formatted_write( details::message_level::debug, format, arguments );
+				va_end( arguments );
+			}
 			inline void debug( const std::string& message )
 			{
 			    write( details::message_level::debug, message );
@@ -171,6 +202,13 @@ namespace system_utilities
 			inline streamer debug()
 			{
 				return streamer( *this, details::message_level::debug );
+			}
+			inline void formatted_fatal( const std::string& format, ... )
+			{
+				va_list arguments;
+				va_start( arguments, format );
+				formatted_write( details::message_level::fatal, format, arguments );
+				va_end( arguments );
 			}
             inline void fatal( const std::string& message )
 			{
@@ -181,7 +219,16 @@ namespace system_utilities
 				return streamer( *this, details::message_level::fatal );
 			}
 		protected:
-			virtual void write( const details::message_level::value value , const std::string& message );
+			inline void formatted_write( const details::message_level::value value, const std::string& format, va_list arguments )
+			{
+				char buffer[ format_buffer_size ];
+				const int result = vsprintf( buffer, format.c_str(), arguments );
+				if ( result >= 0 )
+					write( value, buffer );
+				else
+					write( details::message_level::fatal, "bad formatted message: '"+format+"'" );
+			}
+			virtual void write( const details::message_level::value value, const std::string& message );
 		};
 		//
 		template< bool turn_on, bool flush_stream, bool print_prefix >

@@ -109,6 +109,15 @@ namespace system_utilities
 					BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );
 				}
 			}
+			void logger_formatted_note_tests()
+			{
+				std::stringstream stream;
+				logger<> l( stream );
+				l.formatted_note( "new %s message %d", "formatted", 5 );
+				const std::string stream_content = stream.str();
+				boost::regex message_regex( "\\[\\d{4}\\-\\w{3}\\-\\d{2} \\d{2}\\:\\d{2}\\:\\d{2}\\.\\d{6}\\:NOTE   \\]\\: new formatted message 5\n" );
+				BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );
+			}
 			void logger_warn_tests()
 			{
 				{
@@ -127,6 +136,15 @@ namespace system_utilities
 					boost::regex message_regex( "\\[\\d{4}\\-\\w{3}\\-\\d{2} \\d{2}\\:\\d{2}\\:\\d{2}\\.\\d{6}\\:WARNING\\]\\: not important message\n" );
 					BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );
 				}
+			}
+			void logger_formatted_warn_tests()
+			{
+				std::stringstream stream;
+				logger<> l( stream );
+				l.formatted_warn( "new %s message %d", "formatted", 5 );
+				const std::string stream_content = stream.str();
+				boost::regex message_regex( "\\[\\d{4}\\-\\w{3}\\-\\d{2} \\d{2}\\:\\d{2}\\:\\d{2}\\.\\d{6}\\:WARNING\\]\\: new formatted message 5\n" );
+				BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );
 			}
 			void logger_error_tests()
 			{
@@ -147,6 +165,15 @@ namespace system_utilities
 					BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );
 				}
 			}
+			void logger_formatted_error_tests()
+			{
+				std::stringstream stream;
+				logger<> l( stream );
+				l.formatted_error( "new %s message %d", "formatted", 8 );
+				const std::string stream_content = stream.str();
+				boost::regex message_regex( "\\[\\d{4}\\-\\w{3}\\-\\d{2} \\d{2}\\:\\d{2}\\:\\d{2}\\.\\d{6}\\:ERROR  \\]\\: new formatted message 8\n" );
+				BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );
+			}
 			void logger_debug_tests()
 			{
 				{
@@ -166,6 +193,15 @@ namespace system_utilities
 					BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );
 				}
 			}
+			void logger_formatted_debug_tests()
+			{
+				std::stringstream stream;
+				logger<> l( stream );
+				l.formatted_debug( "new %s message %d", "alsocr", 76 );
+				const std::string stream_content = stream.str();
+				boost::regex message_regex( "\\[\\d{4}\\-\\w{3}\\-\\d{2} \\d{2}\\:\\d{2}\\:\\d{2}\\.\\d{6}\\:DEBUG  \\]\\: new alsocr message 76\n" );
+				BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );
+			}
 			void logger_fatal_tests()
 			{
 				{
@@ -184,6 +220,15 @@ namespace system_utilities
 					boost::regex message_regex( "\\[\\d{4}\\-\\w{3}\\-\\d{2} \\d{2}\\:\\d{2}\\:\\d{2}\\.\\d{6}\\:FATAL  \\]\\: fatal message\n" );
 					BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );
 				}
+			}
+			void logger_formatted_fatal_tests()
+			{
+				std::stringstream stream;
+				logger<> l( stream );
+				l.formatted_fatal( "new %s message %d", "zve", 3 );
+				const std::string stream_content = stream.str();
+				boost::regex message_regex( "\\[\\d{4}\\-\\w{3}\\-\\d{2} \\d{2}\\:\\d{2}\\:\\d{2}\\.\\d{6}\\:FATAL  \\]\\: new zve message 3\n" );
+				BOOST_CHECK_EQUAL( boost::regex_match( stream_content, message_regex ), true );
 			}
 			//
 			void logger_write_performance_tests()

@@ -61,6 +61,41 @@ namespace system_utilities
 				stop();
 				threads_.join_all();
 			}
+			task* create_task()
+			{
+				task* new_task = allocator_.allocate( 1 );
+				new( new_task ) task();
+				return new_task;
+			}
+			template< typename P1 >
+			task* create_task( P1& p1 )
+			{
+				task* new_task = allocator_.allocate( 1 );
+				new( new_task ) task( p1 );
+				return new_task;
+			}
+			template< typename P1, typename P2 >
+			task* create_task( P1& p1, P2& p2 )
+			{
+				task* new_task = allocator_.allocate( 1 );
+				new( new_task ) task( p1, p2 );
+				return new_task;
+			}
+			template< typename P1, typename P2, typename P3 >
+			task* create_task( P1& p1, P2& p2, P3& p3 )
+			{
+				task* new_task = allocator_.allocate( 1 );
+				new( new_task ) task( p1, p2, p3 );
+				return new_task;
+			}
+			template< typename P1, typename P2, typename P3, typename P4 >
+			task* create_task( P1& p1, P2& p2, P3& p3, P4& p4 )
+			{
+				task* new_task = allocator_.allocate( 1 );
+				new( new_task ) task( p1, p2, p3, p4 );
+				return new_task;
+			}
+
 			bool add_task( task* const t )
 			{
 				if (stopping_)

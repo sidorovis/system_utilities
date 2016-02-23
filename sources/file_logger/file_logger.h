@@ -9,13 +9,6 @@
 
 namespace system_utilities
 {
-	namespace tests_
-	{
-		namespace common
-		{
-			void file_logger_constructor();
-		}
-	}
 	namespace common
 	{
 		// default file_logger template class - created to write log into files

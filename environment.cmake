@@ -8,7 +8,6 @@
 
 option( VERBOSE "should we say as much messages as possible" OFF )
 option( BUILD_TESTS "Should we build tests for modules" ON )
-option( BOOST_STAGE_FOLDER_WITH_ADDRESS_MODEL "boost was compiled with separate address model stage folder" OFF )
 option( BOOST_STATIC "boost was compiled with static link" ON )
 
 if (BUILD_TESTS AND VERBOSE)
@@ -121,14 +120,12 @@ set( BINARIES_DIRECTORY ${PROJECT_BINARY_DIR}/bin_${CMAKE_ADDRESS_MODEL}/${CMAKE
 # search for boost
 # --------------------------------------------------------------------------------
 
+hunter_add_package(Boost COMPONENTS filesystem thread regex date_time system program_options chrono test)
+
 if ( BOOST_STATIC )
 	set( Boost_USE_STATIC_LIBS ON )
-else()
 endif( BOOST_STATIC )
 set( Boost_USE_MULTITHREADED ON )
-if ( BOOST_STAGE_FOLDER_WITH_ADDRESS_MODEL )
-	set( BOOST_LIBRARYDIR "$ENV{BOOST_ROOT}/stage_${CMAKE_ADDRESS_MODEL}/lib" )
-endif( BOOST_STAGE_FOLDER_WITH_ADDRESS_MODEL )
 
 # --------------------------------------------------------------------------
 # use_folders, saving configuration to the build

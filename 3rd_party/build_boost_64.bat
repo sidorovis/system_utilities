@@ -1,1 +1,0 @@
-bjam toolset=msvc address-model=64 link=static stage --with-filesystem --with-date_time --with-thread --with-test --with-regex --with-system --with-program_options --with-process --stagedir=./stage_64
